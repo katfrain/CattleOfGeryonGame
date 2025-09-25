@@ -1,0 +1,122 @@
+[gd_scene load_steps=11 format=3 uid="uid://bsrq2osjhfem1"]
+
+[ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
+[ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
+[ext_resource type="Texture2D" uid="uid://cp15fgojevqg5" path="res://Assets/placeholder-background.png" id="2_o06y3"]
+[ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="3_k7acu"]
+[ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://Scripts/cow_amt_label.gd" id="5_0fj1v"]
+[ext_resource type="Script" uid="uid://btw5y7jlcasa0" path="res://Scripts/world_boundary.gd" id="6_ikia7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
+size = Vector2(1526, 868)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
+size = Vector2(160.051, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
+size = Vector2(334.906, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkg7o"]
+size = Vector2(5409, 5426)
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_5ukr8")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Cow Amt Label" type="RichTextLabel" parent="UI" node_paths=PackedStringArray("world")]
+offset_left = 27.0
+offset_top = 19.0
+offset_right = 191.0
+offset_bottom = 63.0
+text = "Cows: 0/0"
+script = ExtResource("5_0fj1v")
+world = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="Cow Spawner" parent="." instance=ExtResource("2_k7acu")]
+
+[node name="World Bounds" type="TextureRect" parent="."]
+offset_left = -2500.0
+offset_top = -2500.0
+offset_right = 2500.0
+offset_bottom = 2500.0
+texture = ExtResource("2_o06y3")
+stretch_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("3_k7acu")]
+z_index = 1
+position = Vector2(464, 299)
+scale = Vector2(0.5, 0.5)
+collision_mask = 245
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(1.5, 1.5)
+limit_left = -2500
+limit_top = -2500
+limit_right = 2500
+limit_bottom = 2500
+
+[node name="Viewport Bounds" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Viewport Bounds"]
+position = Vector2(11, 2)
+shape = SubResource("RectangleShape2D_5ukr8")
+debug_color = Color(0.662745, 0.490196, 0.411765, 0.27451)
+
+[node name="World Borders" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Top Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Top Border"]
+position = Vector2(0.999999, -2502)
+scale = Vector2(31.24, 1)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="Bottom Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Bottom Border"]
+position = Vector2(-0.000106335, 2501)
+scale = Vector2(31.24, 1)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="Right Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Right Border"]
+position = Vector2(2500, 0)
+rotation = 1.5708
+scale = Vector2(15, 1)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="Left Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Left Border"]
+position = Vector2(-2499.99, -0.204453)
+rotation = 1.5708
+scale = Vector2(15, 1)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="World Boundary" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2051
+script = ExtResource("6_ikia7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary"]
+position = Vector2(-1.5, 12)
+shape = SubResource("RectangleShape2D_pkg7o")
+debug_color = Color(0, 0.6, 0.701961, 0.054902)
+metadata/_edit_lock_ = true
+
+[connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]
+[connection signal="lost_cow" from="Player" to="Cow Spawner" method="remove_from_scene"]
+[connection signal="lost_cow" from="Player" to="UI/Cow Amt Label" method="lose_cow"]
+[connection signal="body_exited" from="World Boundary" to="World Boundary" method="_on_body_exited"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dht0rklbvxpet"]
 
-[ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scenes/player.gd" id="1_cvnsp"]
+[ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://be5fytmr0al0" path="res://Assets/herc-placeholder.png" id="1_v0iea"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]

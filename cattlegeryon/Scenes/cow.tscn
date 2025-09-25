@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://8w1600qds5su"]
+[gd_scene load_steps=11 format=3 uid="uid://8w1600qds5su"]
 
-[ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scenes/cow.gd" id="1_asfwn"]
-[ext_resource type="Texture2D" uid="uid://1bt2ct1qapb0" path="res://Assets/cow-placeholder.png" id="1_ss0fy"]
+[ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scripts/cow.gd" id="1_asfwn"]
 [ext_resource type="Texture2D" uid="uid://dfk2hdbem4gbx" path="res://Assets/cow-right-placeholder.png" id="2_oad1y"]
 [ext_resource type="Texture2D" uid="uid://ds6nbm6sgweub" path="res://Assets/cow-left-placeholder.png" id="3_vkidu"]
 [ext_resource type="Texture2D" uid="uid://chjqg165wd5lf" path="res://Assets/cow-up-placeholder.png" id="4_wjkae"]
@@ -51,7 +50,7 @@ health_bar = NodePath("Health Bar")
 
 [node name="Cow Sprite" type="Sprite2D" parent="Cow Body"]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_ss0fy")
+texture = ExtResource("3_vkidu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body"]
 position = Vector2(1, 3)

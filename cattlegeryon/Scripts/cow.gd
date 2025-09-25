@@ -56,6 +56,9 @@ func _run_away() -> void:
 	print("Cow is running away!")
 	is_fleeing = true
 	collision_mask = 0
+	set_collision_layer_value(2, false)
+	set_collision_layer_value(12, true)
+	speed = speed * 1.5
 	player.lose_cattle()
 	
 func take_damage(damage_amt: float) -> void:

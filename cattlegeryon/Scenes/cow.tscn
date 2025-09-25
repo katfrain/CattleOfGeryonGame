@@ -1,0 +1,89 @@
+[gd_scene load_steps=12 format=3 uid="uid://8w1600qds5su"]
+
+[ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scenes/cow.gd" id="1_asfwn"]
+[ext_resource type="Texture2D" uid="uid://1bt2ct1qapb0" path="res://Assets/cow-placeholder.png" id="1_ss0fy"]
+[ext_resource type="Texture2D" uid="uid://dfk2hdbem4gbx" path="res://Assets/cow-right-placeholder.png" id="2_oad1y"]
+[ext_resource type="Texture2D" uid="uid://ds6nbm6sgweub" path="res://Assets/cow-left-placeholder.png" id="3_vkidu"]
+[ext_resource type="Texture2D" uid="uid://chjqg165wd5lf" path="res://Assets/cow-up-placeholder.png" id="4_wjkae"]
+[ext_resource type="Texture2D" uid="uid://ejlaufy5tc0d" path="res://Assets/cow-down-placeholder.png" id="5_kflls"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y5k1g"]
+radius = 226.667
+height = 753.333
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uaxjc"]
+radius = 418.187
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tc63g"]
+radius = 123.223
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oad1y"]
+bg_color = Color(0.206591, 0.224544, 0.217928, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkidu"]
+bg_color = Color(0.883055, 0.445334, 0.497275, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[node name="Cow" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+
+[node name="Cow Body" type="RigidBody2D" parent="." node_paths=PackedStringArray("area", "sprite", "health_bar")]
+collision_layer = 2
+collision_mask = 15
+mass = 0.01
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 3.0
+script = ExtResource("1_asfwn")
+area = NodePath("Area")
+sprite = NodePath("Cow Sprite")
+direction_images = Array[Texture]([ExtResource("2_oad1y"), ExtResource("3_vkidu"), ExtResource("4_wjkae"), ExtResource("5_kflls")])
+health_bar = NodePath("Health Bar")
+
+[node name="Cow Sprite" type="Sprite2D" parent="Cow Body"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_ss0fy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body"]
+position = Vector2(1, 3)
+rotation = 1.5708
+scale = Vector2(0.1, 0.1)
+shape = SubResource("CapsuleShape2D_y5k1g")
+
+[node name="Range" type="Area2D" parent="Cow Body"]
+scale = Vector2(0.3, 0.3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body/Range"]
+shape = SubResource("CircleShape2D_uaxjc")
+debug_color = Color(0.676077, 0.47775, 0.460325, 0.42)
+
+[node name="Area" type="Area2D" parent="Cow Body"]
+scale = Vector2(0.3, 0.3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body/Area"]
+position = Vector2(0, 6.66666)
+scale = Vector2(1.1, 1.1)
+shape = SubResource("CircleShape2D_tc63g")
+debug_color = Color(0.704042, 0.372617, 0.812094, 0.42)
+
+[node name="Health Bar" type="ProgressBar" parent="Cow Body"]
+offset_left = -12.0
+offset_top = -34.0
+offset_right = 12.0
+offset_bottom = -30.0
+theme_override_styles/background = SubResource("StyleBoxFlat_oad1y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vkidu")
+show_percentage = false
+
+[connection signal="body_entered" from="Cow Body/Range" to="Cow Body" method="_on_range_body_entered"]
+[connection signal="body_exited" from="Cow Body/Range" to="Cow Body" method="_on_range_body_exited"]
+[connection signal="area_entered" from="Cow Body/Area" to="Cow Body" method="_death_area_entered"]

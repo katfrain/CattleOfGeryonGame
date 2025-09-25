@@ -1,0 +1,129 @@
+[gd_scene load_steps=10 format=3 uid="uid://bsrq2osjhfem1"]
+
+[ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://world.gd" id="1_036b0"]
+[ext_resource type="Texture2D" uid="uid://cp15fgojevqg5" path="res://Assets/placeholder-background.png" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="2_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="3_aqk2v"]
+[ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://cow_amt_label.gd" id="4_aqk2v"]
+[ext_resource type="Script" uid="uid://btw5y7jlcasa0" path="res://world_boundary.gd" id="6_dwbse"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
+size = Vector2(36.9206, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
+size = Vector2(52.0788, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkg7o"]
+size = Vector2(1478, 970)
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_036b0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -46.0
+offset_top = -316.0
+offset_right = 1206.0
+offset_bottom = 936.0
+texture = ExtResource("1_fj7yv")
+expand_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="." instance=ExtResource("2_tlwt5")]
+z_index = 1
+position = Vector2(464, 299)
+scale = Vector2(0.5, 0.5)
+collision_mask = 245
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1165
+limit_bottom = 640
+
+[node name="World Borders" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Top Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Top Border"]
+position = Vector2(576.3, -12)
+scale = Vector2(31.24, 1)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="Bottom Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Bottom Border"]
+position = Vector2(576.3, 656)
+scale = Vector2(31.24, 1)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="Right Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Right Border"]
+position = Vector2(1164, 321.048)
+rotation = 1.5708
+scale = Vector2(15, 1)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="Left Border" type="StaticBody2D" parent="World Borders"]
+collision_layer = 4
+collision_mask = 511
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Left Border"]
+position = Vector2(-9, 321.048)
+rotation = 1.5708
+scale = Vector2(15, 1)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="Cow" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(684, 321)
+scale = Vector2(1, 1)
+
+[node name="Cow2" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(177, 231)
+scale = Vector2(1, 1)
+
+[node name="Cow3" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(229, 552)
+scale = Vector2(1, 1)
+
+[node name="Cow4" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(1026, 134)
+scale = Vector2(1, 1)
+
+[node name="Cow5" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(991, 514)
+scale = Vector2(1, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Cow Amt Label" type="RichTextLabel" parent="CanvasLayer" node_paths=PackedStringArray("world")]
+offset_left = 27.0
+offset_top = 19.0
+offset_right = 191.0
+offset_bottom = 63.0
+text = "Cows: 0/0"
+script = ExtResource("4_aqk2v")
+world = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="World Boundary" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("6_dwbse")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary"]
+position = Vector2(546, 331)
+shape = SubResource("RectangleShape2D_pkg7o")
+metadata/_edit_lock_ = true
+
+[connection signal="got_cow" from="Player" to="CanvasLayer/Cow Amt Label" method="add_cow"]
+[connection signal="lost_cow" from="Player" to="CanvasLayer/Cow Amt Label" method="lose_cow"]
+[connection signal="body_exited" from="World Boundary" to="World Boundary" method="_on_body_exited"]

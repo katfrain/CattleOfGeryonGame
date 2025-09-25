@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dht0rklbvxpet"]
+
+[ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scenes/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://be5fytmr0al0" path="res://Assets/herc-placeholder.png" id="1_v0iea"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
+radius = 65.0
+height = 170.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
+radius = 31.6228
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_cvnsp")
+
+[node name="Feet" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 130)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_v0iea")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_v0iea")
+
+[node name="Head Area" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 4
+
+[node name="Head" type="CollisionShape2D" parent="Head Area"]
+position = Vector2(-15, -170)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_cvnsp")
+
+[connection signal="area_entered" from="Head Area" to="." method="_on_head_area_area_entered"]
+[connection signal="area_exited" from="Head Area" to="." method="_on_head_area_area_exited"]
+[connection signal="body_entered" from="Head Area" to="." method="_on_head_area_body_entered"]
+[connection signal="body_exited" from="Head Area" to="." method="_on_head_area_body_exited"]

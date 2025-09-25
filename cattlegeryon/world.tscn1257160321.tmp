@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsrq2osjhfem1"]
+
+[ext_resource type="Texture2D" uid="uid://cp15fgojevqg5" path="res://Assets/placeholder-background.png" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="2_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="3_aqk2v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
+size = Vector2(36.9206, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
+size = Vector2(45.5936, 20)
+
+[node name="World" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -46.0
+offset_top = -316.0
+offset_right = 1206.0
+offset_bottom = 936.0
+texture = ExtResource("1_fj7yv")
+expand_mode = 2
+
+[node name="Player" parent="." instance=ExtResource("2_tlwt5")]
+position = Vector2(549, 298)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1165
+limit_bottom = 640
+
+[node name="World Borders" type="Node2D" parent="."]
+
+[node name="Top Border" type="StaticBody2D" parent="World Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Top Border"]
+position = Vector2(576.3, -12)
+scale = Vector2(31.24, 1)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="Bottom Border" type="StaticBody2D" parent="World Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Bottom Border"]
+position = Vector2(576.3, 656)
+scale = Vector2(31.24, 1)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="Right Border" type="StaticBody2D" parent="World Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Right Border"]
+position = Vector2(1164, 321.048)
+rotation = 1.5708
+scale = Vector2(15, 1)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="Left Border" type="StaticBody2D" parent="World Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Borders/Left Border"]
+position = Vector2(-9, 321.048)
+rotation = 1.5708
+scale = Vector2(15, 1)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="Cow" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(291, 186)
+max_health = 200
+speed = 200
+
+[node name="Cow2" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(748, 244)
+max_health = 200
+speed = 200
+
+[node name="Cow3" parent="." instance=ExtResource("3_aqk2v")]
+position = Vector2(315, 452)
+max_health = 200
+speed = 200

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=12 format=3 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="3_k7acu"]
 [ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://Scripts/cow_amt_label.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://btw5y7jlcasa0" path="res://Scripts/world_boundary.gd" id="6_ikia7"]
+[ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="7_o06y3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
 size = Vector2(1526, 868)
@@ -43,6 +44,7 @@ offset_right = 2500.0
 offset_bottom = 2500.0
 texture = ExtResource("2_o06y3")
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_k7acu")]
 z_index = 1
@@ -63,6 +65,7 @@ limit_bottom = 2500
 position = Vector2(11, 2)
 shape = SubResource("RectangleShape2D_5ukr8")
 debug_color = Color(0.662745, 0.490196, 0.411765, 0.27451)
+metadata/_edit_lock_ = true
 
 [node name="World Borders" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
@@ -116,7 +119,52 @@ shape = SubResource("RectangleShape2D_pkg7o")
 debug_color = Color(0, 0.6, 0.701961, 0.054902)
 metadata/_edit_lock_ = true
 
+[node name="Cow" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(674, 312)
+
+[node name="Cow2" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(326, 363)
+
+[node name="Cow3" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(240, 247)
+
+[node name="Cow4" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(94, 296)
+
+[node name="Cow5" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(123, 424)
+
+[node name="Cow6" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(252, 489)
+
+[node name="Cow7" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(391, 505)
+
+[node name="Cow8" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(578, 497)
+
+[node name="Cow9" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(732, 495)
+
+[node name="Cow10" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(826, 371)
+
+[node name="Cow11" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(813, 193)
+
+[node name="Cow12" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(682, 131)
+
+[node name="Cow13" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(537, 135)
+
+[node name="Cow14" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(345, 119)
+
+[node name="Cow15" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(173, 134)
+
 [connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]
-[connection signal="lost_cow" from="Player" to="Cow Spawner" method="remove_from_scene"]
 [connection signal="lost_cow" from="Player" to="UI/Cow Amt Label" method="lose_cow"]
+[connection signal="lost_cow" from="Player" to="Cow Spawner" method="remove_from_scene"]
 [connection signal="body_exited" from="World Boundary" to="World Boundary" method="_on_body_exited"]

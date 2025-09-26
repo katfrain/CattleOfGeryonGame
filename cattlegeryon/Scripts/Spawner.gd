@@ -20,7 +20,7 @@ var screen_rect: Rect2
 
 # COW SETTINGS
 var cow_scene: PackedScene = preload("res://Scenes/cow.tscn")
-var max_cow_in_scene:int = 40
+var max_cow_in_scene:int = 1
 var cow_timer_interval:float = 1
 
 # ENEMY SETTINGS

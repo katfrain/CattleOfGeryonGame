@@ -84,6 +84,9 @@ theme_override_styles/background = SubResource("StyleBoxFlat_oad1y")
 theme_override_styles/fill = SubResource("StyleBoxFlat_vkidu")
 show_percentage = false
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
 [connection signal="body_entered" from="Cow Body/Range" to="Cow Body" method="_on_range_body_entered"]
 [connection signal="body_exited" from="Cow Body/Range" to="Cow Body" method="_on_range_body_exited"]
 [connection signal="area_entered" from="Cow Body/Area" to="Cow Body" method="_death_area_entered"]

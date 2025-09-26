@@ -13,10 +13,13 @@ enum States {
 @export var direction_images: Array[Texture]
 @export var health_bar: ProgressBar
 
+@onready var nav_agent: NavigationAgent2D = $"../NavigationAgent2D"
+
 var state: States
 var current_health: float
 var player: CharacterBody2D  
 var facing_dir: int = 0
+var target: CowSlot
 
 var prev_position: Vector2
 var effective_velocity: Vector2
@@ -38,14 +41,15 @@ func _physics_process(delta: float) -> void:
 			move_fleeing()
 		
 		States.FOLLOWING:
-			var distance = global_position.distance_to(player.global_position)
-			if distance > 24:
-				var direction = (player.global_position - global_position).normalized()
-				var to_player = direction * speed
-				var separation = get_separation() * 200.0
-				linear_velocity = (to_player + separation).limit_length(speed)
-			else:
-				linear_velocity = Vector2.ZERO
+			if target:
+				nav_agent.target_position = target.get_global_position()
+
+				if nav_agent.is_navigation_finished():
+					linear_velocity = Vector2.ZERO
+				else:
+					var next_path_point = nav_agent.get_next_path_position()
+					var direction = (next_path_point - global_position).normalized()
+					linear_velocity = direction * speed
 	
 	update_sprite_direction(effective_velocity)
 	
@@ -54,7 +58,8 @@ func _physics_process(delta: float) -> void:
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") && state == States.IDLE:
 		player = body
-		player._add_cattle()
+		target = player._add_cattle(global_position)
+		print("Target: ",target.get_global_position(), ", Player: ", player.global_position)
 		start_following()
 		
 

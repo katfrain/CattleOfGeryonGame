@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="CattleGeryon"
+run/main_scene="uid://bsrq2osjhfem1"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -43,4 +44,5 @@ right={
 2d_physics/layer_2="Cows"
 2d_physics/layer_3="World Barriers"
 2d_physics/layer_4="KillZone"
+2d_physics/layer_5="World Boundary"
 2d_physics/layer_9="Player Head"

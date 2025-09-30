@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=12 format=3 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
-[ext_resource type="Script" uid="uid://brej6fncakp30" path="res://Scenes/z_index_controller.gd" id="2_5v1tr"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
 [ext_resource type="Texture2D" uid="uid://cp15fgojevqg5" path="res://Assets/placeholder-background.png" id="2_o06y3"]
 [ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="3_k7acu"]
@@ -10,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="7_o06y3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
-size = Vector2(1526, 868)
+size = Vector2(2885, 1612.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
 size = Vector2(160.051, 20)
@@ -23,10 +22,6 @@ size = Vector2(5409, 5426)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_5ukr8")
-
-[node name="Z-Index Controller" type="Node2D" parent="."]
-position = Vector2(27, 19)
-script = ExtResource("2_5v1tr")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -41,6 +36,8 @@ world = NodePath("../..")
 metadata/_edit_lock_ = true
 
 [node name="Cow Spawner" parent="." instance=ExtResource("2_k7acu")]
+max_instances_in_scene = 15
+timer_interval = 1.0
 
 [node name="World Bounds" type="TextureRect" parent="."]
 z_index = -4096
@@ -55,11 +52,10 @@ metadata/_edit_lock_ = true
 [node name="Player" parent="." instance=ExtResource("3_k7acu")]
 z_index = 1
 position = Vector2(464, 299)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 collision_mask = 245
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(1.5, 1.5)
 limit_left = -2500
 limit_top = -2500
 limit_right = 2500
@@ -69,10 +65,10 @@ limit_bottom = 2500
 collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Viewport Bounds"]
-position = Vector2(11, 2)
+position = Vector2(0.00012207, -1.24994)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_5ukr8")
 debug_color = Color(0.662745, 0.490196, 0.411765, 0.27451)
-metadata/_edit_lock_ = true
 
 [node name="World Borders" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
@@ -127,7 +123,7 @@ debug_color = Color(0, 0.6, 0.701961, 0.054902)
 metadata/_edit_lock_ = true
 
 [node name="Cow" parent="." instance=ExtResource("7_o06y3")]
-position = Vector2(781, 153)
+position = Vector2(525, 349)
 
 [connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]
 [connection signal="lost_cow" from="Player" to="UI/Cow Amt Label" method="lose_cow"]

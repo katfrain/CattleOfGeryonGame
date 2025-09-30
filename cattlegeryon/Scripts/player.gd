@@ -2,18 +2,26 @@ extends CharacterBody2D
 
 @export var speed = 300
 @export var cattle_needed = 15
-@export var feet_area: CollisionShape2D
+
+var feet_area: CollisionShape2D
 
 var amt_of_cattle = 0
-var head_collision
+var head_collision: bool
 
+# Signals
 signal got_cow
 signal lost_cow
 
 func _ready() -> void:
-	amt_of_cattle = 0
+	feet_area = get_node("Feet") as CollisionShape2D
+
 	add_to_group("player")
 	add_to_group("bodies")
+	
+	# General set-up
+	amt_of_cattle = 0
+	
+# ----------- MOVEMENT FUNCTIONS -------------------
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -26,6 +34,8 @@ func _physics_process(delta):
 	get_input()
 	move_and_slide()
 	set_new_z_index()
+	
+# ----------- CATTLE FUNCTIONS -------------------
 	
 func _add_cattle() -> void:
 	amt_of_cattle += 1
@@ -42,6 +52,7 @@ func lose_cattle() -> void:
 func _cattle_amt_reached() -> void:
 	pass
 
+# ----------- AREA FUNCTIONS -------------------
 
 func _on_head_area_body_entered(body: Node2D) -> void:
 	head_collision = true
@@ -50,6 +61,8 @@ func _on_head_area_body_entered(body: Node2D) -> void:
 func _on_head_area_body_exited(body: Node2D) -> void:
 	head_collision = false
 	
+# ----------- Z-INDEX / LAYER FUNCTIONS -------------------
+
 func set_new_z_index() -> void:
 	var max_world_y = 5000.0
 	var min_world_y = 0.0

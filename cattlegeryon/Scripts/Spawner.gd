@@ -6,45 +6,33 @@ enum spawner_type_enum {
 }
 
 @export var spawner_type: spawner_type_enum
+@export var max_instances_in_scene: int
+@export var timer_interval: float
 
 @onready var spawn_timer: Timer = $Timer
 
 # GENERAL VARIABLES
 var spawn_scene: PackedScene
-var timer_interval: float
-var max_in_scene: int
 var world_bounds: TextureRect
 var current_in_scene: int
 var screen_area: Area2D
 var screen_rect: Rect2
 
-# COW SETTINGS
+# SCENES
 var cow_scene: PackedScene = preload("res://Scenes/cow.tscn")
-var max_cow_in_scene:int = 1
-var cow_timer_interval:float = 1
-
-# ENEMY SETTINGS
 var enemy_scene: PackedScene = preload("res://Scenes/cow.tscn")
-var max_enemy_in_scene:int = 25
-var enemy_timer_interval = 10.0
 
 
 func _ready() -> void:
 	world_bounds = get_parent().get_node("World Bounds") as TextureRect
 	var player = get_parent().get_node("Player")
 	screen_area = player.get_node("Viewport Bounds") as Area2D
-	
-	print(world_bounds, ", ", screen_area)
 		
 	match spawner_type:
 		spawner_type_enum.COW:
 			spawn_scene = cow_scene
-			max_in_scene = max_cow_in_scene
-			timer_interval = cow_timer_interval
 		spawner_type_enum.ENEMY:
 			spawn_scene = enemy_scene
-			max_in_scene = max_enemy_in_scene
-			timer_interval = enemy_timer_interval
 	
 	screen_rect = get_area_rect(screen_area)
 	print(screen_rect.get_area())
@@ -54,7 +42,7 @@ func _ready() -> void:
 	spawn_timer.start()
 	
 func on_spawn_timer_timeout():
-	if current_in_scene >= max_in_scene:
+	if current_in_scene >= max_instances_in_scene:
 		return
 	
 	var instance = spawn_scene.instantiate()

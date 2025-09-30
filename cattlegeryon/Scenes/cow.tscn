@@ -33,10 +33,7 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 anti_aliasing = false
 
-[node name="Cow" type="Node2D"]
-scale = Vector2(0.5, 0.5)
-
-[node name="Cow Body" type="RigidBody2D" parent="."]
+[node name="Cow Body" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 15
 mass = 0.01
@@ -44,42 +41,41 @@ gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 10.0
 script = ExtResource("1_asfwn")
-speed = 300
 direction_images = Array[Texture]([ExtResource("2_oad1y"), ExtResource("3_vkidu"), ExtResource("4_wjkae"), ExtResource("5_kflls"), ExtResource("6_oad1y")])
 
-[node name="Cow Sprite" type="Sprite2D" parent="Cow Body"]
+[node name="Cow Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_vkidu")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(6, 14)
 rotation = 1.5708
 scale = Vector2(0.1, 0.1)
 shape = SubResource("CapsuleShape2D_y5k1g")
 
-[node name="Range" type="Area2D" parent="Cow Body"]
+[node name="Range" type="Area2D" parent="."]
 scale = Vector2(0.3, 0.3)
 collision_layer = 16
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body/Range"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 shape = SubResource("CircleShape2D_uaxjc")
 debug_color = Color(0.676077, 0.47775, 0.460325, 0.42)
 metadata/_edit_lock_ = true
 
-[node name="Area" type="Area2D" parent="Cow Body"]
+[node name="Area" type="Area2D" parent="."]
 scale = Vector2(0.3, 0.3)
 collision_layer = 2
 collision_mask = 7
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Cow Body/Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
 position = Vector2(0, 6.66666)
 scale = Vector2(1.1, 1.1)
 shape = SubResource("CircleShape2D_tc63g")
 debug_color = Color(0.704042, 0.372617, 0.812094, 0.42)
 metadata/_edit_lock_ = true
 
-[node name="Health Bar" type="ProgressBar" parent="Cow Body"]
+[node name="Health Bar" type="ProgressBar" parent="."]
 offset_left = -12.0
 offset_top = -34.0
 offset_right = 12.0
@@ -88,7 +84,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_oad1y")
 theme_override_styles/fill = SubResource("StyleBoxFlat_vkidu")
 show_percentage = false
 
-[node name="DEBUG TEXT" type="RichTextLabel" parent="Cow Body"]
+[node name="DEBUG TEXT" type="RichTextLabel" parent="."]
 offset_left = -28.0
 offset_top = -72.0
 offset_right = 38.0
@@ -100,10 +96,10 @@ wait_time = 0.7
 
 [node name="Idle Timer" type="Timer" parent="."]
 
-[connection signal="body_entered" from="Cow Body/Range" to="Cow Body" method="_on_range_body_entered"]
-[connection signal="body_exited" from="Cow Body/Range" to="Cow Body" method="_on_range_body_exited"]
-[connection signal="area_entered" from="Cow Body/Area" to="Cow Body" method="_death_area_entered"]
-[connection signal="area_entered" from="Cow Body/Area" to="Cow Body" method="_on_collision_area_entered"]
-[connection signal="area_exited" from="Cow Body/Area" to="Cow Body" method="_on_collision_area_exited"]
-[connection signal="timeout" from="Direction Cooldown" to="Cow Body" method="_on_direction_cooldown_timeout"]
-[connection signal="timeout" from="Idle Timer" to="Cow Body" method="idle_timer_timeout"]
+[connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
+[connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]
+[connection signal="area_entered" from="Area" to="." method="_death_area_entered"]
+[connection signal="area_entered" from="Area" to="." method="_on_collision_area_entered"]
+[connection signal="area_exited" from="Area" to="." method="_on_collision_area_exited"]
+[connection signal="timeout" from="Direction Cooldown" to="." method="_on_direction_cooldown_timeout"]
+[connection signal="timeout" from="Idle Timer" to="." method="idle_timer_timeout"]

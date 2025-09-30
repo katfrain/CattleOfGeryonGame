@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dht0rklbvxpet"]
+[gd_scene load_steps=7 format=3 uid="uid://dht0rklbvxpet"]
 
 [ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://be5fytmr0al0" path="res://Assets/herc-placeholder.png" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://br1x0wgya71r2" path="res://Assets/player-attack-png.png" id="2_6t5aa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
 radius = 65.0
 height = 170.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
+size = Vector2(1070, 285)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
 radius = 31.6228
@@ -13,11 +17,30 @@ radius = 31.6228
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_cvnsp")
+cooldown = 1.5
+damage_amt = 50.0
 
 [node name="Feet" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 130)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_v0iea")
+
+[node name="Attack Sprite" type="Sprite2D" parent="."]
+rotation = 3.14159
+scale = Vector2(2.12651, 2.27433)
+texture = ExtResource("2_6t5aa")
+offset = Vector2(-250, 0)
+
+[node name="Attack Range" type="Area2D" parent="Attack Sprite"]
+rotation = 3.14159
+scale = Vector2(0.470255, 0.439689)
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack Sprite/Attack Range"]
+position = Vector2(515, -17.5)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_vgqql")
+debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_v0iea")
@@ -30,7 +53,21 @@ collision_mask = 4
 position = Vector2(-15, -170)
 shape = SubResource("CircleShape2D_cvnsp")
 
+[node name="Cooldown Timer" type="Timer" parent="."]
+
+[node name="Attack Timer" type="Timer" parent="."]
+
+[node name="DEBUG TEXT" type="RichTextLabel" parent="."]
+offset_left = -55.0
+offset_top = -250.0
+offset_right = 46.0
+offset_bottom = -210.0
+theme_override_font_sizes/normal_font_size = 25
+text = "debug"
+
 [connection signal="area_entered" from="Head Area" to="." method="_on_head_area_area_entered"]
 [connection signal="area_exited" from="Head Area" to="." method="_on_head_area_area_exited"]
 [connection signal="body_entered" from="Head Area" to="." method="_on_head_area_body_entered"]
 [connection signal="body_exited" from="Head Area" to="." method="_on_head_area_body_exited"]
+[connection signal="timeout" from="Cooldown Timer" to="." method="_on_cooldown_timer_timeout"]
+[connection signal="timeout" from="Attack Timer" to="." method="_on_attack_timer_timeout"]

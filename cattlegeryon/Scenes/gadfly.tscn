@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddrt0fhm0vnxu"]
+
+[ext_resource type="Script" uid="uid://c1jaeuh8kf6pk" path="res://Scripts/gadfly.gd" id="1_qyxyn"]
+[ext_resource type="Texture2D" uid="uid://cvi3yc0r0pubr" path="res://Assets/gadfly-left-placeholder.png" id="1_xbknt"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xbknt"]
+radius = 4.0
+height = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qyxyn"]
+radius = 17.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xj423"]
+bg_color = Color(0.206591, 0.224544, 0.217928, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xkgi8"]
+bg_color = Color(0.883055, 0.445334, 0.497275, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[node name="Gadfly Body" type="RigidBody2D"]
+z_index = 4096
+collision_layer = 32
+collision_mask = 6
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 4.0
+script = ExtResource("1_qyxyn")
+speed = 175
+cooldown_time = 1.5
+damage_amt = 20.0
+
+[node name="Gadfly Sprite" type="Sprite2D" parent="."]
+position = Vector2(-4.76837e-07, -4.76837e-07)
+scale = Vector2(0.0710938, 0.0710938)
+texture = ExtResource("1_xbknt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_xbknt")
+
+[node name="Attack Range" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack Range"]
+shape = SubResource("CircleShape2D_qyxyn")
+debug_color = Color(0.745421, 0.433978, 0.440348, 0.42)
+
+[node name="Health Bar" type="ProgressBar" parent="."]
+offset_left = -12.0
+offset_top = -16.0
+offset_right = 12.0
+offset_bottom = -12.0
+theme_override_styles/background = SubResource("StyleBoxFlat_xj423")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xkgi8")
+show_percentage = false
+
+[node name="DEBUG TEXT" type="RichTextLabel" parent="."]
+offset_left = -28.0
+offset_top = -54.0
+offset_right = 38.0
+offset_bottom = -14.0
+theme_override_font_sizes/normal_font_size = 10
+
+[node name="Attack Cooldown" type="Timer" parent="."]
+
+[connection signal="timeout" from="Attack Cooldown" to="." method="_on_attack_cooldown_timeout"]

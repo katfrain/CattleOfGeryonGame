@@ -39,6 +39,13 @@ metadata/_edit_lock_ = true
 max_instances_in_scene = 15
 timer_interval = 1.0
 
+[node name="Fly Spawner" parent="." instance=ExtResource("2_k7acu")]
+z_index = 4096
+spawner_type = 1
+max_instances_in_scene = 500
+timer_interval = 1.0
+wave_size = 3
+
 [node name="World Bounds" type="TextureRect" parent="."]
 z_index = -4096
 offset_left = -2500.0
@@ -53,7 +60,7 @@ metadata/_edit_lock_ = true
 z_index = 1
 position = Vector2(464, 299)
 scale = Vector2(0.4, 0.4)
-collision_mask = 245
+collision_mask = 5
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = -2500
@@ -66,7 +73,7 @@ collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Viewport Bounds"]
 position = Vector2(0.00012207, -1.24994)
-scale = Vector2(1, 1)
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_5ukr8")
 debug_color = Color(0.662745, 0.490196, 0.411765, 0.27451)
 
@@ -123,9 +130,8 @@ debug_color = Color(0, 0.6, 0.701961, 0.054902)
 metadata/_edit_lock_ = true
 
 [node name="Cow" parent="." instance=ExtResource("7_o06y3")]
-position = Vector2(525, 349)
+position = Vector2(615, 139)
 
 [connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]
 [connection signal="lost_cow" from="Player" to="UI/Cow Amt Label" method="lose_cow"]
-[connection signal="lost_cow" from="Player" to="Cow Spawner" method="remove_from_scene"]
 [connection signal="body_exited" from="World Boundary" to="World Boundary" method="_on_body_exited"]

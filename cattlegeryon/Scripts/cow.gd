@@ -53,8 +53,8 @@ func _ready() -> void:
 	sprite = get_node("Cow Sprite") as Sprite2D
 	health_bar = get_node("Health Bar") as ProgressBar
 	debug_text = get_node("DEBUG TEXT") as RichTextLabel
-	direction_cooldown = get_parent().get_node("Direction Cooldown") as Timer
-	idle_timer = get_parent().get_node("Idle Timer") as Timer
+	direction_cooldown = get_node("Direction Cooldown") as Timer
+	idle_timer = get_node("Idle Timer") as Timer
 	
 	add_to_group("cows")
 	
@@ -76,10 +76,11 @@ func _ready() -> void:
 # ----------- MOVEMENT FUNCTIONS -------------------
 
 func _physics_process(delta: float) -> void:
+	
 	effective_velocity = (global_position - prev_position) / delta
 	prev_position = global_position
-	set_debug_text_to_state()
-	
+	#set_debug_text_to_state()
+
 	match state:
 		States.FLEEING:
 			fleeing_behaviour()
@@ -102,6 +103,7 @@ func fleeing_behaviour():
 		1:  linear_velocity = Vector2.LEFT * speed
 		2:  linear_velocity = Vector2.UP * speed
 		3:  linear_velocity = Vector2.DOWN * speed
+		4:  linear_velocity = Vector2.RIGHT * speed
 
 # -- FOLLOWING functions
 
@@ -117,12 +119,16 @@ func following_behaviour() -> void:
 	
 func follow_player() -> void:
 	var distance = global_position.distance_to(player_area.global_position)
+	var temp = speed + (distance / 200.0) * speed
+	var adjusted_speed = clamp(temp, speed, speed * 3)
+	debug_text.text = str(adjusted_speed)
+	
 	if distance > 75:
 		var direction = (player_area.global_position - global_position).normalized()
-		var to_player = direction * speed
-		var separation = get_separation() * speed
+		var to_player = direction * adjusted_speed
+		var separation = get_separation() * adjusted_speed
 
-		linear_velocity = (to_player + separation).limit_length(speed)
+		linear_velocity = (to_player + separation).limit_length(adjusted_speed)
 	else:
 		linear_velocity = Vector2.ZERO
 		
@@ -223,7 +229,6 @@ func _on_range_body_exited(body: Node2D) -> void:
 	pass	
 		
 func _on_collision_area_entered(area: Area2D) -> void:
-	print("cow colliding with: ",area)
 	colliding = true
 
 func _on_collision_area_exited(area: Area2D) -> void:
@@ -244,10 +249,14 @@ func update_health_bar() -> void:
 	
 func start_fleeing() -> void:
 	print("Cow is running away!")
+	remove_from_group("cows")
 	state = States.FLEEING
 	set_invisible_layer()
 	speed = speed * 1.5
 	player.lose_cattle()
+	print(get_parent())
+	if get_parent() and get_parent().has_method("remove_from_scene"):
+		get_parent().remove_from_scene()
 	
 func start_following() -> void:
 	state = States.FOLLOWING
@@ -261,9 +270,9 @@ func start_idle() -> void:
 func set_new_z_index() -> void:
 	var max_world_y = 5000.0
 	var min_world_y = 0.0
-	var z_range = 4096
-
-	z_index = int((global_position.y / max_world_y) * z_range)
+	var z_range = 4050
+	var new_z = int((global_position.y / max_world_y) * z_range)
+	z_index = clamp(new_z, -4096, 4096)
 	
 func set_invisible_layer() -> void:
 	collision_mask = 0

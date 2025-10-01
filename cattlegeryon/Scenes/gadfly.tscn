@@ -80,6 +80,9 @@ theme_override_font_sizes/normal_font_size = 10
 
 [node name="Idle Timer" type="Timer" parent="."]
 
+[node name="Poison Damage Timer" type="Timer" parent="."]
+
 [connection signal="timeout" from="Attack Cooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="Knockback Cooldown" to="." method="_on_knockback_cooldown_timeout"]
 [connection signal="timeout" from="Idle Timer" to="." method="idle_timer_timeout"]
+[connection signal="timeout" from="Poison Damage Timer" to="." method="_on_poison_damage_timer_timeout"]

@@ -35,7 +35,7 @@ script = ExtResource("5_0fj1v")
 world = NodePath("../..")
 metadata/_edit_lock_ = true
 
-[node name="Ultimate Progress" type="ProgressBar" parent="UI"]
+[node name="ProgressBar" type="ProgressBar" parent="UI"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -48,7 +48,7 @@ offset_bottom = -42.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Ultimate Progress"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/ProgressBar"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -83,12 +83,11 @@ texture = ExtResource("2_o06y3")
 stretch_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="Player" parent="." node_paths=PackedStringArray("ultimate_progress_bar") instance=ExtResource("3_k7acu")]
+[node name="Player" parent="." instance=ExtResource("3_k7acu")]
 z_index = 1
 position = Vector2(464, 299)
 scale = Vector2(0.4, 0.4)
 collision_mask = 5
-ultimate_progress_bar = NodePath("../UI/Ultimate Progress")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = -2500

@@ -4,25 +4,38 @@ extends CharacterBody2D
 @export var cattle_needed = 15
 @export var cooldown: float = 3.0
 @export var damage_amt: float = 35.0
+@export var ultimate_damage: float = 10.0
+@export var poison_tick_interval: float = 1.0
+@export var poison_ticks: int = 5
+@export var ultimate_charge_per_kill: float = 15.0 # % out of 100
+@export var ultimate_progress_bar: ProgressBar
+
+const ULTIMATE_CHARGE_NEEDED: float = 100.0
 
 var feet_area: CollisionShape2D
 var attack_range: Area2D
+var ultimate_outer: Area2D
+var ultimate_inner: Area2D
 
 var body_sprite: Sprite2D
 var attack_sprite: Sprite2D
+var ultimate_sprite: Sprite2D
 var debug_text: RichTextLabel
 
 var amt_of_cattle = 0
 var attack_time: float = 0.3
 var input_direction: Vector2
 var current_direction: int = 0
+var current_ultimate_charge: float = 0.0
 
 var head_collision: bool
 var cooling_down: bool = false
 var attacking: bool = false
+var ultimate_ready: bool = false
 
 var cooldown_timer: Timer
 var attack_timer: Timer
+var ultimate_timer: Timer
 
 # Signals
 signal got_cow
@@ -31,10 +44,14 @@ signal lost_cow
 func _ready() -> void:
 	feet_area = get_node("Feet") as CollisionShape2D
 	attack_range = get_node("Attack Sprite/Attack Range") as Area2D
+	ultimate_outer = get_node("Ultimate Sprite/Ultimate range") as Area2D
+	ultimate_inner = get_node("Ultimate Sprite/Ultimate inner circle") as Area2D
 	attack_sprite = get_node("Attack Sprite") as Sprite2D
 	body_sprite = get_node("Sprite2D") as Sprite2D
+	ultimate_sprite = get_node("Ultimate Sprite") as Sprite2D
 	cooldown_timer = get_node("Cooldown Timer") as Timer
 	attack_timer = get_node("Attack Timer") as Timer
+	ultimate_timer = get_node("Ultimate Timer") as Timer
 	debug_text = get_node("DEBUG TEXT") as RichTextLabel
 
 	add_to_group("player")
@@ -43,6 +60,7 @@ func _ready() -> void:
 	# General set-up
 	amt_of_cattle = 0
 	attack_sprite.visible = false
+	ultimate_sprite.visible = false
 	z_index = 4096
 	
 # ----------- MOVEMENT FUNCTIONS -------------------
@@ -51,6 +69,9 @@ func get_input():
 	input_direction = Input.get_vector("left", "right", "up", "down")
 	if head_collision and input_direction.y < 0:
 		input_direction.y = 0
+	
+	if Input.is_action_just_pressed("Ultimate") and ultimate_ready: # <-- map this action in InputMap
+		activate_ultimate()
 	
 	get_direction()
 	adjust_direction()
@@ -133,11 +154,37 @@ func _cattle_amt_reached() -> void:
 func attack() -> void:
 	for body in attack_range.get_overlapping_bodies():
 		if body.is_in_group("gadflies"):
-			body.take_damage(damage_amt, self)
+			body.take_damage(damage_amt, true, self)
 	attacking = true
 	cooling_down = true
 	attack_timer.start(attack_time)
 	cooldown_timer.start(cooldown)
+	
+func activate_ultimate() -> void:
+	ultimate_sprite.visible = true
+	
+	var outer_bodies = ultimate_outer.get_overlapping_bodies()
+	var inner_bodies = ultimate_inner.get_overlapping_bodies()
+
+	for body in outer_bodies:
+		if not body.is_in_group("enemies"): 
+			continue
+		if inner_bodies.has(body): 
+			continue # skip enemies in the safe inner circle
+
+		if body.has_method("apply_poison"):
+			body.apply_poison(ultimate_damage, poison_tick_interval, poison_ticks)
+			
+	current_ultimate_charge = 0
+	ultimate_progress_bar.value = 0
+	ultimate_ready = false
+	ultimate_timer.start(0.5)
+	
+func charge_ultimate() -> void:
+	current_ultimate_charge = min(current_ultimate_charge + ultimate_charge_per_kill, 100)
+	if (current_ultimate_charge >= ULTIMATE_CHARGE_NEEDED):
+		ultimate_ready = true
+	ultimate_progress_bar.value = current_ultimate_charge
 	
 
 # ----------- AREA FUNCTIONS -------------------
@@ -165,3 +212,7 @@ func _on_cooldown_timer_timeout() -> void:
 
 func _on_attack_timer_timeout() -> void:
 	attacking = false
+
+
+func _on_ultimate_timer_timeout() -> void:
+	ultimate_sprite.visible = false

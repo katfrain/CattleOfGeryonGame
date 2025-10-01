@@ -14,6 +14,9 @@ extends RigidBody2D
 var debug_text: RichTextLabel
 var health_bar: ProgressBar
 var sprite: Sprite2D
+var health_bar_base_color: Color
+var background_stylebox
+var fill_stylebox
 
 # Areas
 var attack_range: Area2D
@@ -22,6 +25,7 @@ var attack_range: Area2D
 var attack_cooldown: Timer
 var knockback_cooldown: Timer
 var idle_timer: Timer
+var poison_dmg_timer: Timer
 
 # Gadfly changing attributes
 var current_health: float
@@ -29,6 +33,12 @@ var facing_dir: int = 0
 var target: RigidBody2D = null
 var idle_move_target: Vector2
 var idle_initial_pos: Vector2
+
+# Variables to track poison state
+var poisoned: bool = false
+var poison_damage: float = 0.0
+var poison_ticks_remaining: int = 0
+var poison_interval: float = 0.0
 
 # Array of all current cows
 var all_cows: Array[Node]
@@ -39,6 +49,8 @@ var knockback = false
 var moving: bool = false
 var idle_move = false
 var colliding: bool = false
+
+var player: Node
 
 # Signals
 signal fly_died
@@ -51,10 +63,18 @@ func _ready() -> void:
 	attack_cooldown = get_node("Attack Cooldown") as Timer
 	knockback_cooldown = get_node("Knockback Cooldown") as Timer
 	idle_timer = get_node("Idle Timer") as Timer
-		
+	poison_dmg_timer = get_node("Poison Damage Timer") as Timer
+	
+	background_stylebox = health_bar.get("theme_override_styles/background")
+	fill_stylebox = health_bar.get("theme_override_styles/fill")
+			
 	add_to_group("gadflies")
 	add_to_group("enemies")
 	
+	if fill_stylebox is StyleBoxFlat:
+		fill_stylebox = fill_stylebox.duplicate()
+		health_bar.add_theme_stylebox_override("fill", fill_stylebox)
+		health_bar_base_color = fill_stylebox.bg_color
 	current_health = max_health
 	health_bar.value = 100
 	z_index = 4096
@@ -186,11 +206,12 @@ func start_moving() -> void:
 		
 # ----------- HEALTH FUNCTIONS -------------------
 		
-func take_damage(damage_amt: float, attacker: Node = null) -> void:
+func take_damage(damage_amt: float, charges_ultimate: bool, attacker: Node = null) -> void:
 	current_health -= damage_amt
 	update_health_bar()
 	
 	if attacker and attacker is Node2D:
+		player = attacker
 		print("Getting knocked back by: ", attacker)
 		var away = (global_position - attacker.global_position).normalized()
 		linear_velocity = away * speed * 5
@@ -202,7 +223,23 @@ func take_damage(damage_amt: float, attacker: Node = null) -> void:
 	knockback_cooldown.start(knockback_amt)
 	
 	if current_health <= 0:
+		if charges_ultimate and attacker.has_method("charge_ultimate"):
+			attacker.charge_ultimate()
 		die()
+		
+func apply_poison(damage_amt: float, interval: float, ticks: int) -> void:
+	if poisoned:
+		return # Already poisoned
+
+	poisoned = true
+	poison_damage = damage_amt
+	poison_ticks_remaining = ticks
+	poison_interval = interval
+
+	if fill_stylebox is StyleBoxFlat:
+		fill_stylebox.bg_color = Color("#5bad7e") 
+
+	poison_dmg_timer.start(poison_interval)
 	
 func update_health_bar() -> void:
 	health_bar.value = (current_health / max_health) * 100
@@ -215,3 +252,14 @@ func die() -> void:
 
 func _on_knockback_cooldown_timeout() -> void:
 	knockback = false
+
+func _on_poison_damage_timer_timeout() -> void:
+	if poison_ticks_remaining > 0:
+		take_damage(poison_damage, false, player)
+		poison_ticks_remaining -= 1
+		poison_dmg_timer.start(poison_interval)
+	else:
+		if fill_stylebox is StyleBoxFlat:
+			fill_stylebox.bg_color = health_bar_base_color
+		poison_dmg_timer.stop()
+		poisoned = false

@@ -54,7 +54,6 @@ func on_spawn_timer_timeout():
 		instance.z_index = 1
 		add_child(instance)
 		current_in_scene += 1
-	print(self.name, " has spawned ", current_in_scene, " instances")
 
 func get_spawn_position() -> Vector2:
 	for i in range(100):  # safety loop

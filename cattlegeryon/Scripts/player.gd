@@ -133,7 +133,7 @@ func _cattle_amt_reached() -> void:
 func attack() -> void:
 	for body in attack_range.get_overlapping_bodies():
 		if body.is_in_group("gadflies"):
-			body.take_damage(damage_amt)
+			body.take_damage(damage_amt, self)
 	attacking = true
 	cooling_down = true
 	attack_timer.start(attack_time)

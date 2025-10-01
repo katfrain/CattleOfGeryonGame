@@ -29,14 +29,17 @@ anti_aliasing = false
 [node name="Gadfly Body" type="RigidBody2D"]
 z_index = 4096
 collision_layer = 32
-collision_mask = 6
+collision_mask = 4
 gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 4.0
 script = ExtResource("1_qyxyn")
-speed = 175
+max_health = 100.0
+speed = 100
 cooldown_time = 1.5
 damage_amt = 20.0
+range_of_sight_radius = 1750.0
+idle_move_max_distance = 45.0
 
 [node name="Gadfly Sprite" type="Sprite2D" parent="."]
 position = Vector2(-4.76837e-07, -4.76837e-07)
@@ -73,4 +76,10 @@ theme_override_font_sizes/normal_font_size = 10
 
 [node name="Attack Cooldown" type="Timer" parent="."]
 
+[node name="Knockback Cooldown" type="Timer" parent="."]
+
+[node name="Idle Timer" type="Timer" parent="."]
+
 [connection signal="timeout" from="Attack Cooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="Knockback Cooldown" to="." method="_on_knockback_cooldown_timeout"]
+[connection signal="timeout" from="Idle Timer" to="." method="idle_timer_timeout"]

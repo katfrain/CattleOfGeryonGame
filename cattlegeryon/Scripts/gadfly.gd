@@ -9,6 +9,7 @@ extends RigidBody2D
 @export var range_of_sight_radius: float = 1000
 @export var idle_speed = 50.0
 @export var idle_move_max_distance = 50.0
+@export var ultimate_charge_percent = 5.0
 
 # Rendered Visuals
 var debug_text: RichTextLabel
@@ -51,6 +52,10 @@ var idle_move = false
 var colliding: bool = false
 
 var player: Node
+
+# XP variables
+var xp_scene: PackedScene = preload("res://Scenes/xp.tscn")
+var xp_amount = 10
 
 # Signals
 signal fly_died
@@ -212,7 +217,6 @@ func take_damage(damage_amt: float, charges_ultimate: bool, attacker: Node = nul
 	
 	if attacker and attacker is Node2D:
 		player = attacker
-		print("Getting knocked back by: ", attacker)
 		var away = (global_position - attacker.global_position).normalized()
 		linear_velocity = away * speed * 5
 	else:
@@ -222,9 +226,10 @@ func take_damage(damage_amt: float, charges_ultimate: bool, attacker: Node = nul
 	knockback = true
 	knockback_cooldown.start(knockback_amt)
 	
+	if charges_ultimate and attacker.has_method("charge_ultimate"):
+		attacker.charge_ultimate(ultimate_charge_percent)
+	
 	if current_health <= 0:
-		if charges_ultimate and attacker.has_method("charge_ultimate"):
-			attacker.charge_ultimate()
 		die()
 		
 func apply_poison(damage_amt: float, interval: float, ticks: int) -> void:
@@ -245,9 +250,9 @@ func update_health_bar() -> void:
 	health_bar.value = (current_health / max_health) * 100
 	
 func die() -> void:
-	print(get_parent())
 	if get_parent() and get_parent().has_method("remove_from_scene"):
 		get_parent().remove_from_scene()
+	drop_xp()
 	queue_free()
 
 func _on_knockback_cooldown_timeout() -> void:
@@ -263,3 +268,17 @@ func _on_poison_damage_timer_timeout() -> void:
 			fill_stylebox.bg_color = health_bar_base_color
 		poison_dmg_timer.stop()
 		poisoned = false
+		
+# ----------- XP FUNCTIONS -------------------
+
+func drop_xp() -> void:
+	print("dropping xp")
+	var instance = xp_scene.instantiate()
+	instance.global_position = global_position
+	instance.z_index = 1
+	instance.set_xp_amount(xp_amount)
+	var parent_node = get_parent()
+	if not parent_node:
+		parent_node = get_tree().current_scene
+
+	parent_node.add_child(instance)

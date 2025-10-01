@@ -7,8 +7,10 @@ extends CharacterBody2D
 @export var ultimate_damage: float = 10.0
 @export var poison_tick_interval: float = 1.0
 @export var poison_ticks: int = 5
-@export var ultimate_charge_per_kill: float = 15.0 # % out of 100
+@export var level_increase: float = 1.2
 @export var ultimate_progress_bar: ProgressBar
+@export var level_progress_bar: ProgressBar
+@export var level_text: RichTextLabel
 
 const ULTIMATE_CHARGE_NEEDED: float = 100.0
 
@@ -27,6 +29,9 @@ var attack_time: float = 0.3
 var input_direction: Vector2
 var current_direction: int = 0
 var current_ultimate_charge: float = 0.0
+var current_level: int = 1
+var current_xp = 0
+var xp_needed = 100
 
 var head_collision: bool
 var cooling_down: bool = false
@@ -56,6 +61,8 @@ func _ready() -> void:
 
 	add_to_group("player")
 	add_to_group("bodies")
+	
+	update_xp_bar()
 	
 	# General set-up
 	amt_of_cattle = 0
@@ -180,8 +187,8 @@ func activate_ultimate() -> void:
 	ultimate_ready = false
 	ultimate_timer.start(0.5)
 	
-func charge_ultimate() -> void:
-	current_ultimate_charge = min(current_ultimate_charge + ultimate_charge_per_kill, 100)
+func charge_ultimate(amt: float) -> void:
+	current_ultimate_charge = min(current_ultimate_charge + amt, 100)
 	if (current_ultimate_charge >= ULTIMATE_CHARGE_NEEDED):
 		ultimate_ready = true
 	ultimate_progress_bar.value = current_ultimate_charge
@@ -216,3 +223,24 @@ func _on_attack_timer_timeout() -> void:
 
 func _on_ultimate_timer_timeout() -> void:
 	ultimate_sprite.visible = false
+	
+# ----------- XP / LEVELING FUNCTIONS -------------------
+
+func add_xp(amt: int) -> void:
+	print("adding xp")
+	current_xp = min(current_xp + amt, xp_needed)
+	if (current_xp >= xp_needed):
+		level_up()
+	update_xp_bar()
+	
+func level_up() -> void:
+	print("leveling up")
+	current_level += 1
+	xp_needed *= level_increase
+	current_xp = 0
+	# upgrade()
+	
+func update_xp_bar() -> void:
+	print("attempting to update xp bar")
+	level_progress_bar.value = float(current_xp) / float(xp_needed) * 100.0
+	level_text.text = str("Level: ", current_level)

@@ -244,3 +244,7 @@ func update_xp_bar() -> void:
 	print("attempting to update xp bar")
 	level_progress_bar.value = float(current_xp) / float(xp_needed) * 100.0
 	level_text.text = str("Level: ", current_level)
+
+# ----------- GETTERS -------------------
+func get_amt_of_cows_needed() -> int:
+	return cattle_needed

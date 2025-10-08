@@ -1,14 +1,16 @@
 extends RichTextLabel
 
-@export var world: Node2D
+var player: CharacterBody2D = null
 
 var amt_of_cows_needed
 var amt_of_cows
 
 func _ready() -> void:
+	player = get_node("../../Player") as CharacterBody2D
+	
 	amt_of_cows = 0
-	if world:
-		amt_of_cows_needed = world.get_amt_of_cows_needed()
+	if player:
+		amt_of_cows_needed = player.get_amt_of_cows_needed()
 		update_text()
 	
 func add_cow() -> void:

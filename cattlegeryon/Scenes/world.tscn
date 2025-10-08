@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=19 format=3 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -7,10 +7,34 @@
 [ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://Scripts/cow_amt_label.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://btw5y7jlcasa0" path="res://Scripts/world_boundary.gd" id="6_ikia7"]
 [ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="7_o06y3"]
-[ext_resource type="PackedScene" uid="uid://ddrt0fhm0vnxu" path="res://Scenes/gadfly.tscn" id="8_k7acu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o06y3"]
 bg_color = Color(0.322638, 0.655393, 0.725399, 1)
+
+[sub_resource type="Theme" id="Theme_o06y3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k7acu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5v1tr"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295066, 0.545098)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0728426, 0.0728427, 0.0728426, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fj1v"]
+bg_color = Color(0.270667, 0.463262, 0.460066, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikia7"]
+bg_color = Color(0.611425, 0.360523, 0.330598, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7acu"]
+bg_color = Color(0.495564, 0.365245, 0.554255, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
 size = Vector2(2885, 1612.5)
@@ -26,17 +50,17 @@ size = Vector2(5409, 5426)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_5ukr8")
+time_to_hold_cows = 5.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Cow Amt Label" type="RichTextLabel" parent="UI" node_paths=PackedStringArray("world")]
+[node name="Cow Amt Label" type="RichTextLabel" parent="UI"]
 offset_left = 27.0
 offset_top = 19.0
 offset_right = 191.0
 offset_bottom = 63.0
 text = "Cows: 0/0"
 script = ExtResource("5_0fj1v")
-world = NodePath("../..")
 metadata/_edit_lock_ = true
 
 [node name="Ultimate Progress" type="ProgressBar" parent="UI"]
@@ -93,6 +117,247 @@ text = "Level: 0"
 fit_content = true
 horizontal_alignment = 1
 
+[node name="Win Timer Text" type="RichTextLabel" parent="UI"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.0
+offset_top = 94.0
+offset_right = 62.0
+offset_bottom = 149.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 30
+text = "10.0"
+horizontal_alignment = 1
+
+[node name="Win Container" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.5
+offset_top = -152.5
+offset_right = 266.5
+offset_bottom = 152.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_o06y3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
+
+[node name="Panel" type="Panel" parent="UI/Win Container"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Win Container/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.5
+offset_top = 41.5
+offset_right = 139.5
+offset_bottom = 97.5
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/normal_font_size = 30
+text = "You Win!"
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="UI/Win Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = -39.5
+offset_right = 130.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_0fj1v")
+text = "Play Again"
+
+[node name="Main Menu" type="Button" parent="UI/Win Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = 23.0
+offset_right = 130.5
+offset_bottom = 66.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
+text = "Main Menu"
+
+[node name="Lose Container" type="PanelContainer" parent="UI"]
+visible = false
+offset_left = 309.5
+offset_top = 171.5
+offset_right = 842.5
+offset_bottom = 476.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_o06y3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
+
+[node name="Panel" type="Panel" parent="UI/Lose Container"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Lose Container/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.5
+offset_top = 41.5
+offset_right = 139.5
+offset_bottom = 97.5
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/normal_font_size = 30
+text = "You Lose :("
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="UI/Lose Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = -39.5
+offset_right = 130.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_0fj1v")
+text = "Play Again"
+
+[node name="Main Menu" type="Button" parent="UI/Lose Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = 23.0
+offset_right = 130.5
+offset_bottom = 66.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
+text = "Main Menu"
+
+[node name="Pause Container" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.5
+offset_top = -152.5
+offset_right = 266.5
+offset_bottom = 152.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_o06y3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
+
+[node name="Panel" type="Panel" parent="UI/Pause Container"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.5
+offset_top = 27.5
+offset_right = 139.5
+offset_bottom = 83.5
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/normal_font_size = 30
+text = "Game Paused"
+horizontal_alignment = 1
+
+[node name="Unpause" type="Button" parent="UI/Pause Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = -51.0
+offset_right = 130.5
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_k7acu")
+text = "Continue"
+
+[node name="Restart" type="Button" parent="UI/Pause Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = 9.0
+offset_right = 130.5
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_0fj1v")
+text = "Restart
+"
+
+[node name="Main Menu" type="Button" parent="UI/Pause Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.5
+offset_top = 69.0
+offset_right = 130.5
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
+text = "Main Menu"
+
+[node name="Win Timer" type="Timer" parent="."]
+
 [node name="Cow Spawner" parent="." instance=ExtResource("2_k7acu")]
 max_instances_in_scene = 15
 timer_interval = 1.0
@@ -118,9 +383,11 @@ z_index = 1
 position = Vector2(464, 299)
 scale = Vector2(0.4, 0.4)
 collision_mask = 5
+cattle_needed = 2
 ultimate_progress_bar = NodePath("../UI/Ultimate Progress")
 level_progress_bar = NodePath("../UI/Level Progress")
 level_text = NodePath("../UI/Level Progress/RichTextLabel")
+metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = -2500
@@ -183,6 +450,7 @@ shape = SubResource("RectangleShape2D_tlwt5")
 collision_layer = 16
 collision_mask = 2051
 script = ExtResource("6_ikia7")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundary"]
 position = Vector2(-1.5, 12)
@@ -191,38 +459,23 @@ debug_color = Color(0, 0.6, 0.701961, 0.054902)
 metadata/_edit_lock_ = true
 
 [node name="Cow Body" parent="." instance=ExtResource("7_o06y3")]
-position = Vector2(744, 185)
+position = Vector2(368, 382)
+metadata/_edit_lock_ = true
 
-[node name="Gadfly Body" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(107, 302)
+[node name="Cow Body2" parent="." instance=ExtResource("7_o06y3")]
+position = Vector2(598, 368)
+metadata/_edit_lock_ = true
 
-[node name="Gadfly Body2" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(68, 314)
-
-[node name="Gadfly Body3" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(70, 270)
-
-[node name="Gadfly Body4" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(34, 273)
-
-[node name="Gadfly Body5" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(39, 321)
-
-[node name="Gadfly Body6" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(22, 360)
-
-[node name="Gadfly Body7" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(52, 338)
-
-[node name="Gadfly Body8" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(73, 338)
-
-[node name="Gadfly Body9" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(71, 367)
-
-[node name="Gadfly Body10" parent="." instance=ExtResource("8_k7acu")]
-position = Vector2(109, 342)
-
+[connection signal="pressed" from="UI/Win Container/Panel/Restart" to="." method="restart"]
+[connection signal="pressed" from="UI/Win Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="pressed" from="UI/Lose Container/Panel/Restart" to="." method="restart"]
+[connection signal="pressed" from="UI/Lose Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="pressed" from="UI/Pause Container/Panel/Unpause" to="." method="unpause"]
+[connection signal="pressed" from="UI/Pause Container/Panel/Restart" to="." method="restart"]
+[connection signal="pressed" from="UI/Pause Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="timeout" from="Win Timer" to="." method="_on_win_timer_timeout"]
+[connection signal="got_cow" from="Player" to="." method="add_cow"]
 [connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]
+[connection signal="lost_cow" from="Player" to="." method="remove_cow"]
 [connection signal="lost_cow" from="Player" to="UI/Cow Amt Label" method="lose_cow"]
 [connection signal="body_exited" from="World Boundary" to="World Boundary" method="_on_body_exited"]

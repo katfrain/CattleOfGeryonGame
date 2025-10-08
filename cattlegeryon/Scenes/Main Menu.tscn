@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://bg2l2llw2pc5v"]
+
+[ext_resource type="Script" uid="uid://desbrscd18yyr" path="res://Scripts/main_menu.gd" id="1_totuj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hcxxy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ur25d"]
+bg_color = Color(0.189116, 0.367671, 0.541309, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eotax"]
+bg_color = Color(0.101041, 0.220346, 0.33588, 1)
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_totuj")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Menu Container" type="PanelContainer" parent="UI"]
+offset_right = 1153.0
+offset_bottom = 646.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hcxxy")
+
+[node name="Panel" type="Panel" parent="UI/Menu Container"]
+layout_mode = 2
+
+[node name="Title" type="RichTextLabel" parent="UI/Menu Container/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -345.5
+offset_top = 142.0
+offset_right = 345.5
+offset_bottom = 217.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 50
+text = "CATTLE OF GERYON"
+horizontal_alignment = 1
+
+[node name="Play" type="Button" parent="UI/Menu Container/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -171.5
+offset_top = 2.0
+offset_right = 171.5
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ur25d")
+text = "PLAY"
+
+[node name="Exit" type="Button" parent="UI/Menu Container/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -171.5
+offset_top = 85.0
+offset_right = 171.5
+offset_bottom = 126.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_eotax")
+text = "EXIT"
+
+[connection signal="pressed" from="UI/Menu Container/Panel/Play" to="." method="play"]
+[connection signal="pressed" from="UI/Menu Container/Panel/Exit" to="." method="exit"]

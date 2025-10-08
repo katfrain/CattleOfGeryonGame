@@ -10,6 +10,11 @@ var win_timer_text: RichTextLabel
 var win_container: PanelContainer
 var lose_container: PanelContainer
 var pause_container: PanelContainer
+var upgrade_container: PanelContainer
+var upgrade_slot_1: Upgrade
+var upgrade_slot_2: Upgrade
+var upgrade_button_1: Button
+var upgrade_button_2: Button
 
 func _ready() -> void:
 	player = get_node("Player") as CharacterBody2D
@@ -18,11 +23,15 @@ func _ready() -> void:
 	win_container = get_node("UI/Win Container") as PanelContainer
 	lose_container = get_node("UI/Lose Container") as PanelContainer
 	pause_container = get_node("UI/Pause Container") as PanelContainer
-	
+	upgrade_container = get_node("UI/Upgrade Container") as PanelContainer
+	upgrade_button_1 = get_node("UI/Upgrade Container/Panel/Upgrade 1") as Button
+	upgrade_button_2 = get_node("UI/Upgrade Container/Panel/Upgrade 2") as Button
+		
 	win_timer_text.visible = false
 	win_container.visible = false
 	lose_container.visible = false
 	pause_container.visible = false
+	upgrade_container.visible = false
 	
 	if !player:
 		printerr("Player not found!")
@@ -87,3 +96,23 @@ func switch_to_main_menu() -> void:
 	pause_container.visible = false
 	unpause()
 	get_tree().change_scene_to_file("res://Scenes/Main Menu.tscn")
+	
+func assign_upgrades(upgrade_1: Upgrade, upgrade_2: Upgrade):
+	upgrade_slot_1 = upgrade_1
+	upgrade_slot_2 = upgrade_2
+	upgrade_button_1.text = upgrade_1.upgrade_name
+	upgrade_button_2.text = upgrade_2.upgrade_name
+	
+func display_upgrade_menu() -> void:
+	upgrade_container.visible = true
+	pause()
+	
+func choose_upgrade_1() -> void:
+	player.upgrade(upgrade_slot_1)
+	upgrade_container.visible = false
+	unpause()
+	
+func choose_upgrade_2() -> void:
+	player.upgrade(upgrade_slot_2)
+	upgrade_container.visible = false
+	unpause()

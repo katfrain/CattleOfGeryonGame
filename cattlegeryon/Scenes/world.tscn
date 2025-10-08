@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=20 format=3 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://Scripts/cow_amt_label.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://btw5y7jlcasa0" path="res://Scripts/world_boundary.gd" id="6_ikia7"]
 [ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="7_o06y3"]
+[ext_resource type="PackedScene" uid="uid://ddrt0fhm0vnxu" path="res://Scenes/gadfly.tscn" id="8_k7acu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o06y3"]
 bg_color = Color(0.322638, 0.655393, 0.725399, 1)
@@ -356,6 +357,76 @@ grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
 text = "Main Menu"
 
+[node name="Upgrade Container" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.5
+offset_top = -152.5
+offset_right = 266.5
+offset_bottom = 152.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_o06y3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
+
+[node name="Panel" type="Panel" parent="UI/Upgrade Container"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Upgrade Container/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.5
+offset_top = 27.5
+offset_right = 139.5
+offset_bottom = 83.5
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/normal_font_size = 30
+text = "Upgrade!"
+horizontal_alignment = 1
+
+[node name="Upgrade 1" type="Button" parent="UI/Upgrade Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -189.0
+offset_top = -63.0
+offset_right = -62.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_k7acu")
+text = "Upgrade 1"
+
+[node name="Upgrade 2" type="Button" parent="UI/Upgrade Container/Panel"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 66.0
+offset_top = -63.0
+offset_right = 193.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_k7acu")
+text = "Upgrade 2"
+
 [node name="Win Timer" type="Timer" parent="."]
 
 [node name="Cow Spawner" parent="." instance=ExtResource("2_k7acu")]
@@ -378,15 +449,15 @@ texture = ExtResource("2_o06y3")
 stretch_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="Player" parent="." node_paths=PackedStringArray("ultimate_progress_bar", "level_progress_bar", "level_text") instance=ExtResource("3_k7acu")]
+[node name="Player" parent="." node_paths=PackedStringArray("ultimate_progress_bar", "level_progress_bar", "level_text", "world") instance=ExtResource("3_k7acu")]
 z_index = 1
 position = Vector2(464, 299)
 scale = Vector2(0.4, 0.4)
 collision_mask = 5
-cattle_needed = 2
 ultimate_progress_bar = NodePath("../UI/Ultimate Progress")
 level_progress_bar = NodePath("../UI/Level Progress")
 level_text = NodePath("../UI/Level Progress/RichTextLabel")
+world = NodePath("..")
 metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -466,6 +537,36 @@ metadata/_edit_lock_ = true
 position = Vector2(598, 368)
 metadata/_edit_lock_ = true
 
+[node name="Gadfly Body" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(45, 365)
+
+[node name="Gadfly Body2" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(37, 391)
+
+[node name="Gadfly Body3" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(33, 428)
+
+[node name="Gadfly Body4" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(113, 385)
+
+[node name="Gadfly Body5" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(95, 405)
+
+[node name="Gadfly Body6" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(63, 449)
+
+[node name="Gadfly Body7" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(58, 408)
+
+[node name="Gadfly Body8" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(72, 368)
+
+[node name="Gadfly Body9" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(73, 329)
+
+[node name="Gadfly Body10" parent="." instance=ExtResource("8_k7acu")]
+position = Vector2(109, 350)
+
 [connection signal="pressed" from="UI/Win Container/Panel/Restart" to="." method="restart"]
 [connection signal="pressed" from="UI/Win Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
 [connection signal="pressed" from="UI/Lose Container/Panel/Restart" to="." method="restart"]
@@ -473,6 +574,8 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="UI/Pause Container/Panel/Unpause" to="." method="unpause"]
 [connection signal="pressed" from="UI/Pause Container/Panel/Restart" to="." method="restart"]
 [connection signal="pressed" from="UI/Pause Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="pressed" from="UI/Upgrade Container/Panel/Upgrade 1" to="." method="choose_upgrade_1"]
+[connection signal="pressed" from="UI/Upgrade Container/Panel/Upgrade 2" to="." method="choose_upgrade_2"]
 [connection signal="timeout" from="Win Timer" to="." method="_on_win_timer_timeout"]
 [connection signal="got_cow" from="Player" to="." method="add_cow"]
 [connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]

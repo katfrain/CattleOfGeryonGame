@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var ultimate_progress_bar: ProgressBar
 @export var level_progress_bar: ProgressBar
 @export var level_text: RichTextLabel
+@export var world: Node2D
 
 const ULTIMATE_CHARGE_NEEDED: float = 100.0
 
@@ -42,6 +43,14 @@ var cooldown_timer: Timer
 var attack_timer: Timer
 var ultimate_timer: Timer
 
+# Upgrades
+var player_speed_upgrade: Upgrade
+var attack_speed_upgrade: Upgrade
+var attack_damage_upgrade: Upgrade
+var ultimate_damage_upgrade: Upgrade
+
+var upgrades: Array[Upgrade]
+
 # Signals
 signal got_cow
 signal lost_cow
@@ -70,6 +79,16 @@ func _ready() -> void:
 	ultimate_sprite.visible = false
 	z_index = 4096
 	
+	# Create upgrades
+	player_speed_upgrade = Upgrade.new("Multiply", 1.2, speed, "Speed", 1)
+	attack_speed_upgrade = Upgrade.new("Multiply", 1.2, cooldown, "Attack Speed", 1)
+	attack_damage_upgrade = Upgrade.new("Multiply", 1.2, damage_amt, "Attack Damage", 1)
+	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1)	
+	upgrades.append(player_speed_upgrade)
+	upgrades.append(attack_speed_upgrade)
+	upgrades.append(attack_damage_upgrade)
+	upgrades.append(ultimate_damage_upgrade)
+	
 # ----------- MOVEMENT FUNCTIONS -------------------
 
 func get_input():
@@ -97,7 +116,7 @@ func _physics_process(delta):
 	move_and_slide()
 	set_new_z_index()
 	
-	debug_text.text = str(z_index)
+	debug_text.bbcode_text = str("Damage: ", damage_amt, "\nSpeed: ", speed, "\nAttack Speed: ", cooldown, "\nUltimate Damage: ", ultimate_damage)
 	
 func adjust_direction() -> void:
 	if attacking:
@@ -238,12 +257,35 @@ func level_up() -> void:
 	current_level += 1
 	xp_needed *= level_increase
 	current_xp = 0
-	# upgrade()
+	choose_upgrade()
 	
 func update_xp_bar() -> void:
 	print("attempting to update xp bar")
 	level_progress_bar.value = float(current_xp) / float(xp_needed) * 100.0
 	level_text.text = str("Level: ", current_level)
+	
+# ----------- UPGRADE LOGIC -------------------
+func choose_upgrade() -> void:
+	var i = randi_range(0, upgrades.size() - 1)
+	var j = i
+	while i == j:
+		j = randi_range(0, upgrades.size() - 1)
+	world.assign_upgrades(upgrades[i], upgrades[j])
+	world.display_upgrade_menu()
+
+func upgrade(upgrade: Upgrade) -> void:
+	var value_to_upgrade: float
+	match upgrade.upgrade_name:
+		"Speed":
+			speed = upgrade.upgrade()
+		"Attack Speed":
+			cooldown = upgrade.upgrade()
+		"Attack Damage":
+			damage_amt = upgrade.upgrade()
+		"Ultimate Damage":
+			ultimate_damage = upgrade.upgrade()
+		_:
+			printerr("Invalid upgrade!")
 
 # ----------- GETTERS -------------------
 func get_amt_of_cows_needed() -> int:

@@ -15,7 +15,7 @@ enum States {
 # Rendered Visuals
 var debug_text: RichTextLabel
 var health_bar: ProgressBar
-var sprite: Sprite2D
+var sprite: AnimatedSprite2D
 
 # Timers
 var direction_cooldown: Timer
@@ -24,6 +24,7 @@ var idle_timer: Timer
 # Areas
 var area: Area2D
 var range: Area2D
+var wall_area: Area2D
 
 # Cow changing attributes
 var state: States
@@ -50,7 +51,8 @@ var player_area: CollisionShape2D
 func _ready() -> void:
 	area = get_node("Area") as Area2D
 	range = get_node("Range") as Area2D
-	sprite = get_node("Cow Sprite") as Sprite2D
+	wall_area = get_node("Wall Area") as Area2D
+	sprite = get_node("AnimatedSprite2D") as AnimatedSprite2D
 	health_bar = get_node("Health Bar") as ProgressBar
 	debug_text = get_node("DEBUG TEXT") as RichTextLabel
 	direction_cooldown = get_node("Direction Cooldown") as Timer
@@ -73,6 +75,9 @@ func _ready() -> void:
 	idle_move = true
 	colliding = false
 	
+	sprite.play("Idle")
+	
+	
 # ----------- MOVEMENT FUNCTIONS -------------------
 
 func _physics_process(delta: float) -> void:
@@ -94,6 +99,8 @@ func _physics_process(delta: float) -> void:
 		update_sprite_direction(effective_velocity)
 		
 	set_new_z_index()
+	debug_text.text = str(area.get_overlapping_bodies())
+	
 
 # -- FLEEING functions
 
@@ -121,7 +128,6 @@ func follow_player() -> void:
 	var distance = global_position.distance_to(player_area.global_position)
 	var temp = speed + (distance / 200.0) * speed
 	var adjusted_speed = clamp(temp, speed, speed * 3)
-	debug_text.text = str(adjusted_speed)
 	
 	if distance > 75:
 		var direction = (player_area.global_position - global_position).normalized()
@@ -143,6 +149,15 @@ func get_separation():
 				var strength = (spacing - dist) / spacing
 				separation += push.normalized() * strength
 	return separation
+	
+#func get_wall_separation() -> Vector2:
+	#var push = Vector2.ZERO
+	#for body in wall_area.get_overlapping_bodies():
+		#if body is TileMapLayer:
+			#print("attempting to separate!")
+			#var dir = (global_position - body.global_position).normalized()
+			#push += dir * 0.5
+	#return push
 		
 func sidestep(player_vel: Vector2, to_cow: Vector2) -> void:
 	set_invisible_layer()
@@ -188,8 +203,14 @@ func update_sprite_direction(vel: Vector2) -> void:
 	var direction = update_direction(vel)
 	if direction != facing_dir:
 		facing_dir = direction
-		if facing_dir >= 0 and facing_dir < direction_images.size():
-			sprite.texture = direction_images[facing_dir]
+		if facing_dir >= 0:
+			match facing_dir:
+				0: sprite.play("Walk Right")
+				1: sprite.play("Walk Left")
+				2: sprite.play("Walk Up")
+				3: sprite.play("Walk Down")
+				4: sprite.play("Idle")
+ 
 
 
 func update_direction(vel: Vector2) -> int:
@@ -275,12 +296,13 @@ func set_new_z_index() -> void:
 	z_index = clamp(new_z, -4096, 4096)
 	
 func set_invisible_layer() -> void:
-	collision_mask = 0
+	collision_mask = 128
 	set_collision_layer_value(2, false)
 	set_collision_layer_value(12, true)
 
 func set_visible_layer() -> void:
 	collision_layer = cow_layer
+	collision_mask = cow_mask
 
 # ----------- DEBUG FUNCTIONS -------------------
 

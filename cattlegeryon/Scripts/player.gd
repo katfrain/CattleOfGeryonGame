@@ -20,7 +20,7 @@ var attack_range: Area2D
 var ultimate_outer: Area2D
 var ultimate_inner: Area2D
 
-var body_sprite: Sprite2D
+var body_sprite: AnimatedSprite2D
 var attack_sprite: Sprite2D
 var ultimate_sprite: Sprite2D
 var debug_text: RichTextLabel
@@ -38,6 +38,7 @@ var head_collision: bool
 var cooling_down: bool = false
 var attacking: bool = false
 var ultimate_ready: bool = false
+var moving = false
 
 var cooldown_timer: Timer
 var attack_timer: Timer
@@ -61,7 +62,7 @@ func _ready() -> void:
 	ultimate_outer = get_node("Ultimate Sprite/Ultimate range") as Area2D
 	ultimate_inner = get_node("Ultimate Sprite/Ultimate inner circle") as Area2D
 	attack_sprite = get_node("Attack Sprite") as Sprite2D
-	body_sprite = get_node("Sprite2D") as Sprite2D
+	body_sprite = get_node("AnimatedSprite2D") as AnimatedSprite2D
 	ultimate_sprite = get_node("Ultimate Sprite") as Sprite2D
 	cooldown_timer = get_node("Cooldown Timer") as Timer
 	attack_timer = get_node("Attack Timer") as Timer
@@ -81,13 +82,15 @@ func _ready() -> void:
 	
 	# Create upgrades
 	player_speed_upgrade = Upgrade.new("Multiply", 1.2, speed, "Speed", 1)
-	attack_speed_upgrade = Upgrade.new("Multiply", 1.2, cooldown, "Attack Speed", 1)
+	attack_speed_upgrade = Upgrade.new("Multiply", 0.9, cooldown, "Attack Speed", 1)
 	attack_damage_upgrade = Upgrade.new("Multiply", 1.2, damage_amt, "Attack Damage", 1)
 	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1)	
 	upgrades.append(player_speed_upgrade)
 	upgrades.append(attack_speed_upgrade)
 	upgrades.append(attack_damage_upgrade)
 	upgrades.append(ultimate_damage_upgrade)
+	
+	body_sprite.play("Idle")
 	
 # ----------- MOVEMENT FUNCTIONS -------------------
 
@@ -111,7 +114,15 @@ func _physics_process(delta):
 		attack_sprite.visible = true
 	else:
 		attack_sprite.visible = false
+		
+	if moving and velocity == Vector2.ZERO:
+		body_sprite.play("Idle")
+		moving = false
 	
+	if not moving and velocity != Vector2.ZERO:
+		body_sprite.play("Walk")
+		moving = true
+		
 	get_input()
 	move_and_slide()
 	set_new_z_index()
@@ -122,16 +133,16 @@ func adjust_direction() -> void:
 	if attacking:
 		match current_direction:
 			0: 
-				body_sprite.flip_h = false
-			1: 
 				body_sprite.flip_h = true
+			1: 
+				body_sprite.flip_h = false
 	else:
 		match current_direction:
 			0: 
-				body_sprite.flip_h = false
+				body_sprite.flip_h = true
 				attack_sprite.rotation_degrees = 180
 			1: 
-				body_sprite.flip_h = true
+				body_sprite.flip_h = false
 				attack_sprite.rotation_degrees = 0
 			2: attack_sprite.rotation_degrees = 90
 			3: attack_sprite.rotation_degrees = 270

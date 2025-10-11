@@ -1,13 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dht0rklbvxpet"]
+[gd_scene load_steps=20 format=3 uid="uid://dht0rklbvxpet"]
 
 [ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scripts/player.gd" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://be5fytmr0al0" path="res://Assets/herc-placeholder.png" id="1_v0iea"]
 [ext_resource type="Texture2D" uid="uid://br1x0wgya71r2" path="res://Assets/player-attack-png.png" id="2_6t5aa"]
 [ext_resource type="Texture2D" uid="uid://cpoonqwn5ftis" path="res://Assets/player-ultimate.png" id="4_vgqql"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
-radius = 65.0
-height = 170.0
+[ext_resource type="Texture2D" uid="uid://dlv18kvvhbe46" path="res://Assets/Hercules_Idle.png" id="5_fkybt"]
+[ext_resource type="Texture2D" uid="uid://bi2ui80ylwda0" path="res://Assets/Hercules_Walk.png" id="5_x3wgy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fkybt"]
 radius = 90.3475
@@ -18,22 +15,92 @@ radius = 51.4544
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
 size = Vector2(1070, 285)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
+atlas = ExtResource("5_fkybt")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3wgy"]
+atlas = ExtResource("5_fkybt")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3smsa"]
+atlas = ExtResource("5_fkybt")
+region = Rect2(0, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8erm5"]
+atlas = ExtResource("5_fkybt")
+region = Rect2(32, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1ek2"]
+atlas = ExtResource("5_x3wgy")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx1dd"]
+atlas = ExtResource("5_x3wgy")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
+atlas = ExtResource("5_x3wgy")
+region = Rect2(0, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu2lt"]
+atlas = ExtResource("5_x3wgy")
+region = Rect2(32, 64, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tx1dd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkybt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3wgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3smsa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8erm5")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ek2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tx1dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gymyn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pu2lt")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
+radius = 7.99998
+height = 22.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
-radius = 31.6228
+radius = 8.48528
 
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(0.2, 0.2)
+collision_mask = 129
 script = ExtResource("1_cvnsp")
+speed = 150
 cooldown = 1.5
 damage_amt = 50.0
 
-[node name="Feet" type="CollisionShape2D" parent="."]
-position = Vector2(-5, 130)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_v0iea")
-
 [node name="Ultimate Sprite" type="Sprite2D" parent="."]
-scale = Vector2(6.9, 6.9)
+position = Vector2(-5.00001, -7.00001)
+scale = Vector2(1.165, 1.165)
 texture = ExtResource("4_vgqql")
 
 [node name="Ultimate range" type="Area2D" parent="Ultimate Sprite"]
@@ -50,8 +117,9 @@ shape = SubResource("CircleShape2D_x3wgy")
 debug_color = Color(0, 0.185775, 0.222535, 0.42)
 
 [node name="Attack Sprite" type="Sprite2D" parent="."]
+position = Vector2(1, -8.99997)
 rotation = 3.14159
-scale = Vector2(2.12651, 2.27433)
+scale = Vector2(0.360777, 0.385856)
 texture = ExtResource("2_6t5aa")
 offset = Vector2(-250, 0)
 
@@ -65,15 +133,23 @@ position = Vector2(515, -17.5)
 shape = SubResource("RectangleShape2D_vgqql")
 debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_v0iea")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-5, -15)
+sprite_frames = SubResource("SpriteFrames_tx1dd")
+animation = &"Idle"
+
+[node name="Feet" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 9)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_v0iea")
 
 [node name="Head Area" type="Area2D" parent="."]
+position = Vector2(15, 48)
 collision_layer = 256
 collision_mask = 4
 
 [node name="Head" type="CollisionShape2D" parent="Head Area"]
-position = Vector2(-15, -170)
+position = Vector2(-20, -75)
 shape = SubResource("CircleShape2D_cvnsp")
 
 [node name="Cooldown Timer" type="Timer" parent="."]
@@ -83,6 +159,7 @@ shape = SubResource("CircleShape2D_cvnsp")
 [node name="Ultimate Timer" type="Timer" parent="."]
 
 [node name="DEBUG TEXT" type="RichTextLabel" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

@@ -15,6 +15,14 @@ run/main_scene="uid://bg2l2llw2pc5v"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+
 [input]
 
 up={
@@ -57,4 +65,9 @@ Pause={
 2d_physics/layer_5="World Boundary"
 2d_physics/layer_6="Cow Enemies"
 2d_physics/layer_7="Drops"
+2d_physics/layer_8="Obstacles"
 2d_physics/layer_9="Player Head"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

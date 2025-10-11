@@ -35,7 +35,7 @@ lock_rotation = true
 linear_damp = 4.0
 script = ExtResource("1_qyxyn")
 max_health = 100.0
-speed = 100
+speed = 50
 cooldown_time = 1.5
 damage_amt = 20.0
 range_of_sight_radius = 1750.0
@@ -68,6 +68,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_xkgi8")
 show_percentage = false
 
 [node name="DEBUG TEXT" type="RichTextLabel" parent="."]
+visible = false
 offset_left = -28.0
 offset_top = -54.0
 offset_right = 38.0

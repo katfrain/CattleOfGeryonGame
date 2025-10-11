@@ -18,6 +18,7 @@ var world_bounds: TextureRect
 var current_in_scene: int
 var screen_area: Area2D
 var screen_rect: Rect2
+var tilemap: TileMapLayer
 
 # SCENES
 var cow_scene: PackedScene = preload("res://Scenes/cow.tscn")
@@ -41,10 +42,14 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
 	spawn_timer.start()
 	
+	tilemap = get_parent().get_node("TileMap") as TileMapLayer
+
+	
 func on_spawn_timer_timeout():
 	if current_in_scene >= max_instances_in_scene:
 		return
 	
+	#print("Attempting to spawn ", name)
 	var pos = get_spawn_position()
 	
 	for i in range(wave_size):
@@ -53,18 +58,34 @@ func on_spawn_timer_timeout():
 		instance.global_position = pos + Vector2(randf_range(3,20), randf_range(3,20))
 		instance.z_index = 1
 		add_child(instance)
+		#print(current_in_scene, " ", name, "(s) spawned")
 		current_in_scene += 1
 
 func get_spawn_position() -> Vector2:
-	for i in range(100):  # safety loop
+	if not tilemap:
+		push_warning("Spawner has no TileMap reference — using fallback random spawn.")
+		return Vector2(0, 0)
+	
+	for i in range(200): # safety cap
 		screen_rect = get_area_rect(screen_area)
 		var pos = Vector2(
 			randf_range(world_bounds.position.x, world_bounds.position.x + world_bounds.size.x),
 			randf_range(world_bounds.position.y, world_bounds.position.y + world_bounds.size.y)
 		)
-		if not screen_rect.has_point(pos):
+
+		if screen_rect.has_point(pos):
+			continue # don't spawn on screen
+		
+		# Convert world position to tile coordinates
+		var cell = tilemap.local_to_map(tilemap.to_local(pos))
+		var tile_data = tilemap.get_cell_tile_data(cell)
+		
+		if tile_data and tile_data.get_custom_data("Spawnable"):
 			return pos
-	return Vector2(0,0)
+	
+	push_warning("No valid spawn position found after 200 attempts.")
+	return Vector2.ZERO
+
 	
 func remove_from_scene() -> void:
 	current_in_scene = max(current_in_scene - 1, 0)

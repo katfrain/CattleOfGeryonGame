@@ -81,7 +81,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Walk",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
@@ -136,7 +136,9 @@ debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-5, -15)
 sprite_frames = SubResource("SpriteFrames_tx1dd")
-animation = &"Idle"
+animation = &"Walk"
+frame = 3
+frame_progress = 0.796807
 
 [node name="Feet" type="CollisionShape2D" parent="."]
 position = Vector2(-3, 9)
@@ -171,6 +173,11 @@ grow_horizontal = 2
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
 text = "debug"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 15.0
+debug_enabled = true
 
 [connection signal="area_entered" from="Head Area" to="." method="_on_head_area_area_entered"]
 [connection signal="area_exited" from="Head Area" to="." method="_on_head_area_area_exited"]

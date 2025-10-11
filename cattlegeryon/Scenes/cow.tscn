@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://8w1600qds5su"]
+[gd_scene load_steps=42 format=3 uid="uid://8w1600qds5su"]
 
 [ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scripts/cow.gd" id="1_asfwn"]
 [ext_resource type="Texture2D" uid="uid://dfk2hdbem4gbx" path="res://Assets/cow-right-placeholder.png" id="2_oad1y"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://canyjnju1nrow" path="res://Assets/Cow_Walk.png" id="9_vflyu"]
 [ext_resource type="Texture2D" uid="uid://c5ishx3bih0jp" path="res://Assets/Cow_Walk_Right.png" id="10_dpfby"]
 [ext_resource type="Texture2D" uid="uid://o018xnq04ife" path="res://Assets/Cow_Walk_Up.png" id="10_kv73t"]
+[ext_resource type="Texture2D" uid="uid://bo65edwe8ddln" path="res://Assets/exclamation.png" id="12_vflyu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dpfby"]
 radius = 90.0
@@ -20,7 +21,7 @@ height = 280.0
 radius = 264.68
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tc63g"]
-radius = 60.6061
+radius = 69.7628
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dpfby"]
 radius = 142.714
@@ -170,7 +171,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Walk Down",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -187,7 +188,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Walk Left",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -204,7 +205,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Walk Right",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -221,18 +222,16 @@ animations = [{
 }],
 "loop": true,
 "name": &"Walk Up",
-"speed": 5.0
+"speed": 8.0
 }]
 
-[node name="Cow Body" type="RigidBody2D"]
+[node name="Cow Body" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 143
-mass = 0.01
-gravity_scale = 0.0
-lock_rotation = true
-linear_damp = 10.0
+collision_mask = 141
 script = ExtResource("1_asfwn")
-speed = 100
+speed = 50
+idle_speed = 20
+idle_move_max_distance = 140.0
 direction_images = Array[Texture]([ExtResource("2_oad1y"), ExtResource("3_vkidu"), ExtResource("4_wjkae"), ExtResource("5_kflls"), ExtResource("6_oad1y")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -255,7 +254,6 @@ metadata/_edit_lock_ = true
 scale = Vector2(0.3, 0.3)
 collision_layer = 2
 collision_mask = 135
-metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
 position = Vector2(0, 6.66666)
@@ -277,14 +275,15 @@ debug_color = Color(0.360078, 0.541957, 0.793548, 0.42)
 
 [node name="Health Bar" type="ProgressBar" parent="."]
 offset_left = -12.0
-offset_top = -28.0
+offset_top = -18.0
 offset_right = 12.0
-offset_bottom = -24.0
+offset_bottom = -14.0
 theme_override_styles/background = SubResource("StyleBoxFlat_oad1y")
 theme_override_styles/fill = SubResource("StyleBoxFlat_vkidu")
 show_percentage = false
 
 [node name="DEBUG TEXT" type="RichTextLabel" parent="."]
+visible = false
 offset_left = -28.0
 offset_top = -72.0
 offset_right = 38.0
@@ -298,14 +297,27 @@ wait_time = 0.7
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_rtftd")
-animation = &"Idle"
+animation = &"Walk Up"
+frame_progress = 0.752367
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 5.0
+target_desired_distance = 60.0
+avoidance_enabled = true
+radius = 16.0
+max_speed = 300.0
+avoidance_priority = 0.75
+
+[node name="Exclamation" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -31)
+scale = Vector2(0.0492188, 0.0492188)
+texture = ExtResource("12_vflyu")
 
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]
-[connection signal="area_entered" from="Area" to="." method="_death_area_entered"]
 [connection signal="area_entered" from="Area" to="." method="_on_collision_area_entered"]
 [connection signal="area_exited" from="Area" to="." method="_on_collision_area_exited"]
-[connection signal="area_entered" from="Wall Area" to="." method="_death_area_entered"]
 [connection signal="area_entered" from="Wall Area" to="." method="_on_collision_area_entered"]
 [connection signal="area_exited" from="Wall Area" to="." method="_on_collision_area_exited"]
 [connection signal="timeout" from="Direction Cooldown" to="." method="_on_direction_cooldown_timeout"]

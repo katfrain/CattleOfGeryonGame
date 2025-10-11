@@ -31,7 +31,7 @@ var poison_dmg_timer: Timer
 # Gadfly changing attributes
 var current_health: float
 var facing_dir: int = 0
-var target: RigidBody2D = null
+var target: CharacterBody2D = null
 var idle_move_target: Vector2
 var idle_initial_pos: Vector2
 

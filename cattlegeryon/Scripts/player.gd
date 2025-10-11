@@ -118,7 +118,7 @@ func _physics_process(delta):
 	if moving and velocity == Vector2.ZERO:
 		body_sprite.play("Idle")
 		moving = false
-	
+
 	if not moving and velocity != Vector2.ZERO:
 		body_sprite.play("Walk")
 		moving = true

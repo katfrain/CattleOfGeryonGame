@@ -67,6 +67,7 @@ Pause={
 2d_physics/layer_7="Drops"
 2d_physics/layer_8="Obstacles"
 2d_physics/layer_9="Player Head"
+2d_physics/layer_10="Cow Obstacles"
 
 [rendering]
 

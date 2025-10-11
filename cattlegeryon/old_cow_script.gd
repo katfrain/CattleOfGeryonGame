@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends RigidBody2D
 
 enum States {
 	IDLE,
@@ -11,8 +11,6 @@ enum States {
 @export var idle_speed = 40
 @export var idle_move_max_distance = 80.0
 @export var direction_images: Array[Texture]
-
-@onready var exclamation = $Exclamation
 
 # Rendered Visuals
 var debug_text: RichTextLabel
@@ -27,10 +25,6 @@ var idle_timer: Timer
 var area: Area2D
 var range: Area2D
 var wall_area: Area2D
-var screen_area: Area2D
-var screen_rect: Rect2
-
-var nav_agent: NavigationAgent2D
 
 # Cow changing attributes
 var state: States
@@ -53,7 +47,6 @@ var colliding: bool = false
 # External values
 var player: CharacterBody2D  
 var player_area: CollisionShape2D  
-var offset
 
 func _ready() -> void:
 	area = get_node("Area") as Area2D
@@ -64,8 +57,7 @@ func _ready() -> void:
 	debug_text = get_node("DEBUG TEXT") as RichTextLabel
 	direction_cooldown = get_node("Direction Cooldown") as Timer
 	idle_timer = get_node("Idle Timer") as Timer
-	nav_agent = get_node("NavigationAgent2D") as NavigationAgent2D
-		
+	
 	add_to_group("cows")
 	
 	# General set-up
@@ -85,97 +77,115 @@ func _ready() -> void:
 	
 	sprite.play("Idle")
 	
-	nav_agent.velocity_computed.connect(on_nav_agent_velocity_computed)
-	nav_agent.navigation_finished.connect(on_nav_finished)
-	offset = Vector2(randf_range(-8,8), randf_range(-8,8))
-	
-	exclamation.visible = false
-	
 	
 # ----------- MOVEMENT FUNCTIONS -------------------
 
 func _physics_process(delta: float) -> void:
+	
+	effective_velocity = (global_position - prev_position) / delta
+	prev_position = global_position
+	#set_debug_text_to_state()
 
 	match state:
 		States.FLEEING:
 			fleeing_behaviour()
+		
 		States.FOLLOWING:
 			following_behaviour()
+				
 		States.IDLE:
 			idle_behaviour()
+	if can_turn:
+		update_sprite_direction(effective_velocity)
 		
-	effective_velocity = (global_position - prev_position) / delta
-	prev_position = global_position
-		
-	if nav_agent.is_navigation_finished():
-		nav_agent.velocity = Vector2.ZERO
-	move_and_slide()
 	set_new_z_index()
-	update_sprite_direction(effective_velocity)
+	debug_text.text = str(area.get_overlapping_bodies())
 	
-	debug_text.text = str(nav_agent.velocity.length())
-	
-
-# -- Nav Agent Functions:
-func on_nav_finished() -> void:
-	pass
-
-func on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
-	velocity = velocity.move_toward(safe_velocity, speed)
-	move_and_slide()
-	
-func make_path(target: Vector2) -> void:
-	if nav_agent.is_navigation_finished() or nav_agent.target_position != target:
-		nav_agent.target_position = target
 
 # -- FLEEING functions
 
 func fleeing_behaviour():
 	match facing_dir:
-		0:  make_path(global_position + Vector2(2000, 0))
-		1:  make_path(global_position - Vector2(2000, 0))
-		2:  make_path(global_position - Vector2(0, 2000))
-		3:  make_path(global_position + Vector2(0, 2000))
-		4:  make_path(global_position + Vector2(2000, 0))
-		
-	var next_path_pos = nav_agent.get_next_path_position()
-	var direction = global_position.direction_to(next_path_pos)
-	nav_agent.velocity = direction * speed
-	
-	screen_rect = get_area_rect(screen_area)
-	if not screen_rect.has_point(global_position):
-		queue_free()
+		0:  linear_velocity = Vector2.RIGHT * speed
+		1:  linear_velocity = Vector2.LEFT * speed
+		2:  linear_velocity = Vector2.UP * speed
+		3:  linear_velocity = Vector2.DOWN * speed
+		4:  linear_velocity = Vector2.RIGHT * speed
 
 # -- FOLLOWING functions
 
 func following_behaviour() -> void:
-	follow_player()
+	var to_cow = global_position - player_area.global_position
+	var player_vel = player.velocity
+	var push_strength = to_cow.normalized().dot(player_vel.normalized())
+	if push_strength > 0.5: # player moving towards cow
+		sidestep(player_vel, to_cow)
+	else:
+		set_visible_layer()
+		follow_player()
 	
 func follow_player() -> void:
-	make_path(player.global_position + offset)
-	var next_path_pos = nav_agent.get_next_path_position()
-	var direction = global_position.direction_to(next_path_pos)
-	nav_agent.velocity = direction * speed
+	var distance = global_position.distance_to(player_area.global_position)
+	var temp = speed + (distance / 200.0) * speed
+	var adjusted_speed = clamp(temp, speed, speed * 3)
 	
-	var target_vel = (next_path_pos - global_position).normalized() * speed
-	nav_agent.velocity = nav_agent.velocity.move_toward(target_vel, speed)
+	if distance > 75:
+		var direction = (player_area.global_position - global_position).normalized()
+		var to_player = direction * adjusted_speed
+		var separation = get_separation() * adjusted_speed
 
+		linear_velocity = (to_player + separation).limit_length(adjusted_speed)
+	else:
+		linear_velocity = Vector2.ZERO
 		
-
+func get_separation():
+	var spacing = 64
+	var separation = Vector2.ZERO
+	for body in range.get_overlapping_bodies():
+		if body.is_in_group("cows"): 
+			var push = global_position - body.global_position
+			var dist = push.length()
+			if dist > 0 and dist < spacing:
+				var strength = (spacing - dist) / spacing
+				separation += push.normalized() * strength
+	return separation
+	
+#func get_wall_separation() -> Vector2:
+	#var push = Vector2.ZERO
+	#for body in wall_area.get_overlapping_bodies():
+		#if body is TileMapLayer:
+			#print("attempting to separate!")
+			#var dir = (global_position - body.global_position).normalized()
+			#push += dir * 0.5
+	#return push
+		
+func sidestep(player_vel: Vector2, to_cow: Vector2) -> void:
+	set_invisible_layer()
+	var perp: Vector2
+	if to_cow.cross(player_vel) > 0:
+		perp = Vector2(player_vel.y, -player_vel.x) # left
+	else:
+		perp = Vector2(-player_vel.y, player_vel.x) # right
+	
+	linear_velocity = perp.normalized() * speed
 	
 # -- IDLE functions
 	
 func idle_behaviour() -> void:
 	if idle_move and idle_move_target:
-		make_path(idle_move_target)
-		var next_path_pos = nav_agent.get_next_path_position()
-		var direction = global_position.direction_to(next_path_pos)
-		nav_agent.velocity = direction * idle_speed
-		if global_position.distance_to(idle_move_target) <= 60.0:
+		# Move toward the target
+		var direction = (idle_move_target - global_position).normalized()
+		linear_velocity = direction * idle_speed
+		
+		# Check if reached target or collided
+		if global_position.distance_to(idle_move_target) < 5.0 or colliding:
+			# Stop moving
 			idle_move = false
-			nav_agent.velocity = Vector2.ZERO
-			idle_timer.start(randf_range(2.0, 5.0))
+			linear_velocity = Vector2.ZERO
 			
+			# Start idle timer with random duration between 2 and 5 seconds
+			var wait_time = randf_range(2.0, 5.0)
+			idle_timer.start(wait_time)
 	
 func idle_timer_timeout() -> void:
 	create_new_idle_move_target()
@@ -183,7 +193,7 @@ func idle_timer_timeout() -> void:
 
 func create_new_idle_move_target() -> void:
 	var angle = randf() * TAU
-	var distance = max(sqrt(randf()) * idle_move_max_distance, 60)
+	var distance = sqrt(randf()) * idle_move_max_distance
 	
 	var offset = Vector2(cos(angle), sin(angle)) * distance
 	idle_move_target = spawn_point + offset	
@@ -245,35 +255,16 @@ func _on_collision_area_entered(area: Area2D) -> void:
 func _on_collision_area_exited(area: Area2D) -> void:
 	colliding = false
 	
-func get_area_rect(area: Area2D) -> Rect2:
-	var col = area.get_node("CollisionShape2D") as CollisionShape2D
-	if col and col.shape is RectangleShape2D:
-		var rect_shape = col.shape as RectangleShape2D
-		var extents = rect_shape.extents * col.global_scale  # account for scale
-		var top_left = col.global_position - extents
-		var size = extents * 2
-		return Rect2(top_left, size)
-	return Rect2()
-	
 # ----------- HEALTH FUNCTIONS -------------------
 	
 func take_damage(damage_amt: float) -> void:
 	current_health -= damage_amt
 	update_health_bar()
-	damage_color()
 	if current_health <= 0:
 		start_fleeing()
 	
 func update_health_bar() -> void:
 	health_bar.value = (current_health / max_health) * 100
-	
-func damage_color() -> void:
-	var flash_color := Color(1, 0.3, 0.3) # light red
-	var normal_color := Color(1, 1, 1)    # default (white)
-	
-	sprite.modulate = flash_color
-	var tween = create_tween()
-	tween.tween_property(sprite, "modulate", normal_color, 0.3)
 	
 # ----------- STATE FUNCTIONS -------------------
 	
@@ -281,7 +272,6 @@ func start_fleeing() -> void:
 	print("Cow is running away!")
 	remove_from_group("cows")
 	state = States.FLEEING
-	screen_area = player.get_node("Viewport Bounds") as Area2D
 	set_invisible_layer()
 	speed = speed * 1.5
 	player.lose_cattle()
@@ -291,9 +281,6 @@ func start_fleeing() -> void:
 	
 func start_following() -> void:
 	state = States.FOLLOWING
-	exclamation.visible = true
-	await get_tree().create_timer(0.5).timeout
-	exclamation.visible = false
 	
 func start_idle() -> void:
 	state = States.IDLE

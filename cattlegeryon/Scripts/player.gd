@@ -55,6 +55,7 @@ var attack_damage_upgrade: Upgrade
 var ultimate_damage_upgrade: Upgrade
 
 var upgrades: Array[Upgrade]
+var cows: Array[CharacterBody2D]
 
 # Signals
 signal got_cow
@@ -82,10 +83,10 @@ func _ready() -> void:
 	z_index = 4096
 	
 	# Create upgrades
-	player_speed_upgrade = Upgrade.new("Multiply", 1.2, speed, "Speed", 1)
-	attack_speed_upgrade = Upgrade.new("Multiply", 0.9, cooldown, "Attack Speed", 1)
-	attack_damage_upgrade = Upgrade.new("Multiply", 1.2, damage_amt, "Attack Damage", 1)
-	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1)	
+	player_speed_upgrade = Upgrade.new("Multiply", 1.1, speed, "Speed", 1, "[color=#7BEA7B]+10%[/color] Speed for Hercules and any following cattle")
+	attack_speed_upgrade = Upgrade.new("Multiply", 0.9, cooldown, "Attack Speed", 1, "[color=#F07575]-10%[/color] Time between Auto Attacks")
+	attack_damage_upgrade = Upgrade.new("Multiply", 1.2, damage_amt, "Attack Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Auto Attacks")
+	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Ultimate")	
 	upgrades.append(player_speed_upgrade)
 	upgrades.append(attack_speed_upgrade)
 	upgrades.append(attack_damage_upgrade)
@@ -127,7 +128,7 @@ func _physics_process(delta):
 	if attack_instance:
 		attack_instance.global_position = global_position
 	
-	debug_text.bbcode_text = str(attack_instance)
+	debug_text.text = str(speed)
 	
 func adjust_direction() -> void:
 	match current_direction:
@@ -160,15 +161,18 @@ func get_direction() -> void:
 	
 # ----------- CATTLE FUNCTIONS -------------------
 	
-func _add_cattle() -> void:
+func _add_cattle(cow: CharacterBody2D) -> int:
 	amt_of_cattle += 1
 	got_cow.emit()
+	cows.append(cow)
 	if amt_of_cattle >= cattle_needed:
 		_cattle_amt_reached()
+	return cows.size() - 1
 		
-func lose_cattle() -> void:
+func lose_cattle(cow_index: int) -> void:
 	amt_of_cattle -= 1
 	lost_cow.emit()
+	cows[cow_index] = null
 		
 func _cattle_amt_reached() -> void:
 	pass
@@ -270,6 +274,7 @@ func upgrade(upgrade: Upgrade) -> void:
 	match upgrade.upgrade_name:
 		"Speed":
 			speed = upgrade.upgrade()
+			cow_manager.upgrade_cow_speed(upgrade.upgrade_amt)
 		"Attack Speed":
 			cooldown = upgrade.upgrade()
 		"Attack Damage":
@@ -349,3 +354,16 @@ func hide_attack_animation() -> void:
 	
 func hide_ultimate_animation() -> void:
 	ultimate_instance.queue_free()
+	
+func reroll_lose_cow() -> void:
+	var chosen_cow = reroll_choose_cow()
+	chosen_cow.take_damage(chosen_cow.max_health)
+	
+func reroll_choose_cow() -> CharacterBody2D:
+	for cow in cows:
+		if cow != null and cow.is_in_group("cows"):
+			return cow
+			
+	printerr("Seomthing went wrong, cannot find cow")
+	return null
+	

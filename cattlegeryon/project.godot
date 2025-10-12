@@ -15,6 +15,10 @@ run/main_scene="uid://bg2l2llw2pc5v"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+cow_manager="*res://Scripts/cow_manager.gd"
+
 [display]
 
 window/size/viewport_width=640

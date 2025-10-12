@@ -18,8 +18,22 @@ var upgrade_button_1: Button
 var upgrade_button_2: Button
 var u1_text: RichTextLabel
 var u2_text: RichTextLabel
+var u1_desc: RichTextLabel
+var u2_desc: RichTextLabel
+var stats: RichTextLabel
+var loss_stats: RichTextLabel
+var win_stats: RichTextLabel
+var reroll_button: TextureButton
+
+# STATS
+var player_base_speed
+var player_base_damage
+var player_base_ultimate_damage
+var player_base_attack_cooldown
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	player = get_node("Player") as CharacterBody2D
 	win_timer = get_node("Win Timer") as Timer
 	win_timer_text = get_node("UI/Win Timer Texture/Win Timer Text") as RichTextLabel
@@ -32,6 +46,12 @@ func _ready() -> void:
 	upgrade_button_2 = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2") as Button
 	u1_text = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1/U1 Text") as RichTextLabel
 	u2_text = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2/U2 Text") as RichTextLabel
+	u1_desc = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1/U1 Text2") as RichTextLabel
+	u2_desc = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2/U2 Text2") as RichTextLabel
+	stats = get_node("UI/Upgrade Container/Upgrade Menu Texture/Stats Title/Stats") as RichTextLabel
+	loss_stats = get_node("UI/Lose Container/Win Container Texture/Stats Title/Stats") as RichTextLabel
+	win_stats = get_node("UI/Win Container/Win Container Texture/Stats Title/Stats") as RichTextLabel
+	reroll_button = get_node("UI/Upgrade Container/Upgrade Menu Texture/ReRoll Button") as TextureButton
 		
 	win_timer_texture.visible = false
 	win_container.visible = false
@@ -43,6 +63,10 @@ func _ready() -> void:
 		printerr("Player not found!")
 	else:
 		amt_of_cows_needed = player.get_amt_of_cows_needed()
+		player_base_attack_cooldown = player.cooldown
+		player_base_damage = player.damage_amt
+		player_base_speed = player.speed
+		player_base_ultimate_damage = player.ultimate_damage
 		
 	unpause()
 
@@ -54,6 +78,10 @@ func _process(delta: float) -> void:
 		open_pause_menu()
 	elif Input.is_action_just_pressed("Pause") and get_tree().paused == true:
 		close_pause_menu()
+	if current_amt_of_cows <= 1:
+		reroll_button.disabled = true
+	else:
+		reroll_button.disabled = false
 
 func add_cow() -> void:
 	if not win_timer.is_stopped():
@@ -81,10 +109,12 @@ func _on_win_timer_timeout() -> void:
 		
 func win() -> void:
 	pause()
+	update_stats()
 	win_container.visible = true
 	
 func lose() -> void:
 	pause()
+	update_stats()
 	lose_container.visible = true
 	
 func pause() -> void:
@@ -109,8 +139,12 @@ func assign_upgrades(upgrade_1: Upgrade, upgrade_2: Upgrade):
 	upgrade_slot_2 = upgrade_2
 	u1_text.text = upgrade_1.upgrade_name
 	u2_text.text = upgrade_2.upgrade_name
+	u1_desc.bbcode_text = upgrade_1.upgrade_desc
+	u2_desc.bbcode_text = upgrade_2.upgrade_desc
+	
 	
 func display_upgrade_menu() -> void:
+	update_stats()
 	upgrade_container.visible = true
 	pause()
 	
@@ -134,3 +168,15 @@ func close_pause_menu() -> void:
 	
 func exit_game() -> void: 
 	get_tree().quit(0)
+	
+func update_stats() -> void:
+	var stats_string = str("Speed: ", player_base_speed, " [color=#7BEA7B](+", player.speed - player_base_speed, ")[/color]\nDamage: ", player_base_damage, " [color=#7BEA7B](+", player.damage_amt - player_base_damage, ")[/color]\nUltimate Damage: ", player_base_ultimate_damage, " [color=#7BEA7B](+", player.ultimate_damage - player_base_ultimate_damage, ")[/color]\nAttack Cooldown: ", player_base_attack_cooldown, " [color=#F07575](-", player.cooldown - player_base_attack_cooldown, ")[/color]")
+	stats.bbcode_text = stats_string
+	loss_stats.bbcode_text = stats_string
+	win_stats.bbcode_text = stats_string
+	
+func reroll_button_pressed() -> void:
+	print("reroll pressed")
+	if current_amt_of_cows > 1:
+		player.reroll_lose_cow()
+		player.choose_upgrade()

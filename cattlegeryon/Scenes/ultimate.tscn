@@ -74,14 +74,17 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fkybt"]
-radius = 67.8112
+radius = 77.088
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3wgy"]
-radius = 36.1434
+radius = 33.0239
 
 [node name="Ultimate Sprite" type="AnimatedSprite2D"]
+z_index = 4094
+z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_wpjfl")
-frame_progress = 0.0264724
+frame = 8
+frame_progress = 1.0
 speed_scale = 2.0
 
 [node name="Ultimate range" type="Area2D" parent="."]

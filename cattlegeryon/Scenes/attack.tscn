@@ -87,6 +87,7 @@ animations = [{
 size = Vector2(426.364, 168.301)
 
 [node name="Attack Sprite" type="AnimatedSprite2D"]
+z_index = 4095
 rotation = 4.71239
 sprite_frames = SubResource("SpriteFrames_36dho")
 offset = Vector2(-100, 0)

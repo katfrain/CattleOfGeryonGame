@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://8w1600qds5su"]
+[gd_scene load_steps=52 format=3 uid="uid://8w1600qds5su"]
 
 [ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scripts/cow.gd" id="1_asfwn"]
 [ext_resource type="Texture2D" uid="uid://dfk2hdbem4gbx" path="res://Assets/cow-right-placeholder.png" id="2_oad1y"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://o018xnq04ife" path="res://Assets/Cow_Walk_Up.png" id="10_kv73t"]
 [ext_resource type="Texture2D" uid="uid://dpy3tli22be54" path="res://Assets/exclamation-Sheet.png" id="12_vflyu"]
 [ext_resource type="Texture2D" uid="uid://d3fojaa7v0qg5" path="res://Assets/cow_shadow.png" id="16_wdk5j"]
+[ext_resource type="Script" uid="uid://cy0o05puaj5p5" path="res://Scripts/cow_manager.gd" id="17_iga3h"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dpfby"]
 radius = 90.0
@@ -276,7 +277,6 @@ animations = [{
 collision_layer = 2
 collision_mask = 141
 script = ExtResource("1_asfwn")
-speed = 50
 idle_speed = 20
 idle_move_max_distance = 140.0
 direction_images = Array[Texture]([ExtResource("2_oad1y"), ExtResource("3_vkidu"), ExtResource("4_wjkae"), ExtResource("5_kflls"), ExtResource("6_oad1y")])
@@ -367,6 +367,9 @@ z_index = -4095
 z_as_relative = false
 position = Vector2(0, 14)
 texture = ExtResource("16_wdk5j")
+
+[node name="Cow Manager" type="Node" parent="."]
+script = ExtResource("17_iga3h")
 
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

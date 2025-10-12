@@ -7,7 +7,7 @@ enum States {
 }
 
 @export var max_health = 200.0
-@export var speed = 200
+
 @export var idle_speed = 40
 @export var idle_move_max_distance = 80.0
 @export var direction_images: Array[Texture]
@@ -18,6 +18,7 @@ enum States {
 var debug_text: RichTextLabel
 var health_bar: TextureProgressBar
 var sprite: AnimatedSprite2D
+
 
 # Timers
 var direction_cooldown: Timer
@@ -39,6 +40,7 @@ var facing_dir: int = 0
 var idle_move_target: Vector2
 var prev_position: Vector2
 var effective_velocity: Vector2
+var speed: float
 
 # Cow attributes set at spawn
 var cow_layer
@@ -53,6 +55,7 @@ var colliding: bool = false
 # External values
 var player: CharacterBody2D  
 var player_area: CollisionShape2D  
+var player_array_index
 var offset
 
 func _ready() -> void:
@@ -95,6 +98,7 @@ func _ready() -> void:
 # ----------- MOVEMENT FUNCTIONS -------------------
 
 func _physics_process(delta: float) -> void:
+	speed = cow_manager.cow_speed
 
 	match state:
 		States.FLEEING:
@@ -113,7 +117,7 @@ func _physics_process(delta: float) -> void:
 	set_new_z_index()
 	update_sprite_direction(effective_velocity)
 	
-	debug_text.text = str(nav_agent.velocity.length())
+	debug_text.text = str(speed)
 	
 
 # -- Nav Agent Functions:
@@ -234,7 +238,7 @@ func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") && state == States.IDLE:
 		player = body
 		player_area = body.feet_area
-		player._add_cattle()
+		player_array_index = player._add_cattle(self)
 		start_following()
 func _on_range_body_exited(body: Node2D) -> void:
 	pass	
@@ -283,7 +287,7 @@ func start_fleeing() -> void:
 	screen_area = player.get_node("Viewport Bounds") as Area2D
 	set_invisible_layer()
 	speed = speed * 1.5
-	player.lose_cattle()
+	player.lose_cattle(player_array_index)
 	if get_parent() and get_parent().has_method("remove_from_scene"):
 		get_parent().remove_from_scene()
 	

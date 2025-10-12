@@ -14,12 +14,14 @@ var upgrade_type = upgrade_type_enum.MULTIPLY
 var current_value = 0.0
 var upgrade_amt: float
 var upgrade_name: String
+var upgrade_desc: String
 
-func _init(_upgrade_type: String, _upgrade_amt: float, _current_value: float, _upgrade_name: String, _level = 0):
+func _init(_upgrade_type: String, _upgrade_amt: float, _current_value: float, _upgrade_name: String, _level = 0, _upgrade_desc: String = "N/A"):
 	level = _level
 	upgrade_amt = _upgrade_amt
 	current_value = _current_value
 	upgrade_name = _upgrade_name
+	upgrade_desc = _upgrade_desc
 	match _upgrade_type:
 		"Multiply":
 			upgrade_type = upgrade_type_enum.MULTIPLY

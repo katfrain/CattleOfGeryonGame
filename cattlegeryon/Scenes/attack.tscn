@@ -1,0 +1,104 @@
+[gd_scene load_steps=14 format=3 uid="uid://c3o17m6wuv2lm"]
+
+[ext_resource type="Texture2D" uid="uid://bv5mjx85orqt7" path="res://Assets/Player Attacks/Club-Attack-Sheet.png" id="1_ij4ji"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi64h"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(0, 0, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ijsl"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(190, 0, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1odr"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(380, 0, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gysh"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(570, 0, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfarp"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(0, 64, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6uwr"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(190, 64, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83xs0"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(380, 64, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypfnu"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(570, 64, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuaoq"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(0, 128, 190, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wohnl"]
+atlas = ExtResource("1_ij4ji")
+region = Rect2(190, 128, 190, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_36dho"]
+animations = [{
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_bi64h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ijsl")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_p1odr")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_0gysh")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_vfarp")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_y6uwr")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_83xs0")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_ypfnu")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_xuaoq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wohnl")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_bi64h")
+}],
+"loop": false,
+"name": &"default",
+"speed": 9.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
+size = Vector2(426.364, 168.301)
+
+[node name="Attack Sprite" type="AnimatedSprite2D"]
+rotation = 4.71239
+sprite_frames = SubResource("SpriteFrames_36dho")
+offset = Vector2(-100, 0)
+flip_h = true
+
+[node name="Attack Range" type="Area2D" parent="."]
+position = Vector2(5, 1.13687e-12)
+rotation = 3.14159
+scale = Vector2(0.470255, 0.439689)
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack Range"]
+position = Vector2(238.169, 4.5493)
+shape = SubResource("RectangleShape2D_vgqql")
+debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)

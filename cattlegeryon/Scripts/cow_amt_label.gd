@@ -6,7 +6,7 @@ var amt_of_cows_needed
 var amt_of_cows
 
 func _ready() -> void:
-	player = get_node("../../Player") as CharacterBody2D
+	player = get_node("../../../Player") as CharacterBody2D
 	
 	amt_of_cows = 0
 	if player:
@@ -22,4 +22,4 @@ func lose_cow() -> void:
 	update_text()
 
 func update_text() -> void:
-	text = str("Cows: ", amt_of_cows, "/" ,amt_of_cows_needed)
+	text = str(amt_of_cows, "/" ,amt_of_cows_needed)

@@ -1,19 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://dht0rklbvxpet"]
+[gd_scene load_steps=18 format=3 uid="uid://dht0rklbvxpet"]
 
 [ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scripts/player.gd" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://br1x0wgya71r2" path="res://Assets/player-attack-png.png" id="2_6t5aa"]
-[ext_resource type="Texture2D" uid="uid://cpoonqwn5ftis" path="res://Assets/player-ultimate.png" id="4_vgqql"]
+[ext_resource type="PackedScene" uid="uid://dggyy53rx8cmv" path="res://Scenes/ultimate.tscn" id="2_x3wgy"]
+[ext_resource type="PackedScene" uid="uid://c3o17m6wuv2lm" path="res://Scenes/attack.tscn" id="3_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://dlv18kvvhbe46" path="res://Assets/Hercules_Idle.png" id="5_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bi2ui80ylwda0" path="res://Assets/Hercules_Walk.png" id="5_x3wgy"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fkybt"]
-radius = 90.3475
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_x3wgy"]
-radius = 51.4544
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
-size = Vector2(1070, 285)
+[ext_resource type="Texture2D" uid="uid://cg6m5qp771onl" path="res://Assets/player_shadow.png" id="6_x3wgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("5_fkybt")
@@ -98,47 +90,18 @@ speed = 150
 cooldown = 1.5
 damage_amt = 50.0
 
-[node name="Ultimate Sprite" type="Sprite2D" parent="."]
-position = Vector2(-5.00001, -7.00001)
-scale = Vector2(1.165, 1.165)
-texture = ExtResource("4_vgqql")
+[node name="Ultimate Sprite" parent="." instance=ExtResource("2_x3wgy")]
+visible = false
+position = Vector2(-5, -21)
 
-[node name="Ultimate range" type="Area2D" parent="Ultimate Sprite"]
-collision_mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ultimate Sprite/Ultimate range"]
-shape = SubResource("CircleShape2D_fkybt")
-
-[node name="Ultimate inner circle" type="Area2D" parent="Ultimate Sprite"]
-collision_mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ultimate Sprite/Ultimate inner circle"]
-shape = SubResource("CircleShape2D_x3wgy")
-debug_color = Color(0, 0.185775, 0.222535, 0.42)
-
-[node name="Attack Sprite" type="Sprite2D" parent="."]
-position = Vector2(1, -8.99997)
-rotation = 3.14159
-scale = Vector2(0.360777, 0.385856)
-texture = ExtResource("2_6t5aa")
-offset = Vector2(-250, 0)
-
-[node name="Attack Range" type="Area2D" parent="Attack Sprite"]
-rotation = 3.14159
-scale = Vector2(0.470255, 0.439689)
-collision_mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack Sprite/Attack Range"]
-position = Vector2(515, -17.5)
-shape = SubResource("RectangleShape2D_vgqql")
-debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)
+[node name="Attack Sprite" parent="." instance=ExtResource("3_x3wgy")]
+visible = false
+position = Vector2(-6, -14)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-5, -15)
 sprite_frames = SubResource("SpriteFrames_tx1dd")
-animation = &"Walk"
-frame = 3
-frame_progress = 0.796807
+animation = &"Idle"
 
 [node name="Feet" type="CollisionShape2D" parent="."]
 position = Vector2(-3, 9)
@@ -165,12 +128,12 @@ visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -175.0
-offset_top = -470.0
-offset_right = 173.0
-offset_bottom = -250.0
+offset_left = -27.0
+offset_top = -61.0
+offset_right = 28.0
+offset_bottom = -33.0
 grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 25
+theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "debug"
 
@@ -178,6 +141,12 @@ text = "debug"
 avoidance_enabled = true
 radius = 15.0
 debug_enabled = true
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -4095
+z_as_relative = false
+position = Vector2(-5, 14)
+texture = ExtResource("6_x3wgy")
 
 [connection signal="area_entered" from="Head Area" to="." method="_on_head_area_area_entered"]
 [connection signal="area_exited" from="Head Area" to="." method="_on_head_area_area_exited"]

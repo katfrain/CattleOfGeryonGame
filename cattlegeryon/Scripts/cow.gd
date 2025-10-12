@@ -16,7 +16,7 @@ enum States {
 
 # Rendered Visuals
 var debug_text: RichTextLabel
-var health_bar: ProgressBar
+var health_bar: TextureProgressBar
 var sprite: AnimatedSprite2D
 
 # Timers
@@ -60,7 +60,7 @@ func _ready() -> void:
 	range = get_node("Range") as Area2D
 	wall_area = get_node("Wall Area") as Area2D
 	sprite = get_node("AnimatedSprite2D") as AnimatedSprite2D
-	health_bar = get_node("Health Bar") as ProgressBar
+	health_bar = get_node("Health Bar") as TextureProgressBar
 	debug_text = get_node("DEBUG TEXT") as RichTextLabel
 	direction_cooldown = get_node("Direction Cooldown") as Timer
 	idle_timer = get_node("Idle Timer") as Timer
@@ -278,21 +278,20 @@ func damage_color() -> void:
 # ----------- STATE FUNCTIONS -------------------
 	
 func start_fleeing() -> void:
-	print("Cow is running away!")
 	remove_from_group("cows")
 	state = States.FLEEING
 	screen_area = player.get_node("Viewport Bounds") as Area2D
 	set_invisible_layer()
 	speed = speed * 1.5
 	player.lose_cattle()
-	print(get_parent())
 	if get_parent() and get_parent().has_method("remove_from_scene"):
 		get_parent().remove_from_scene()
 	
 func start_following() -> void:
 	state = States.FOLLOWING
 	exclamation.visible = true
-	await get_tree().create_timer(0.5).timeout
+	exclamation.play()
+	await exclamation.animation_finished
 	exclamation.visible = false
 	
 func start_idle() -> void:

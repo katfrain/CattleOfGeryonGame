@@ -1,14 +1,47 @@
-[gd_scene load_steps=7 format=3 uid="uid://ddrt0fhm0vnxu"]
+[gd_scene load_steps=12 format=3 uid="uid://ddrt0fhm0vnxu"]
 
 [ext_resource type="Script" uid="uid://c1jaeuh8kf6pk" path="res://Scripts/gadfly.gd" id="1_qyxyn"]
-[ext_resource type="Texture2D" uid="uid://cvi3yc0r0pubr" path="res://Assets/gadfly-left-placeholder.png" id="1_xbknt"]
+[ext_resource type="Texture2D" uid="uid://cv4g1fui2587f" path="res://Assets/fly-Sheet.png" id="2_qyxyn"]
+[ext_resource type="Texture2D" uid="uid://bm4dou6wc1546" path="res://Assets/fly_shadow.png" id="3_xj423"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xj423"]
+atlas = ExtResource("2_qyxyn")
+region = Rect2(0, 0, 16, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkgi8"]
+atlas = ExtResource("2_qyxyn")
+region = Rect2(16, 0, 16, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cosys"]
+atlas = ExtResource("2_qyxyn")
+region = Rect2(0, 15, 16, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5p0ay"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xj423")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkgi8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cosys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkgi8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xbknt"]
 radius = 4.0
-height = 22.0
+height = 14.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyxyn"]
-radius = 17.0
+radius = 19.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xj423"]
 bg_color = Color(0.206591, 0.224544, 0.217928, 1)
@@ -41,12 +74,14 @@ damage_amt = 20.0
 range_of_sight_radius = 1750.0
 idle_move_max_distance = 45.0
 
-[node name="Gadfly Sprite" type="Sprite2D" parent="."]
+[node name="Gadfly Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4.76837e-07, -4.76837e-07)
-scale = Vector2(0.0710938, 0.0710938)
-texture = ExtResource("1_xbknt")
+sprite_frames = SubResource("SpriteFrames_5p0ay")
+frame_progress = 0.315112
+speed_scale = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_xbknt")
 
@@ -59,6 +94,7 @@ shape = SubResource("CircleShape2D_qyxyn")
 debug_color = Color(0.745421, 0.433978, 0.440348, 0.42)
 
 [node name="Health Bar" type="ProgressBar" parent="."]
+visible = false
 offset_left = -12.0
 offset_top = -16.0
 offset_right = 12.0
@@ -82,6 +118,12 @@ theme_override_font_sizes/normal_font_size = 10
 [node name="Idle Timer" type="Timer" parent="."]
 
 [node name="Poison Damage Timer" type="Timer" parent="."]
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -4095
+z_as_relative = false
+position = Vector2(0, 19)
+texture = ExtResource("3_xj423")
 
 [connection signal="timeout" from="Attack Cooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="Knockback Cooldown" to="." method="_on_knockback_cooldown_timeout"]

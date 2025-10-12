@@ -1,40 +1,47 @@
-[gd_scene load_steps=22 format=4 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=46 format=4 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
+[ext_resource type="Texture2D" uid="uid://bekds8l47od1g" path="res://Assets/UI/Cow_Container.png" id="2_5v1tr"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
+[ext_resource type="FontFile" uid="uid://cox33umscsoi3" path="res://Assets/Fonts/PixelifySans-VariableFont_wght.ttf" id="3_0fj1v"]
 [ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="3_k7acu"]
 [ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://Scripts/cow_amt_label.gd" id="5_0fj1v"]
+[ext_resource type="Texture2D" uid="uid://bsoaekwop1f4f" path="res://Assets/UI/Ultimate/Ultimate_Background.png" id="5_0pcbe"]
+[ext_resource type="Texture2D" uid="uid://cgvkx435tqnc0" path="res://Assets/UI/Ultimate/Ultimate_Frame.png" id="6_axeuq"]
 [ext_resource type="Script" uid="uid://btw5y7jlcasa0" path="res://Scripts/world_boundary.gd" id="6_ikia7"]
+[ext_resource type="Texture2D" uid="uid://fnvyup1jyo1r" path="res://Assets/UI/Ultimate/Ultimate_Fill.png" id="7_1cojt"]
 [ext_resource type="PackedScene" uid="uid://8w1600qds5su" path="res://Scenes/cow.tscn" id="7_o06y3"]
+[ext_resource type="Texture2D" uid="uid://ivkm0ynpgkga" path="res://Assets/UI/Ultimate/Ultimate_button.png" id="8_yq1aw"]
 [ext_resource type="Texture2D" uid="uid://cyjjw2egc1ver" path="res://Assets/Tileset.png" id="9_5v1tr"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o06y3"]
-bg_color = Color(0.322638, 0.655393, 0.725399, 1)
+[ext_resource type="Texture2D" uid="uid://dqfqnla31ba1n" path="res://Assets/UI/Ultimate/Ultimate_button_pressed.png" id="9_pyn1s"]
+[ext_resource type="Texture2D" uid="uid://bo2orcww5omlf" path="res://Assets/UI/Level_Bar/Level_Container.png" id="10_no8kt"]
+[ext_resource type="Texture2D" uid="uid://0hhtlawgbod2" path="res://Assets/UI/Ultimate/Ultimate_Icon.png" id="10_yq1aw"]
+[ext_resource type="Texture2D" uid="uid://bfn5ogrwgb7gn" path="res://Assets/UI/timer_container.png" id="11_pyn1s"]
+[ext_resource type="Texture2D" uid="uid://bpfdxv53k6ori" path="res://Assets/UI/Level_Bar/LB_Backround.png" id="11_xbk3s"]
+[ext_resource type="Texture2D" uid="uid://bcgpwmcqucs77" path="res://Assets/UI/Level_Bar/LB_Frame.png" id="12_i4fjy"]
+[ext_resource type="Texture2D" uid="uid://btbg88bjc57fm" path="res://Assets/UI/win_loss_container.png" id="12_pt3ps"]
+[ext_resource type="Texture2D" uid="uid://cy8ymmgcaowej" path="res://Assets/UI/Buttons/gold_button.png" id="13_hmc15"]
+[ext_resource type="Texture2D" uid="uid://bqf8s1qxrruls" path="res://Assets/UI/Level_Bar/LB_Fill.png" id="13_pt3ps"]
+[ext_resource type="Texture2D" uid="uid://dp0psk6sjms47" path="res://Assets/UI/Buttons/gold_button_pressed.png" id="14_dt0r1"]
+[ext_resource type="Texture2D" uid="uid://bnus7y62bfd8t" path="res://Assets/UI/Buttons/silver_button.png" id="15_hmc15"]
+[ext_resource type="Texture2D" uid="uid://r5mu0jjkawmk" path="res://Assets/UI/Buttons/menu_button.png" id="15_pyn1s"]
+[ext_resource type="Texture2D" uid="uid://bellnx55y4rw8" path="res://Assets/UI/Buttons/silver_button_pressed.png" id="16_dt0r1"]
+[ext_resource type="Texture2D" uid="uid://berpwf0l5xrni" path="res://Assets/UI/Buttons/menu_button_pressed.png" id="16_no8kt"]
+[ext_resource type="Script" uid="uid://cvssh05e5altp" path="res://Scripts/button_w_text.gd" id="17_opbav"]
+[ext_resource type="Texture2D" uid="uid://dvxo78nokvfkc" path="res://Assets/UI/pause_container.png" id="17_r0ikl"]
+[ext_resource type="Texture2D" uid="uid://bqntinlo3opdc" path="res://Assets/UI/Buttons/x_button.png" id="18_opbav"]
+[ext_resource type="Texture2D" uid="uid://bucc2u22kfhv0" path="res://Assets/UI/Buttons/x_button_pressed.png" id="19_coyub"]
+[ext_resource type="Texture2D" uid="uid://w50boremsy76" path="res://Assets/UI/Uprgade Container.png" id="20_ochwf"]
+[ext_resource type="Texture2D" uid="uid://bxdggqai321xg" path="res://Assets/UI/Buttons/reroll.png" id="21_p5wkl"]
+[ext_resource type="Texture2D" uid="uid://b1cjdtwtfv5a1" path="res://Assets/UI/Buttons/reroll_pressed.png" id="22_r74th"]
 
 [sub_resource type="Theme" id="Theme_o06y3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k7acu"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5v1tr"]
-bg_color = Color(0.0295066, 0.0295066, 0.0295066, 0.545098)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.0728426, 0.0728427, 0.0728426, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_04jkj"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fj1v"]
-bg_color = Color(0.270667, 0.463262, 0.460066, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikia7"]
-bg_color = Color(0.611425, 0.360523, 0.330598, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7acu"]
-bg_color = Color(0.495564, 0.365245, 0.554255, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lkcvt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
 size = Vector2(348.5, 210.5)
@@ -261,29 +268,60 @@ time_to_hold_cows = 5.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Cow Amt Label" type="RichTextLabel" parent="UI"]
-offset_left = 12.0
-offset_top = 11.0
-offset_right = 103.0
-offset_bottom = 44.0
+[node name="CowContainer" type="TextureRect" parent="UI"]
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("2_5v1tr")
+metadata/_edit_lock_ = true
+
+[node name="Cow Amt Label" type="RichTextLabel" parent="UI/CowContainer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -49.0
+offset_top = 21.0
+offset_right = -15.0
+offset_bottom = 34.0
+grow_horizontal = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 10
-text = "Cows: 0/0"
+text = "00/00"
+horizontal_alignment = 1
 script = ExtResource("5_0fj1v")
 
-[node name="Ultimate Progress" type="ProgressBar" parent="UI"]
+[node name="Ultimate Progress" type="TextureProgressBar" parent="UI"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -49.0
-offset_right = 40.0
-offset_bottom = -37.0
+offset_left = -25.0
+offset_top = -76.0
+offset_right = 25.0
+offset_bottom = -27.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/fill = SubResource("StyleBoxFlat_o06y3")
-show_percentage = false
+fill_mode = 3
+texture_under = ExtResource("5_0pcbe")
+texture_over = ExtResource("6_axeuq")
+texture_progress = ExtResource("7_1cojt")
+
+[node name="TextureButton" type="TextureButton" parent="UI/Ultimate Progress"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = 2.0
+offset_right = 8.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("8_yq1aw")
+texture_pressed = ExtResource("9_pyn1s")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/Ultimate Progress"]
 layout_mode = 1
@@ -292,58 +330,109 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -5.0
-offset_right = 35.0
-offset_bottom = 40.0
+offset_left = -3.0
+offset_top = 3.0
+offset_right = 9.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/normal_font_size = 12
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
 text = "Q"
 
-[node name="Level Progress" type="ProgressBar" parent="UI"]
-anchors_preset = 5
+[node name="TextureRect" type="TextureRect" parent="UI/Ultimate Progress"]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -216.5
-offset_top = 11.0
-offset_right = 216.5
-offset_bottom = 29.0
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 10
+grow_vertical = 2
+texture = ExtResource("10_yq1aw")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Level Progress"]
+[node name="LevelBar" type="TextureRect" parent="UI"]
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("10_no8kt")
+metadata/_edit_lock_ = true
+
+[node name="Level Progress" type="TextureProgressBar" parent="UI/LevelBar"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -58.0
-offset_top = 16.0
-offset_right = 58.0
-offset_bottom = 56.0
+offset_left = -172.0
+offset_top = 15.0
+offset_right = 172.0
+offset_bottom = 28.0
 grow_horizontal = 2
+texture_under = ExtResource("11_xbk3s")
+texture_over = ExtResource("12_i4fjy")
+texture_progress = ExtResource("13_pt3ps")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/LevelBar/Level Progress"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -23.0
+offset_top = 7.0
+offset_right = 23.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 10
 text = "Level: 0"
 fit_content = true
 horizontal_alignment = 1
 
-[node name="Win Timer Text" type="RichTextLabel" parent="UI"]
+[node name="Win Timer Texture" type="TextureRect" parent="UI"]
 visible = false
-anchors_preset = 5
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("11_pyn1s")
+
+[node name="Win Timer Text" type="RichTextLabel" parent="UI/Win Timer Texture"]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -61.0
-offset_top = 94.0
-offset_right = 62.0
-offset_bottom = 149.0
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -107.0
+offset_right = 26.0
+offset_bottom = -91.0
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_font_sizes/normal_font_size = 30
-text = "10.0"
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 12
+text = "00.00.00"
 horizontal_alignment = 1
+
+[node name="Menu Button" type="TextureButton" parent="UI"]
+z_index = 2
+offset_left = 7.0
+offset_top = 8.0
+offset_right = 29.0
+offset_bottom = 31.0
+texture_normal = ExtResource("15_pyn1s")
+texture_pressed = ExtResource("16_no8kt")
 
 [node name="Win Container" type="PanelContainer" parent="UI"]
 visible = false
+z_index = 5
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -357,126 +446,287 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_o06y3")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
+metadata/_edit_lock_ = true
 
-[node name="Panel" type="Panel" parent="UI/Win Container"]
+[node name="Win Container Texture" type="TextureRect" parent="UI/Win Container"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+texture = ExtResource("12_pt3ps")
+metadata/_edit_lock_ = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Win Container/Panel"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Win Container/Win Container Texture"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -138.5
-offset_top = 19.5
-offset_right = 139.5
-offset_bottom = 75.5
+offset_left = -139.0
+offset_top = 103.0
+offset_right = 139.0
+offset_bottom = 159.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_font_sizes/normal_font_size = 30
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 26
 text = "You Win!"
 horizontal_alignment = 1
 
-[node name="Restart" type="Button" parent="UI/Win Container/Panel"]
-process_mode = 2
+[node name="Restart" type="TextureButton" parent="UI/Win Container/Win Container Texture"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = -29.0
-offset_right = 130.5
-offset_bottom = 14.0
+offset_left = -58.5
+offset_top = -12.0
+offset_right = 58.5
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_0fj1v")
-text = "Play Again"
+texture_normal = ExtResource("13_hmc15")
+texture_pressed = ExtResource("14_dt0r1")
+script = ExtResource("17_opbav")
 
-[node name="Main Menu" type="Button" parent="UI/Win Container/Panel"]
-process_mode = 2
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Win Container/Win Container Texture/Restart"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 109.0
+offset_bottom = 25.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
+text = "Play Again"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Main Menu" type="TextureButton" parent="UI/Win Container/Win Container Texture"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = 33.5
-offset_right = 130.5
-offset_bottom = 76.5
+offset_left = -58.5
+offset_top = 11.5
+offset_right = 58.5
+offset_bottom = 46.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
+texture_normal = ExtResource("13_hmc15")
+texture_pressed = ExtResource("14_dt0r1")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Win Container/Win Container Texture/Main Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -10.5
+offset_right = 49.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
 text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit Game" type="TextureButton" parent="UI/Win Container/Win Container Texture"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.5
+offset_top = 35.0
+offset_right = 58.5
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("15_hmc15")
+texture_pressed = ExtResource("16_dt0r1")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Win Container/Win Container Texture/Exit Game"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -10.5
+offset_right = 49.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
+text = "Exit Game
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Lose Container" type="PanelContainer" parent="UI"]
 visible = false
-offset_left = 120.0
-offset_top = 63.0
-offset_right = 521.0
-offset_bottom = 299.0
+z_index = 5
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource("Theme_o06y3")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
 
-[node name="Panel" type="Panel" parent="UI/Lose Container"]
+[node name="Win Container Texture" type="TextureRect" parent="UI/Lose Container"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+texture = ExtResource("12_pt3ps")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Lose Container/Panel"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Lose Container/Win Container Texture"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -138.5
-offset_top = 18.0
-offset_right = 139.5
-offset_bottom = 74.0
+offset_left = -139.0
+offset_top = 103.0
+offset_right = 139.0
+offset_bottom = 159.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_font_sizes/normal_font_size = 30
-text = "You Lose :("
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 26
+text = "You Lose!"
 horizontal_alignment = 1
 
-[node name="Restart" type="Button" parent="UI/Lose Container/Panel"]
-process_mode = 2
+[node name="Restart" type="TextureButton" parent="UI/Lose Container/Win Container Texture"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = -30.0
-offset_right = 130.5
-offset_bottom = 13.0
+offset_left = -58.5
+offset_top = -12.0
+offset_right = 58.5
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_0fj1v")
-text = "Play Again"
+texture_normal = ExtResource("13_hmc15")
+texture_pressed = ExtResource("14_dt0r1")
+script = ExtResource("17_opbav")
 
-[node name="Main Menu" type="Button" parent="UI/Lose Container/Panel"]
-process_mode = 2
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Lose Container/Win Container Texture/Restart"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 109.0
+offset_bottom = 25.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
+text = "Play Again"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Main Menu" type="TextureButton" parent="UI/Lose Container/Win Container Texture"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = 32.5
-offset_right = 130.5
-offset_bottom = 75.5
+offset_left = -58.5
+offset_top = 11.5
+offset_right = 58.5
+offset_bottom = 46.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
+texture_normal = ExtResource("13_hmc15")
+texture_pressed = ExtResource("14_dt0r1")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Lose Container/Win Container Texture/Main Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -10.5
+offset_right = 49.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
 text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit Game" type="TextureButton" parent="UI/Lose Container/Win Container Texture"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.5
+offset_top = 35.0
+offset_right = 58.5
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("15_hmc15")
+texture_pressed = ExtResource("16_dt0r1")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Lose Container/Win Container Texture/Exit Game"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -10.5
+offset_right = 49.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
+text = "Exit Game
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Pause Container" type="PanelContainer" parent="UI"]
 visible = false
+z_index = 5
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -491,80 +741,179 @@ grow_vertical = 2
 theme = SubResource("Theme_o06y3")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
 
-[node name="Panel" type="Panel" parent="UI/Pause Container"]
+[node name="Pause Container Texture" type="TextureRect" parent="UI/Pause Container"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+texture = ExtResource("17_r0ikl")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Panel"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Pause Container Texture"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -137.5
-offset_top = 8.0
+offset_top = 95.5
 offset_right = 140.5
-offset_bottom = 64.0
+offset_bottom = 151.5
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 30
-text = "Game Paused"
+text = "PAUSE"
 horizontal_alignment = 1
 
-[node name="Unpause" type="Button" parent="UI/Pause Container/Panel"]
-process_mode = 2
+[node name="Restart" type="TextureButton" parent="UI/Pause Container/Pause Container Texture"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = -63.5
-offset_right = 130.5
-offset_bottom = -20.5
+offset_left = -58.5
+offset_top = 1.5
+offset_right = 58.5
+offset_bottom = 36.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_k7acu")
-text = "Continue"
+texture_normal = ExtResource("13_hmc15")
+texture_pressed = ExtResource("14_dt0r1")
+script = ExtResource("17_opbav")
 
-[node name="Restart" type="Button" parent="UI/Pause Container/Panel"]
-process_mode = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = -3.5
-offset_right = 130.5
-offset_bottom = 39.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_0fj1v")
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Pause Container Texture/Restart"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 109.0
+offset_bottom = 25.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
 text = "Restart
 "
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Main Menu" type="Button" parent="UI/Pause Container/Panel"]
-process_mode = 2
+[node name="Main Menu" type="TextureButton" parent="UI/Pause Container/Pause Container Texture"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = 56.5
-offset_right = 130.5
-offset_bottom = 99.5
+offset_left = -58.5
+offset_top = 25.0
+offset_right = 58.5
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ikia7")
+texture_normal = ExtResource("13_hmc15")
+texture_pressed = ExtResource("14_dt0r1")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Pause Container Texture/Main Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -10.5
+offset_right = 49.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
 text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit Game" type="TextureButton" parent="UI/Pause Container/Pause Container Texture"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.5
+offset_top = 48.5
+offset_right = 58.5
+offset_bottom = 83.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("15_hmc15")
+texture_pressed = ExtResource("16_dt0r1")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Pause Container Texture/Exit Game"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -10.5
+offset_right = 49.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 9
+text = "Exit Game
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Unpause" type="TextureButton" parent="UI/Pause Container/Pause Container Texture"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 58.0
+offset_top = -99.0
+offset_right = 76.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("18_opbav")
+texture_pressed = ExtResource("19_coyub")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Pause Container Texture/Unpause"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -8.5
+offset_right = 9.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 11
+text = "X
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
 
 [node name="Upgrade Container" type="PanelContainer" parent="UI"]
 visible = false
+z_index = 5
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -579,44 +928,48 @@ grow_vertical = 2
 theme = SubResource("Theme_o06y3")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
 
-[node name="Panel" type="Panel" parent="UI/Upgrade Container"]
+[node name="Upgrade Menu Texture" type="TextureRect" parent="UI/Upgrade Container"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5v1tr")
+texture = ExtResource("20_ochwf")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Upgrade Container/Panel"]
+[node name="Title" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -138.0
-offset_top = 10.0
-offset_right = 140.0
-offset_bottom = 66.0
+offset_left = -149.0
+offset_top = 84.0
+offset_right = 150.0
+offset_bottom = 140.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 30
-text = "Upgrade!"
+text = "LEVEL UP!"
 horizontal_alignment = 1
 
-[node name="Upgrade 1" type="Button" parent="UI/Upgrade Container/Panel"]
-process_mode = 2
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Title"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -156.0
-offset_top = -63.0
-offset_right = -29.0
-offset_bottom = 106.0
+offset_left = -149.5
+offset_top = 6.0
+offset_right = 146.5
+offset_bottom = 19.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_k7acu")
-text = "Upgrade 1"
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 10
+text = "Choose an Upgrade"
+horizontal_alignment = 1
 
-[node name="Upgrade 2" type="Button" parent="UI/Upgrade Container/Panel"]
+[node name="Upgrade 1" type="Button" parent="UI/Upgrade Container/Upgrade Menu Texture"]
 process_mode = 2
 layout_mode = 1
 anchors_preset = 8
@@ -624,14 +977,145 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 30.0
-offset_top = -63.0
-offset_right = 157.0
-offset_bottom = 106.0
+offset_left = -111.0
+offset_top = -21.0
+offset_right = -40.0
+offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_k7acu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_04jkj")
+
+[node name="U1 Text" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 39.0
+offset_right = 72.0
+offset_bottom = 52.0
+theme_override_font_sizes/normal_font_size = 7
+text = "Upgrade 1"
+horizontal_alignment = 1
+
+[node name="Upgrade 2" type="Button" parent="UI/Upgrade Container/Upgrade Menu Texture"]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 51.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lkcvt")
+text = "
+"
+
+[node name="U2 Text" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 40.0
+offset_right = 71.0
+offset_bottom = 53.0
+theme_override_font_sizes/normal_font_size = 7
 text = "Upgrade 2"
+horizontal_alignment = 1
+
+[node name="Stats" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 74.0
+offset_top = -38.0
+offset_right = 142.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 10
+text = "Your Stats"
+
+[node name="Stats" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Stats"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -45.5
+offset_right = 36.0
+offset_bottom = 43.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 6
+text = "Speed: 100 (+20)
+Damage: 150 (+75)
+Ultimate Damage; 150
+Ultimate Radius; 1
+Attack Cooldown: 4 (-1.2)
+Cow Health: 200
+Knockback: 2"
+
+[node name="ReRoll Button" type="TextureButton" parent="UI/Upgrade Container/Upgrade Menu Texture"]
+layout_mode = 2
+offset_left = 265.0
+offset_top = 235.0
+offset_right = 317.0
+offset_bottom = 250.0
+texture_normal = ExtResource("21_p5wkl")
+texture_pressed = ExtResource("22_r74th")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/ReRoll Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -7.5
+offset_right = 3.0
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 7
+text = "reroll"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/ReRoll Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -6.5
+offset_right = 11.0
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 7
+text = "-1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Win Timer" type="Timer" parent="."]
 
@@ -660,8 +1144,8 @@ z_index = 1
 position = Vector2(159, 91)
 collision_mask = 133
 ultimate_progress_bar = NodePath("../UI/Ultimate Progress")
-level_progress_bar = NodePath("../UI/Level Progress")
-level_text = NodePath("../UI/Level Progress/RichTextLabel")
+level_progress_bar = NodePath("../UI/LevelBar/Level Progress")
+level_text = NodePath("../UI/LevelBar/Level Progress/RichTextLabel")
 world = NodePath("..")
 metadata/_edit_lock_ = true
 
@@ -750,10 +1234,11 @@ metadata/_edit_lock_ = true
 [node name="Starter Cows" type="Node2D" parent="."]
 
 [node name="Cow Body" parent="Starter Cows" instance=ExtResource("7_o06y3")]
-position = Vector2(97, 145)
+position = Vector2(122, 138)
+metadata/_edit_lock_ = true
 
 [node name="Cow Body2" parent="Starter Cows" instance=ExtResource("7_o06y3")]
-position = Vector2(280, 137)
+position = Vector2(227, 124)
 metadata/_edit_lock_ = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
@@ -766,18 +1251,22 @@ tile_map_data = PackedByteArray("AAACAP//AAADAAAAAAABAP//AAAAAAAAAADw/+//AAABAAI
 tile_set = SubResource("TileSet_0fj1v")
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="UI/Win Container/Panel/Restart" to="." method="restart"]
-[connection signal="pressed" from="UI/Win Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
-[connection signal="pressed" from="UI/Lose Container/Panel/Restart" to="." method="restart"]
-[connection signal="pressed" from="UI/Lose Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
-[connection signal="pressed" from="UI/Pause Container/Panel/Unpause" to="." method="unpause"]
-[connection signal="pressed" from="UI/Pause Container/Panel/Restart" to="." method="restart"]
-[connection signal="pressed" from="UI/Pause Container/Panel/Main Menu" to="." method="switch_to_main_menu"]
-[connection signal="pressed" from="UI/Upgrade Container/Panel/Upgrade 1" to="." method="choose_upgrade_1"]
-[connection signal="pressed" from="UI/Upgrade Container/Panel/Upgrade 2" to="." method="choose_upgrade_2"]
+[connection signal="pressed" from="UI/Menu Button" to="." method="open_pause_menu"]
+[connection signal="pressed" from="UI/Win Container/Win Container Texture/Restart" to="." method="restart"]
+[connection signal="pressed" from="UI/Win Container/Win Container Texture/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="pressed" from="UI/Win Container/Win Container Texture/Exit Game" to="." method="exit_game"]
+[connection signal="pressed" from="UI/Lose Container/Win Container Texture/Restart" to="." method="restart"]
+[connection signal="pressed" from="UI/Lose Container/Win Container Texture/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="pressed" from="UI/Lose Container/Win Container Texture/Exit Game" to="." method="exit_game"]
+[connection signal="pressed" from="UI/Pause Container/Pause Container Texture/Restart" to="." method="restart"]
+[connection signal="pressed" from="UI/Pause Container/Pause Container Texture/Main Menu" to="." method="switch_to_main_menu"]
+[connection signal="pressed" from="UI/Pause Container/Pause Container Texture/Exit Game" to="." method="exit_game"]
+[connection signal="pressed" from="UI/Pause Container/Pause Container Texture/Unpause" to="." method="unpause"]
+[connection signal="pressed" from="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1" to="." method="choose_upgrade_1"]
+[connection signal="pressed" from="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2" to="." method="choose_upgrade_2"]
 [connection signal="timeout" from="Win Timer" to="." method="_on_win_timer_timeout"]
 [connection signal="got_cow" from="Player" to="." method="add_cow"]
-[connection signal="got_cow" from="Player" to="UI/Cow Amt Label" method="add_cow"]
+[connection signal="got_cow" from="Player" to="UI/CowContainer/Cow Amt Label" method="add_cow"]
 [connection signal="lost_cow" from="Player" to="." method="remove_cow"]
-[connection signal="lost_cow" from="Player" to="UI/Cow Amt Label" method="lose_cow"]
+[connection signal="lost_cow" from="Player" to="UI/CowContainer/Cow Amt Label" method="lose_cow"]
 [connection signal="body_exited" from="World Boundary" to="World Boundary" method="_on_body_exited"]

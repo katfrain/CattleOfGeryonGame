@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://8w1600qds5su"]
+[gd_scene load_steps=51 format=3 uid="uid://8w1600qds5su"]
 
 [ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scripts/cow.gd" id="1_asfwn"]
 [ext_resource type="Texture2D" uid="uid://dfk2hdbem4gbx" path="res://Assets/cow-right-placeholder.png" id="2_oad1y"]
@@ -6,12 +6,16 @@
 [ext_resource type="Texture2D" uid="uid://chjqg165wd5lf" path="res://Assets/cow-up-placeholder.png" id="4_wjkae"]
 [ext_resource type="Texture2D" uid="uid://ejlaufy5tc0d" path="res://Assets/cow-down-placeholder.png" id="5_kflls"]
 [ext_resource type="Texture2D" uid="uid://ft55bf8carlx" path="res://Assets/cow-idle-placeholder.png" id="6_oad1y"]
+[ext_resource type="Texture2D" uid="uid://q5fmcqxm8uep" path="res://Assets/UI/HealthBar/Health_Bar_Background.png" id="7_4ex0s"]
 [ext_resource type="Texture2D" uid="uid://mc7feh2wsp2q" path="res://Assets/Cow_Idle.png" id="7_er45c"]
 [ext_resource type="Texture2D" uid="uid://dfaj3dv7vq03s" path="res://Assets/Cow_Walk_Down.png" id="8_dpfby"]
+[ext_resource type="Texture2D" uid="uid://h2mh5loihfv6" path="res://Assets/UI/HealthBar/Health_Bar_Frame.png" id="8_wdk5j"]
+[ext_resource type="Texture2D" uid="uid://2m5ompdcwonw" path="res://Assets/UI/HealthBar/Health_bar_fill.png" id="9_iga3h"]
 [ext_resource type="Texture2D" uid="uid://canyjnju1nrow" path="res://Assets/Cow_Walk.png" id="9_vflyu"]
 [ext_resource type="Texture2D" uid="uid://c5ishx3bih0jp" path="res://Assets/Cow_Walk_Right.png" id="10_dpfby"]
 [ext_resource type="Texture2D" uid="uid://o018xnq04ife" path="res://Assets/Cow_Walk_Up.png" id="10_kv73t"]
-[ext_resource type="Texture2D" uid="uid://bo65edwe8ddln" path="res://Assets/exclamation.png" id="12_vflyu"]
+[ext_resource type="Texture2D" uid="uid://dpy3tli22be54" path="res://Assets/exclamation-Sheet.png" id="12_vflyu"]
+[ext_resource type="Texture2D" uid="uid://d3fojaa7v0qg5" path="res://Assets/cow_shadow.png" id="16_wdk5j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dpfby"]
 radius = 90.0
@@ -25,22 +29,6 @@ radius = 69.7628
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dpfby"]
 radius = 142.714
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oad1y"]
-bg_color = Color(0.206591, 0.224544, 0.217928, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkidu"]
-bg_color = Color(0.883055, 0.445334, 0.497275, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-anti_aliasing = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dpfby"]
 atlas = ExtResource("7_er45c")
@@ -225,6 +213,65 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_43egv"]
+atlas = ExtResource("12_vflyu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hj0an"]
+atlas = ExtResource("12_vflyu")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yahvn"]
+atlas = ExtResource("12_vflyu")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnpf5"]
+atlas = ExtResource("12_vflyu")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eesv7"]
+atlas = ExtResource("12_vflyu")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx85s"]
+atlas = ExtResource("12_vflyu")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v1jvh"]
+animations = [{
+"frames": [{
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_43egv")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_hj0an")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_yahvn")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_rnpf5")
+}, {
+"duration": 2.5,
+"texture": SubResource("AtlasTexture_eesv7")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_rnpf5")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_yahvn")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_hj0an")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_jx85s")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Cow Body" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 141
@@ -273,14 +320,14 @@ scale = Vector2(1.1, 1.1)
 shape = SubResource("CircleShape2D_dpfby")
 debug_color = Color(0.360078, 0.541957, 0.793548, 0.42)
 
-[node name="Health Bar" type="ProgressBar" parent="."]
-offset_left = -12.0
-offset_top = -18.0
-offset_right = 12.0
+[node name="Health Bar" type="TextureProgressBar" parent="."]
+offset_left = -13.0
+offset_top = -22.0
+offset_right = 15.0
 offset_bottom = -14.0
-theme_override_styles/background = SubResource("StyleBoxFlat_oad1y")
-theme_override_styles/fill = SubResource("StyleBoxFlat_vkidu")
-show_percentage = false
+texture_under = ExtResource("7_4ex0s")
+texture_over = ExtResource("8_wdk5j")
+texture_progress = ExtResource("9_iga3h")
 
 [node name="DEBUG TEXT" type="RichTextLabel" parent="."]
 visible = false
@@ -308,11 +355,18 @@ radius = 16.0
 max_speed = 300.0
 avoidance_priority = 0.75
 
-[node name="Exclamation" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(0, -31)
-scale = Vector2(0.0492188, 0.0492188)
-texture = ExtResource("12_vflyu")
+[node name="Exclamation" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -40)
+sprite_frames = SubResource("SpriteFrames_v1jvh")
+frame = 8
+frame_progress = 1.0
+speed_scale = 1.8
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -4095
+z_as_relative = false
+position = Vector2(0, 14)
+texture = ExtResource("16_wdk5j")
 
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

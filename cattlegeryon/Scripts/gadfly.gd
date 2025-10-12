@@ -14,7 +14,7 @@ extends RigidBody2D
 # Rendered Visuals
 var debug_text: RichTextLabel
 var health_bar: ProgressBar
-var sprite: Sprite2D
+var sprite: AnimatedSprite2D
 var health_bar_base_color: Color
 var background_stylebox
 var fill_stylebox
@@ -34,6 +34,8 @@ var facing_dir: int = 0
 var target: CharacterBody2D = null
 var idle_move_target: Vector2
 var idle_initial_pos: Vector2
+var effective_velocity: Vector2
+var prev_position: Vector2
 
 # Variables to track poison state
 var poisoned: bool = false
@@ -64,7 +66,7 @@ func _ready() -> void:
 	attack_range = get_node("Attack Range") as Area2D
 	debug_text = get_node("DEBUG TEXT") as RichTextLabel
 	health_bar = get_node("Health Bar") as ProgressBar
-	sprite = get_node("Gadfly Sprite") as Sprite2D
+	sprite = get_node("Gadfly Sprite") as AnimatedSprite2D
 	attack_cooldown = get_node("Attack Cooldown") as Timer
 	knockback_cooldown = get_node("Knockback Cooldown") as Timer
 	idle_timer = get_node("Idle Timer") as Timer
@@ -88,8 +90,14 @@ func _ready() -> void:
 	create_new_idle_move_target()
 	idle_move = true
 	colliding = false
+	prev_position = global_position
+	
+	sprite.play()
 
 func _physics_process(delta: float) -> void:
+	effective_velocity = (global_position - prev_position) / delta
+	prev_position = global_position
+	update_sprite_direction(effective_velocity)
 	if !knockback:
 		if target:
 			debug_text.text = "Chasing!"
@@ -208,12 +216,41 @@ func stop_moving() -> void:
 	
 func start_moving() -> void:
 	moving = true
+	
+func update_sprite_direction(vel: Vector2) -> void:
+	var direction = update_direction(vel)
+	if direction != facing_dir:
+		facing_dir = direction
+		if facing_dir >= 0:
+			match facing_dir:
+				0: sprite.flip_h = true
+				1: sprite.flip_h = false
+ 
+
+
+func update_direction(vel: Vector2) -> int:
+	var direction
+	if vel.length() < 10: # Idle
+		return 4
+	if vel.length() < 30: # Buffer to avoid switching directions if distance is small enough
+		return facing_dir  
+
+	# Snap to 4 directions based on quadrants
+	if vel.x > 0:
+		direction = 0  # right
+	else:
+		direction = 1  # left
+	return direction
 		
 # ----------- HEALTH FUNCTIONS -------------------
 		
 func take_damage(damage_amt: float, charges_ultimate: bool, attacker: Node = null) -> void:
 	current_health -= damage_amt
+	var flash_color : Color
 	update_health_bar()
+	if poisoned: flash_color = Color(0.3, 1, 0.3)
+	else: flash_color = Color(1, 0.3, 0.3)
+	damage_color(flash_color)
 	
 	if attacker and attacker is Node2D:
 		player = attacker
@@ -231,6 +268,13 @@ func take_damage(damage_amt: float, charges_ultimate: bool, attacker: Node = nul
 	
 	if current_health <= 0:
 		die()
+		
+func damage_color(color: Color) -> void:
+	var normal_color := Color(1, 1, 1)    # default (white)
+	
+	sprite.modulate = color
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate", normal_color, 0.3)
 		
 func apply_poison(damage_amt: float, interval: float, ticks: int) -> void:
 	if poisoned:
@@ -272,7 +316,6 @@ func _on_poison_damage_timer_timeout() -> void:
 # ----------- XP FUNCTIONS -------------------
 
 func drop_xp() -> void:
-	print("dropping xp")
 	var instance = xp_scene.instantiate()
 	instance.global_position = global_position
 	instance.z_index = 1

@@ -8,10 +8,13 @@ extends CharacterBody2D
 @export var poison_tick_interval: float = 1.0
 @export var poison_ticks: int = 5
 @export var level_increase: float = 1.2
-@export var ultimate_progress_bar: ProgressBar
-@export var level_progress_bar: ProgressBar
+@export var ultimate_progress_bar: TextureProgressBar
+@export var level_progress_bar: TextureProgressBar
 @export var level_text: RichTextLabel
 @export var world: Node2D
+
+@onready var ultimate_scene = preload("res://Scenes/ultimate.tscn")
+@onready var attack_scene = preload("res://Scenes/attack.tscn")
 
 const ULTIMATE_CHARGE_NEEDED: float = 100.0
 
@@ -21,8 +24,8 @@ var ultimate_outer: Area2D
 var ultimate_inner: Area2D
 
 var body_sprite: AnimatedSprite2D
-var attack_sprite: Sprite2D
-var ultimate_sprite: Sprite2D
+var attack_instance
+var ultimate_instance
 var debug_text: RichTextLabel
 
 var amt_of_cattle = 0
@@ -33,6 +36,7 @@ var current_ultimate_charge: float = 0.0
 var current_level: int = 1
 var current_xp = 0
 var xp_needed = 100
+var attack_transform: Vector2
 
 var head_collision: bool
 var cooling_down: bool = false
@@ -61,9 +65,7 @@ func _ready() -> void:
 	attack_range = get_node("Attack Sprite/Attack Range") as Area2D
 	ultimate_outer = get_node("Ultimate Sprite/Ultimate range") as Area2D
 	ultimate_inner = get_node("Ultimate Sprite/Ultimate inner circle") as Area2D
-	attack_sprite = get_node("Attack Sprite") as Sprite2D
 	body_sprite = get_node("AnimatedSprite2D") as AnimatedSprite2D
-	ultimate_sprite = get_node("Ultimate Sprite") as Sprite2D
 	cooldown_timer = get_node("Cooldown Timer") as Timer
 	attack_timer = get_node("Attack Timer") as Timer
 	ultimate_timer = get_node("Ultimate Timer") as Timer
@@ -76,8 +78,7 @@ func _ready() -> void:
 	
 	# General set-up
 	amt_of_cattle = 0
-	attack_sprite.visible = false
-	ultimate_sprite.visible = false
+	#ultimate_sprite.visible = false
 	z_index = 4096
 	
 	# Create upgrades
@@ -100,20 +101,16 @@ func get_input():
 		input_direction.y = 0
 	
 	if Input.is_action_just_pressed("Ultimate") and ultimate_ready: # <-- map this action in InputMap
-		activate_ultimate()
+		play_ultimate_animation()
 	
 	get_direction()
 	adjust_direction()
 	velocity = input_direction * speed
+	
 
 func _physics_process(delta):
 	if not cooling_down:
-		attack()
-	
-	if attacking:
-		attack_sprite.visible = true
-	else:
-		attack_sprite.visible = false
+		play_attack_animation()
 		
 	if moving and velocity == Vector2.ZERO:
 		body_sprite.play("Idle")
@@ -127,25 +124,17 @@ func _physics_process(delta):
 	move_and_slide()
 	set_new_z_index()
 	
-	debug_text.bbcode_text = str("Damage: ", damage_amt, "\nSpeed: ", speed, "\nAttack Speed: ", cooldown, "\nUltimate Damage: ", ultimate_damage)
+	if attack_instance:
+		attack_instance.global_position = global_position
+	
+	debug_text.bbcode_text = str(attack_instance)
 	
 func adjust_direction() -> void:
-	if attacking:
-		match current_direction:
-			0: 
-				body_sprite.flip_h = true
-			1: 
-				body_sprite.flip_h = false
-	else:
-		match current_direction:
-			0: 
-				body_sprite.flip_h = true
-				attack_sprite.rotation_degrees = 180
-			1: 
-				body_sprite.flip_h = false
-				attack_sprite.rotation_degrees = 0
-			2: attack_sprite.rotation_degrees = 90
-			3: attack_sprite.rotation_degrees = 270
+	match current_direction:
+		0: 
+			body_sprite.flip_h = true
+		1: 
+			body_sprite.flip_h = false
 			
 func get_direction() -> void:
 	if input_direction == Vector2.ZERO:
@@ -174,14 +163,12 @@ func get_direction() -> void:
 func _add_cattle() -> void:
 	amt_of_cattle += 1
 	got_cow.emit()
-	print("Amount of cattle: ", amt_of_cattle)
 	if amt_of_cattle >= cattle_needed:
 		_cattle_amt_reached()
 		
 func lose_cattle() -> void:
 	amt_of_cattle -= 1
 	lost_cow.emit()
-	print("Amount of cattle: ", amt_of_cattle)
 		
 func _cattle_amt_reached() -> void:
 	pass
@@ -189,7 +176,8 @@ func _cattle_amt_reached() -> void:
 # ----------- ATTACK FUNCTIONS -------------------
 
 func attack() -> void:
-	for body in attack_range.get_overlapping_bodies():
+	var instance_range = attack_instance.get_node("Attack Range") as Area2D
+	for body in instance_range.get_overlapping_bodies():
 		if body.is_in_group("gadflies"):
 			body.take_damage(damage_amt, true, self)
 	attacking = true
@@ -198,10 +186,10 @@ func attack() -> void:
 	cooldown_timer.start(cooldown)
 	
 func activate_ultimate() -> void:
-	ultimate_sprite.visible = true
-	
-	var outer_bodies = ultimate_outer.get_overlapping_bodies()
-	var inner_bodies = ultimate_inner.get_overlapping_bodies()
+	var instance_outer = ultimate_instance.get_node("Ultimate range") as Area2D
+	var instance_inner = ultimate_instance.get_node("Ultimate inner circle") as Area2D
+	var outer_bodies = instance_outer.get_overlapping_bodies()
+	var inner_bodies = instance_inner.get_overlapping_bodies()
 
 	for body in outer_bodies:
 		if not body.is_in_group("enemies"): 
@@ -215,7 +203,6 @@ func activate_ultimate() -> void:
 	current_ultimate_charge = 0
 	ultimate_progress_bar.value = 0
 	ultimate_ready = false
-	ultimate_timer.start(0.5)
 	
 func charge_ultimate(amt: float) -> void:
 	current_ultimate_charge = min(current_ultimate_charge + amt, 100)
@@ -250,28 +237,22 @@ func _on_cooldown_timer_timeout() -> void:
 func _on_attack_timer_timeout() -> void:
 	attacking = false
 
-
-func _on_ultimate_timer_timeout() -> void:
-	ultimate_sprite.visible = false
 	
 # ----------- XP / LEVELING FUNCTIONS -------------------
 
 func add_xp(amt: int) -> void:
-	print("adding xp")
 	current_xp = min(current_xp + amt, xp_needed)
 	if (current_xp >= xp_needed):
 		level_up()
 	update_xp_bar()
 	
 func level_up() -> void:
-	print("leveling up")
 	current_level += 1
 	xp_needed *= level_increase
 	current_xp = 0
 	choose_upgrade()
 	
 func update_xp_bar() -> void:
-	print("attempting to update xp bar")
 	level_progress_bar.value = float(current_xp) / float(xp_needed) * 100.0
 	level_text.text = str("Level: ", current_level)
 	
@@ -297,7 +278,74 @@ func upgrade(upgrade: Upgrade) -> void:
 			ultimate_damage = upgrade.upgrade()
 		_:
 			printerr("Invalid upgrade!")
+			
 
 # ----------- GETTERS -------------------
 func get_amt_of_cows_needed() -> int:
 	return cattle_needed
+	
+# Animation
+
+func play_attack_animation() -> void:
+	cooling_down = true
+	attack_instance = attack_scene.instantiate()
+	attack_instance.frame_changed.connect(_on_attack_frame_changed)
+	attack_instance.animation_finished.connect(hide_attack_animation)
+	
+	adjust_attack_direction()
+	
+	# Place it at the player's *current* world position
+
+	
+	# Add it to the same parent as the player (the world or main scene)
+	get_parent().add_child(attack_instance)
+	
+	# Play the animation (if it doesn’t auto-play)
+	attack_instance.play()
+	
+func play_ultimate_animation() -> void:
+	ultimate_instance = ultimate_scene.instantiate()
+	ultimate_instance.frame_changed.connect(_on_ultimate_frame_changed)
+	ultimate_instance.animation_finished.connect(hide_ultimate_animation)
+	
+	# Place it at the player's *current* world position
+	ultimate_instance.global_position = global_position
+	
+	# Add it to the same parent as the player (the world or main scene)
+	get_parent().add_child(ultimate_instance)
+	
+	# Play the animation (if it doesn’t auto-play)
+	ultimate_instance.play()
+		
+func adjust_attack_direction() -> void:
+	var attack_transform = attack_instance.position
+	match current_direction:
+		0: 
+			attack_instance.rotation_degrees = 180
+			attack_instance.flip_v = true
+		1: 
+			attack_instance.rotation_degrees = 0
+			attack_instance.flip_v = false
+		2: 
+			attack_instance.rotation_degrees = 90
+			attack_instance.flip_v = false
+		3: 
+			attack_instance.rotation_degrees = 270
+			attack_instance.flip_v = false
+			var temp = attack_transform + Vector2(0,20)
+			attack_instance.position = temp
+	
+	
+func _on_attack_frame_changed() -> void:
+	if attack_instance.frame == 7:
+		attack()
+	
+func _on_ultimate_frame_changed() -> void:
+	if ultimate_instance.frame == 2:
+		activate_ultimate()
+		
+func hide_attack_animation() -> void:
+	attack_instance.queue_free()
+	
+func hide_ultimate_animation() -> void:
+	ultimate_instance.queue_free()

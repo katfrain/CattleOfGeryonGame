@@ -637,6 +637,7 @@ horizontal_alignment = 1
 
 [node name="Lose Container" type="PanelContainer" parent="UI"]
 process_mode = 3
+visible = false
 z_index = 5
 anchors_preset = 8
 anchor_left = 0.5
@@ -1274,7 +1275,7 @@ process_mode = 1
 z_index = 4096
 spawner_type = 1
 max_instances_in_scene = 100
-timer_interval = 1.0
+timer_interval = 2.0
 wave_size = 2
 
 [node name="World Bounds" type="TextureRect" parent="."]

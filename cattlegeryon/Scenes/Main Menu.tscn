@@ -1,14 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://bg2l2llw2pc5v"]
+[gd_scene load_steps=10 format=3 uid="uid://bg2l2llw2pc5v"]
 
 [ext_resource type="Script" uid="uid://desbrscd18yyr" path="res://Scripts/main_menu.gd" id="1_totuj"]
+[ext_resource type="Texture2D" uid="uid://boe2h7hlrtiuv" path="res://Assets/UI/Main_Menu.png" id="2_4lp62"]
+[ext_resource type="Texture2D" uid="uid://cy8ymmgcaowej" path="res://Assets/UI/Buttons/gold_button.png" id="3_0vewo"]
+[ext_resource type="Texture2D" uid="uid://dp0psk6sjms47" path="res://Assets/UI/Buttons/gold_button_pressed.png" id="4_wib81"]
+[ext_resource type="Script" uid="uid://cvssh05e5altp" path="res://Scripts/button_w_text.gd" id="5_tbdrc"]
+[ext_resource type="FontFile" uid="uid://cox33umscsoi3" path="res://Assets/Fonts/PixelifySans-VariableFont_wght.ttf" id="6_vuees"]
+[ext_resource type="Texture2D" uid="uid://bnus7y62bfd8t" path="res://Assets/UI/Buttons/silver_button.png" id="7_3hb06"]
+[ext_resource type="Texture2D" uid="uid://bellnx55y4rw8" path="res://Assets/UI/Buttons/silver_button_pressed.png" id="8_ns28u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hcxxy"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ur25d"]
-bg_color = Color(0.189116, 0.367671, 0.541309, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eotax"]
-bg_color = Color(0.101041, 0.220346, 0.33588, 1)
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_totuj")
@@ -20,54 +21,98 @@ offset_right = 641.0
 offset_bottom = 359.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hcxxy")
 
-[node name="Panel" type="Panel" parent="UI/Menu Container"]
+[node name="TextureRect" type="TextureRect" parent="UI/Menu Container"]
 layout_mode = 2
+texture = ExtResource("2_4lp62")
 
-[node name="Title" type="RichTextLabel" parent="UI/Menu Container/Panel"]
+[node name="Play" type="TextureButton" parent="UI/Menu Container/TextureRect"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -345.5
-offset_top = 57.0
-offset_right = 345.5
-offset_bottom = 132.0
+anchor_bottom = 0.5
+offset_left = -58.5
+offset_top = 49.0
+offset_right = 58.5
+offset_bottom = 84.0
 grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 50
-text = "CATTLE OF GERYON"
+grow_vertical = 2
+texture_normal = ExtResource("3_0vewo")
+texture_pressed = ExtResource("4_wib81")
+script = ExtResource("5_tbdrc")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/Play"]
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 109.0
+offset_bottom = 25.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("6_vuees")
+theme_override_font_sizes/normal_font_size = 9
+text = "Play
+"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Play" type="Button" parent="UI/Menu Container/Panel"]
+[node name="Credits" type="TextureButton" parent="UI/Menu Container/TextureRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -171.5
-offset_top = 2.0
-offset_right = 171.5
-offset_bottom = 43.0
+offset_left = -58.5
+offset_top = 88.0
+offset_right = 58.5
+offset_bottom = 123.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ur25d")
-text = "PLAY"
+texture_normal = ExtResource("3_0vewo")
+texture_pressed = ExtResource("4_wib81")
+script = ExtResource("5_tbdrc")
 
-[node name="Exit" type="Button" parent="UI/Menu Container/Panel"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/Credits"]
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 109.0
+offset_bottom = 25.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("6_vuees")
+theme_override_font_sizes/normal_font_size = 9
+text = "Credits
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit" type="TextureButton" parent="UI/Menu Container/TextureRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -171.5
-offset_top = 85.0
-offset_right = 171.5
-offset_bottom = 126.0
+offset_left = -58.5
+offset_top = 128.0
+offset_right = 58.5
+offset_bottom = 163.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_eotax")
-text = "EXIT"
+texture_normal = ExtResource("7_3hb06")
+texture_pressed = ExtResource("8_ns28u")
+script = ExtResource("5_tbdrc")
 
-[connection signal="pressed" from="UI/Menu Container/Panel/Play" to="." method="play"]
-[connection signal="pressed" from="UI/Menu Container/Panel/Exit" to="." method="exit"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/Exit"]
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 109.0
+offset_bottom = 25.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("6_vuees")
+theme_override_font_sizes/normal_font_size = 9
+text = "Exit Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="UI/Menu Container/TextureRect/Play" to="." method="play"]
+[connection signal="pressed" from="UI/Menu Container/TextureRect/Exit" to="." method="exit"]

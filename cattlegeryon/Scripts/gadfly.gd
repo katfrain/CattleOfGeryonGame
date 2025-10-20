@@ -287,7 +287,9 @@ func apply_poison(damage_amt: float, interval: float, ticks: int) -> void:
 
 	if fill_stylebox is StyleBoxFlat:
 		fill_stylebox.bg_color = Color("#5bad7e") 
-
+		
+	take_damage(poison_damage, false, player)
+	poison_ticks_remaining -= 1
 	poison_dmg_timer.start(poison_interval)
 	
 func update_health_bar() -> void:

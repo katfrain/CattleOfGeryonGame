@@ -93,6 +93,10 @@ func _ready() -> void:
 	upgrades.append(ultimate_damage_upgrade)
 	
 	body_sprite.play("Idle")
+	attacking = true
+	cooling_down = true
+	attack_timer.start(attack_time)
+	cooldown_timer.start(cooldown)
 	
 # ----------- MOVEMENT FUNCTIONS -------------------
 

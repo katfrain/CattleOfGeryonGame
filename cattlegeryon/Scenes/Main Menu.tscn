@@ -43,6 +43,7 @@ texture_pressed = ExtResource("4_wib81")
 script = ExtResource("5_tbdrc")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/Play"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 7.0
 offset_right = 109.0
@@ -73,6 +74,7 @@ texture_pressed = ExtResource("4_wib81")
 script = ExtResource("5_tbdrc")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/Credits"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 7.0
 offset_right = 109.0
@@ -103,6 +105,7 @@ texture_pressed = ExtResource("8_ns28u")
 script = ExtResource("5_tbdrc")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/Exit"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 7.0
 offset_right = 109.0

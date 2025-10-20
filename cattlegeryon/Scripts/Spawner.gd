@@ -37,7 +37,7 @@ func _ready() -> void:
 			spawn_scene = fly_scene
 	
 	screen_rect = get_area_rect(screen_area)
-	current_in_scene = 0
+	current_in_scene = 2
 	spawn_timer.wait_time = timer_interval
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
 	spawn_timer.start()
@@ -58,8 +58,8 @@ func on_spawn_timer_timeout():
 		instance.global_position = pos + Vector2(randf_range(3,20), randf_range(3,20))
 		instance.z_index = 1
 		add_child(instance)
-		#print(current_in_scene, " ", name, "(s) spawned")
 		current_in_scene += 1
+		print(current_in_scene, " ", name, "(s) spawned")
 
 func get_spawn_position() -> Vector2:
 	if not tilemap:

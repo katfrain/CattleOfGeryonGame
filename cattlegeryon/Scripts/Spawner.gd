@@ -9,6 +9,8 @@ enum spawner_type_enum {
 @export var max_instances_in_scene: int
 @export var timer_interval: float
 @export var wave_size: int = 1
+@export var level_text: RichTextLabel
+@export var spawned_text: RichTextLabel
 
 @onready var spawn_timer: Timer = $Timer
 
@@ -19,6 +21,10 @@ var current_in_scene: int
 var screen_area: Area2D
 var screen_rect: Rect2
 var tilemap: TileMapLayer
+var player_level = 1
+var next_level_needed = 2
+var level_interval = 2
+var base_wave_size
 
 # SCENES
 var cow_scene: PackedScene = preload("res://Scenes/cow.tscn")
@@ -43,6 +49,11 @@ func _ready() -> void:
 	spawn_timer.start()
 	
 	tilemap = get_parent().get_node("TileMap") as TileMapLayer
+	base_wave_size = wave_size
+	level_text.visible = false
+	if spawner_type == spawner_type_enum.COW:
+		updated_spawned_text()
+		wave_size = 1
 
 	
 func on_spawn_timer_timeout():
@@ -52,14 +63,31 @@ func on_spawn_timer_timeout():
 	#print("Attempting to spawn ", name)
 	var pos = get_spawn_position()
 	
-	for i in range(wave_size):
-		if current_in_scene >= max_instances_in_scene: return
-		var instance = spawn_scene.instantiate()
-		instance.global_position = pos + Vector2(randf_range(3,20), randf_range(3,20))
-		instance.z_index = 1
-		add_child(instance)
-		current_in_scene += 1
-		print(current_in_scene, " ", name, "(s) spawned")
+	match spawner_type:
+		spawner_type_enum.COW:
+			if wave_size <= 0: return
+			if current_in_scene >= max_instances_in_scene: return
+			var instance = spawn_scene.instantiate()
+			instance.global_position = pos + Vector2(randf_range(3,20), randf_range(3,20))
+			instance.z_index = 1
+			add_child(instance)
+			current_in_scene += 1
+			wave_size -= 1
+			if wave_size <= 0:
+				update_level_text()
+				level_text.visible = true
+			updated_spawned_text()
+			if current_in_scene == max_instances_in_scene:
+				level_text.visible = false
+			print(current_in_scene, " ", name, "(s) spawned")
+		spawner_type_enum.GADFLY:
+			for i in range(wave_size):
+				if current_in_scene >= max_instances_in_scene: return
+				var instance = spawn_scene.instantiate()
+				instance.global_position = pos + Vector2(randf_range(3,20), randf_range(3,20))
+				instance.z_index = 1
+				add_child(instance)
+				current_in_scene += 1
 
 func get_spawn_position() -> Vector2:
 	if not tilemap:
@@ -89,6 +117,9 @@ func get_spawn_position() -> Vector2:
 	
 func remove_from_scene() -> void:
 	current_in_scene = max(current_in_scene - 1, 0)
+	if spawner_type == spawner_type_enum.COW:
+		updated_spawned_text()
+		wave_size += 1
 			
 func get_area_rect(area: Area2D) -> Rect2:
 	var col = area.get_node("CollisionShape2D") as CollisionShape2D
@@ -99,4 +130,17 @@ func get_area_rect(area: Area2D) -> Rect2:
 		var size = extents * 2
 		return Rect2(top_left, size)
 	return Rect2()
+	
+func level_up() -> void:
+	player_level += 1
+	if player_level >= next_level_needed:
+		wave_size += base_wave_size
+		next_level_needed += level_interval
+		level_text.visible = false
+		
+func update_level_text() -> void:
+	level_text.text = str("Next Cows Spawn at: Level ", next_level_needed)
+	
+func updated_spawned_text() -> void:
+	spawned_text.text = str(current_in_scene, " Spawned")
 	

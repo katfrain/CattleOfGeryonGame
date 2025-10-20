@@ -60,6 +60,7 @@ var cows: Array[CharacterBody2D]
 # Signals
 signal got_cow
 signal lost_cow
+signal level_up_signal
 
 func _ready() -> void:
 	feet_area = get_node("Feet") as CollisionShape2D
@@ -258,6 +259,7 @@ func level_up() -> void:
 	current_level += 1
 	xp_needed *= level_increase
 	current_xp = 0
+	level_up_signal.emit()
 	choose_upgrade()
 	
 func update_xp_bar() -> void:

@@ -6,7 +6,6 @@ enum States {
 	FLEEING
 }
 
-@export var max_health = 200.0
 
 @export var idle_speed = 40
 @export var idle_move_max_distance = 80.0
@@ -41,6 +40,7 @@ var idle_move_target: Vector2
 var prev_position: Vector2
 var effective_velocity: Vector2
 var speed: float
+var max_health: float
 
 # Cow attributes set at spawn
 var cow_layer
@@ -72,6 +72,7 @@ func _ready() -> void:
 	add_to_group("cows")
 	
 	# General set-up
+	max_health = cow_manager.cow_health
 	current_health = max_health
 	player = null
 	health_bar.value = 100
@@ -98,6 +99,11 @@ func _ready() -> void:
 # ----------- MOVEMENT FUNCTIONS -------------------
 
 func _physics_process(delta: float) -> void:
+	if max_health != cow_manager.cow_health:
+		max_health = cow_manager.cow_health
+		update_health_bar()
+		if (state != States.FOLLOWING):
+			heal(max_health)
 	speed = cow_manager.cow_speed
 
 	match state:
@@ -117,7 +123,7 @@ func _physics_process(delta: float) -> void:
 	set_new_z_index()
 	update_sprite_direction(effective_velocity)
 	
-	debug_text.text = str(speed)
+	debug_text.text = str(current_health, "/", max_health)
 	
 
 # -- Nav Agent Functions:
@@ -267,12 +273,25 @@ func take_damage(damage_amt: float) -> void:
 	damage_color()
 	if current_health <= 0:
 		start_fleeing()
+		
+func heal(heal_amt: float) -> void:
+	current_health += min(heal_amt, max_health - current_health)
+	update_health_bar()
+	heal_color()
 	
 func update_health_bar() -> void:
 	health_bar.value = (current_health / max_health) * 100
 	
 func damage_color() -> void:
 	var flash_color := Color(1, 0.3, 0.3) # light red
+	var normal_color := Color(1, 1, 1)    # default (white)
+	
+	sprite.modulate = flash_color
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate", normal_color, 0.3)
+	
+func heal_color() -> void:
+	var flash_color := Color.hex(0xca96a7)
 	var normal_color := Color(1, 1, 1)    # default (white)
 	
 	sprite.modulate = flash_color

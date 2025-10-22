@@ -31,6 +31,8 @@ var player_base_damage
 var player_base_ultimate_damage
 var player_base_attack_cooldown
 
+var pause_menu_open: bool = false
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -76,7 +78,7 @@ func _process(delta: float) -> void:
 		win_timer_text.text = str("%.1f" % win_timer.time_left)
 	if Input.is_action_just_pressed("Pause") and get_tree().paused == false:
 		open_pause_menu()
-	elif Input.is_action_just_pressed("Pause") and get_tree().paused == true:
+	elif Input.is_action_just_pressed("Pause") and get_tree().paused == true and pause_menu_open == true:
 		close_pause_menu()
 	if current_amt_of_cows <= 1:
 		reroll_button.disabled = true
@@ -126,6 +128,7 @@ func unpause() -> void:
 	
 func restart() -> void:
 	pause_container.visible = false
+	cow_manager.reset_manager()
 	print("attempting to reload scene")
 	get_tree().reload_current_scene()
 	
@@ -160,10 +163,12 @@ func choose_upgrade_2() -> void:
 	
 func open_pause_menu() -> void: 
 	pause_container.visible = true
+	pause_menu_open = true
 	pause()
 	
 func close_pause_menu() -> void: 
 	pause_container.visible = false
+	pause_menu_open = false
 	unpause()
 	
 func exit_game() -> void: 

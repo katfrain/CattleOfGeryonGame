@@ -2,7 +2,8 @@ extends Node2D
 
 enum spawner_type_enum {
 	COW,
-	GADFLY
+	GADFLY,
+	HEALTH
 }
 
 @export var spawner_type: spawner_type_enum
@@ -29,31 +30,33 @@ var base_wave_size
 # SCENES
 var cow_scene: PackedScene = preload("res://Scenes/cow.tscn")
 var fly_scene: PackedScene = preload("res://Scenes/gadfly.tscn")
+var health_scene: PackedScene = preload("res://Scenes/health_drop.tscn")
 
 
 func _ready() -> void:
 	world_bounds = get_parent().get_node("World Bounds") as TextureRect
 	var player = get_parent().get_node("Player")
 	screen_area = player.get_node("Viewport Bounds") as Area2D
-		
+	base_wave_size = wave_size
+	
 	match spawner_type:
 		spawner_type_enum.COW:
 			spawn_scene = cow_scene
+			updated_spawned_text()
+			wave_size = 1
+			current_in_scene = 2
 		spawner_type_enum.GADFLY:
 			spawn_scene = fly_scene
+		spawner_type_enum.HEALTH:
+			spawn_scene = health_scene
 	
 	screen_rect = get_area_rect(screen_area)
-	current_in_scene = 2
 	spawn_timer.wait_time = timer_interval
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
 	spawn_timer.start()
 	
 	tilemap = get_parent().get_node("TileMap") as TileMapLayer
-	base_wave_size = wave_size
 	level_text.visible = false
-	if spawner_type == spawner_type_enum.COW:
-		updated_spawned_text()
-		wave_size = 1
 
 	
 func on_spawn_timer_timeout():
@@ -88,6 +91,14 @@ func on_spawn_timer_timeout():
 				instance.z_index = 1
 				add_child(instance)
 				current_in_scene += 1
+		spawner_type_enum.HEALTH:
+			if current_in_scene >= max_instances_in_scene: return
+			var instance = spawn_scene.instantiate()
+			instance.global_position = pos + Vector2(randf_range(3,20), randf_range(3,20))
+			instance.z_index = 1
+			add_child(instance)
+			current_in_scene += 1
+			print("Health drop spawned")
 
 func get_spawn_position() -> Vector2:
 	if not tilemap:

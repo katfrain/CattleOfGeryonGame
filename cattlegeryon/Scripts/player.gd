@@ -16,7 +16,8 @@ extends CharacterBody2D
 @onready var ultimate_scene = preload("res://Scenes/ultimate.tscn")
 @onready var attack_scene = preload("res://Scenes/attack.tscn")
 
-const ULTIMATE_CHARGE_NEEDED: float = 100.0
+const ULTIMATE_CHARGE_NEEDED: float = 93.0
+const ULTIMATE_CHARGE_MIN: float = 8.0
 
 var feet_area: CollisionShape2D
 var attack_range: Area2D
@@ -32,7 +33,7 @@ var amt_of_cattle = 0
 var attack_time: float = 0.3
 var input_direction: Vector2
 var current_direction: int = 0
-var current_ultimate_charge: float = 0.0
+var current_ultimate_charge: float = 8.0
 var current_level: int = 1
 var current_xp = 0
 var xp_needed = 100
@@ -53,6 +54,7 @@ var player_speed_upgrade: Upgrade
 var attack_speed_upgrade: Upgrade
 var attack_damage_upgrade: Upgrade
 var ultimate_damage_upgrade: Upgrade
+var cow_health_upgrade: Upgrade
 
 var upgrades: Array[Upgrade]
 var cows: Array[CharacterBody2D]
@@ -85,13 +87,15 @@ func _ready() -> void:
 	
 	# Create upgrades
 	player_speed_upgrade = Upgrade.new("Multiply", 1.1, speed, "Speed", 1, "[color=#7BEA7B]+10%[/color] Speed for Hercules and any following cattle")
-	attack_speed_upgrade = Upgrade.new("Multiply", 0.9, cooldown, "Attack Speed", 1, "[color=#F07575]-10%[/color] Time between Auto Attacks")
+	attack_speed_upgrade = Upgrade.new("Multiply", 0.9, cooldown, "Attack Speed", 1, "[color=#F07575]-10%[/color] Time between Auto Attacks", 4)
 	attack_damage_upgrade = Upgrade.new("Multiply", 1.2, damage_amt, "Attack Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Auto Attacks")
-	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Ultimate")	
+	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Ultimate")
+	cow_health_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Cow Health", 1, "[color=#7BEA7B]+20%[/color] Max Health for all cows")		
 	upgrades.append(player_speed_upgrade)
 	upgrades.append(attack_speed_upgrade)
 	upgrades.append(attack_damage_upgrade)
 	upgrades.append(ultimate_damage_upgrade)
+	upgrades.append(cow_health_upgrade)
 	
 	body_sprite.play("Idle")
 	attacking = true
@@ -107,7 +111,7 @@ func get_input():
 		input_direction.y = 0
 	
 	if Input.is_action_just_pressed("Ultimate") and ultimate_ready: # <-- map this action in InputMap
-		play_ultimate_animation()
+		play_ultimate_indicator()
 	
 	get_direction()
 	adjust_direction()
@@ -116,7 +120,7 @@ func get_input():
 
 func _physics_process(delta):
 	if not cooling_down:
-		play_attack_animation()
+		play_attack_indicator()
 		
 	if moving and velocity == Vector2.ZERO:
 		body_sprite.play("Idle")
@@ -136,11 +140,18 @@ func _physics_process(delta):
 	debug_text.text = str(speed)
 	
 func adjust_direction() -> void:
+	var attack_range_indicator = $AttackRange
 	match current_direction:
 		0: 
 			body_sprite.flip_h = true
+			attack_range_indicator.rotation_degrees = 180
 		1: 
 			body_sprite.flip_h = false
+			attack_range_indicator.rotation_degrees = 0
+		2:
+			attack_range_indicator.rotation_degrees = 90
+		3:
+			attack_range_indicator.rotation_degrees = 270
 			
 func get_direction() -> void:
 	if input_direction == Vector2.ZERO:
@@ -209,14 +220,49 @@ func activate_ultimate() -> void:
 		if body.has_method("apply_poison"):
 			body.apply_poison(ultimate_damage, poison_tick_interval, poison_ticks)
 			
-	current_ultimate_charge = 0
-	ultimate_progress_bar.value = 0
+	current_ultimate_charge = ULTIMATE_CHARGE_MIN
+	ultimate_progress_bar.value = ULTIMATE_CHARGE_MIN
+
+	var q = $"../UI/Ultimate Progress/Q"
+	q.bbcode_text = "[color=white]Q[/color]"
+	var ult_button = $"../UI/Ultimate Progress/TextureButton"
+	var tween = create_tween()
+	tween.tween_property(ult_button, "scale", Vector2(1,1), 0.3)
+	var tween2 = create_tween()
+	# Get the current font size
+	var current_size = q.get_theme_font_size("normal_font_size")
+
+	# Set up tween to a new size
+	tween2.tween_method(
+		func(size): q.add_theme_font_size_override("normal_font_size", size),
+		current_size,
+		current_size - 3,
+		0.3
+	)
+	
 	ultimate_ready = false
 	
 func charge_ultimate(amt: float) -> void:
-	current_ultimate_charge = min(current_ultimate_charge + amt, 100)
+	if ultimate_ready == true: return
+	current_ultimate_charge = min(current_ultimate_charge + amt, ULTIMATE_CHARGE_NEEDED)
 	if (current_ultimate_charge >= ULTIMATE_CHARGE_NEEDED):
 		ultimate_ready = true
+		var q = $"../UI/Ultimate Progress/Q"
+		q.bbcode_text = "[color=#8EBA8F]Q[/color]"
+		var ult_button = $"../UI/Ultimate Progress/TextureButton"
+		var tween = create_tween()
+		tween.tween_property(ult_button, "scale", Vector2(1.2,1.2), 0.3)
+		var tween2 = create_tween()
+		# Get the current font size
+		var current_size = q.get_theme_font_size("normal_font_size")
+
+		# Set up tween to a new size
+		tween2.tween_method(
+			func(size): q.add_theme_font_size_override("normal_font_size", size),
+			current_size,
+			current_size + 3,
+			0.3
+		)
 	ultimate_progress_bar.value = current_ultimate_charge
 	
 
@@ -287,8 +333,18 @@ func upgrade(upgrade: Upgrade) -> void:
 			damage_amt = upgrade.upgrade()
 		"Ultimate Damage":
 			ultimate_damage = upgrade.upgrade()
+		"Cow Health":
+			cow_manager.upgrade_cow_health(upgrade.upgrade_amt)
+			for cow in cows:
+				if cow:
+					cow.update_health_bar()
 		_:
 			printerr("Invalid upgrade!")
+		
+	if upgrade.max_upgrades > -1 and upgrade.upgrade_number >= upgrade.max_upgrades:
+		if upgrades.has(upgrade):
+			upgrades.erase(upgrade)
+			print("Removed upgrade:", upgrade.upgrade_name)
 			
 
 # ----------- GETTERS -------------------
@@ -297,21 +353,40 @@ func get_amt_of_cows_needed() -> int:
 	
 # Animation
 
-func play_attack_animation() -> void:
+func play_attack_indicator() -> void:
 	cooling_down = true
+	
+
+	var attack_range_indicator = $AttackRange
+	var flash_color := Color(1, 0.3, 0.3, 0.5)
+	var normal_color := Color(0,0,0,0)
+	attack_range_indicator.modulate = flash_color
+	await get_tree().create_timer(cooldown * 0.2).timeout
+	var tween = create_tween()
+	tween.tween_property(attack_range_indicator, "modulate", normal_color, 0.3)
+	await get_tree().create_timer(cooldown * 0.3).timeout
+	play_attack_animation()
+	
+func play_ultimate_indicator() -> void:
+	var ultimate_range_indicator = $UltimateRange
+	var flash_color := Color(0.3, 1, 0.3, 0.5)
+	var normal_color := Color(0,0,0,0)
+	ultimate_range_indicator.modulate = flash_color
+	await get_tree().create_timer(1).timeout
+	var tween = create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.tween_property(ultimate_range_indicator, "modulate", normal_color, 0.3)
+	await get_tree().create_timer(0.3).timeout
+	play_ultimate_animation()
+
+func play_attack_animation() -> void:
 	attack_instance = attack_scene.instantiate()
+	attack_instance.global_position = self.global_position
+	adjust_attack_direction()
+	get_parent().add_child(attack_instance)
 	attack_instance.frame_changed.connect(_on_attack_frame_changed)
 	attack_instance.animation_finished.connect(hide_attack_animation)
 	
-	adjust_attack_direction()
-	
-	# Place it at the player's *current* world position
-
-	
-	# Add it to the same parent as the player (the world or main scene)
-	get_parent().add_child(attack_instance)
-	
-	# Play the animation (if it doesn’t auto-play)
 	attack_instance.play()
 	
 func play_ultimate_animation() -> void:
@@ -372,4 +447,11 @@ func reroll_choose_cow() -> CharacterBody2D:
 			
 	printerr("Seomthing went wrong, cannot find cow")
 	return null
+	
+# ---- Health Pick-up ----
+
+func heal_cows(heal_amt: float) -> void:
+	for cow in cows: 
+		if cow:
+			cow.heal(heal_amt)
 	

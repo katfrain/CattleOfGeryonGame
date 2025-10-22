@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dht0rklbvxpet"]
+[gd_scene load_steps=20 format=3 uid="uid://dht0rklbvxpet"]
 
 [ext_resource type="Script" uid="uid://bhigctwsdw2n5" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="PackedScene" uid="uid://dggyy53rx8cmv" path="res://Scenes/ultimate.tscn" id="2_x3wgy"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dlv18kvvhbe46" path="res://Assets/Hercules_Idle.png" id="5_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bi2ui80ylwda0" path="res://Assets/Hercules_Walk.png" id="5_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://cg6m5qp771onl" path="res://Assets/player_shadow.png" id="6_x3wgy"]
+[ext_resource type="Texture2D" uid="uid://cbpqmwo8sg5t0" path="res://Assets/UI/Ultimate Range.png" id="7_3smsa"]
+[ext_resource type="Texture2D" uid="uid://b58prm1wl33eg" path="res://Assets/UI/Attack Range.png" id="8_8erm5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("5_fkybt")
@@ -87,7 +89,7 @@ radius = 8.48528
 collision_mask = 129
 script = ExtResource("1_cvnsp")
 speed = 150
-cooldown = 1.5
+cooldown = 0.5
 damage_amt = 50.0
 
 [node name="Ultimate Sprite" parent="." instance=ExtResource("2_x3wgy")]
@@ -97,6 +99,7 @@ position = Vector2(-5, -21)
 [node name="Attack Sprite" parent="." instance=ExtResource("3_x3wgy")]
 visible = false
 position = Vector2(-6, -14)
+rotation = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-5, -15)
@@ -147,6 +150,33 @@ z_index = -4095
 z_as_relative = false
 position = Vector2(-5, 14)
 texture = ExtResource("6_x3wgy")
+
+[node name="Range Indicator" type="ColorRect" parent="."]
+z_index = -4094
+z_as_relative = false
+offset_left = -213.0
+offset_top = -52.0
+offset_right = -13.0
+offset_bottom = 20.0
+pivot_offset = Vector2(207, 38)
+color = Color(0.61, 0.2928, 0.2928, 0)
+
+[node name="UltimateRange" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = -4095
+z_as_relative = false
+position = Vector2(-4.99999, 1)
+scale = Vector2(0.420485, 0.409703)
+texture = ExtResource("7_3smsa")
+
+[node name="AttackRange" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = -4094
+z_as_relative = false
+position = Vector2(-6.00002, -15)
+scale = Vector2(0.424138, 0.424138)
+texture = ExtResource("8_8erm5")
+offset = Vector2(-255, 0)
 
 [connection signal="area_entered" from="Head Area" to="." method="_on_head_area_area_entered"]
 [connection signal="area_exited" from="Head Area" to="." method="_on_head_area_area_exited"]

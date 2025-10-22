@@ -19,7 +19,7 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	if player:
-		var direction = (player.global_position - global_position).normalized()
+		var direction = (player.feet_area.global_position - global_position).normalized()
 		var desired_velocity = direction * max_speed
 		velocity = velocity.move_toward(desired_velocity, acceleration * delta)
 	else:

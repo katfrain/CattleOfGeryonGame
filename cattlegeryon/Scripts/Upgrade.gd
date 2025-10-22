@@ -15,13 +15,17 @@ var current_value = 0.0
 var upgrade_amt: float
 var upgrade_name: String
 var upgrade_desc: String
+var max_upgrades: int 
+var upgrade_number: int
 
-func _init(_upgrade_type: String, _upgrade_amt: float, _current_value: float, _upgrade_name: String, _level = 0, _upgrade_desc: String = "N/A"):
+func _init(_upgrade_type: String, _upgrade_amt: float, _current_value: float, _upgrade_name: String, _level = 0, _upgrade_desc: String = "N/A", _max_upgrades: int = -1):
 	level = _level
 	upgrade_amt = _upgrade_amt
 	current_value = _current_value
 	upgrade_name = _upgrade_name
 	upgrade_desc = _upgrade_desc
+	max_upgrades = _max_upgrades
+	upgrade_number = 0
 	match _upgrade_type:
 		"Multiply":
 			upgrade_type = upgrade_type_enum.MULTIPLY
@@ -36,6 +40,7 @@ func _init(_upgrade_type: String, _upgrade_amt: float, _current_value: float, _u
 			
 func upgrade() -> float:
 	level += 1
+	upgrade_number += 1
 	var old_value = current_value
 	match upgrade_type:
 		upgrade_type_enum.MULTIPLY:

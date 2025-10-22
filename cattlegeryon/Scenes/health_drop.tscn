@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck6p5472ar0tq"]
+
+[ext_resource type="Script" uid="uid://bd2luoma7jdwj" path="res://Scenes/health_drop.gd" id="1_8pl61"]
+[ext_resource type="Texture2D" uid="uid://dfglndvj6fxxb" path="res://Assets/Health Drop/heart_placeholder.png" id="1_iu1g5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8pl61"]
+radius = 14.0
+
+[node name="Health Drop" type="Node2D"]
+z_index = -4091
+script = ExtResource("1_8pl61")
+heal_amount = 100
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("1_iu1g5")
+
+[node name="Pickup Area" type="Area2D" parent="."]
+collision_layer = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup Area"]
+shape = SubResource("CircleShape2D_8pl61")

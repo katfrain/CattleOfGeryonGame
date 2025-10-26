@@ -23,8 +23,8 @@ cow_manager="*res://Scripts/cow_manager.gd"
 
 window/size/viewport_width=640
 window/size/viewport_height=360
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/mode=2
+window/size/extend_to_title=true
 window/stretch/mode="canvas_items"
 
 [input]

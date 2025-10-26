@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=4 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=55 format=4 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -38,6 +38,7 @@
 [ext_resource type="Texture2D" uid="uid://cp5cf144x314c" path="res://Assets/UI/Icons/health_icon.png" id="28_p5wkl"]
 [ext_resource type="Texture2D" uid="uid://bo0jmvswur7em" path="res://Assets/UI/Buttons/reroll_disabled.png" id="30_coyub"]
 [ext_resource type="Script" uid="uid://cvx2mhvkbqcvw" path="res://Scripts/reroll_button.gd" id="31_ochwf"]
+[ext_resource type="Texture2D" uid="uid://c8l1gtx5ba158" path="res://Assets/UI/Tutorial_Container.png" id="34_04jkj"]
 
 [sub_resource type="Theme" id="Theme_o06y3"]
 
@@ -53,6 +54,8 @@
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r74th"]
 load_path = "res://.godot/imported/health_icon.png-7095461e8750ff000fb4353d0844beac.ctex"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_atqvy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
 size = Vector2(348.5, 210.5)
@@ -1050,6 +1053,7 @@ metadata/_edit_lock_ = true
 
 [node name="Upgrade Container" type="PanelContainer" parent="UI"]
 process_mode = 3
+visible = false
 z_index = 5
 anchors_preset = 8
 anchor_left = 0.5
@@ -1308,6 +1312,22 @@ text = "-1
 "
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Tutorial Container" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tutorial Slide 1" type="PanelContainer" parent="UI/Tutorial Container"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_atqvy")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Tutorial Container/Tutorial Slide 1"]
+layout_mode = 2
+texture = ExtResource("34_04jkj")
 
 [node name="Win Timer" type="Timer" parent="."]
 process_mode = 1

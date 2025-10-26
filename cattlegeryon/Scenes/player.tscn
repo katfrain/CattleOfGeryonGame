@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dlv18kvvhbe46" path="res://Assets/Hercules_Idle.png" id="5_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bi2ui80ylwda0" path="res://Assets/Hercules_Walk.png" id="5_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://cg6m5qp771onl" path="res://Assets/player_shadow.png" id="6_x3wgy"]
-[ext_resource type="Texture2D" uid="uid://cbpqmwo8sg5t0" path="res://Assets/UI/Ultimate Range.png" id="7_3smsa"]
-[ext_resource type="Texture2D" uid="uid://b58prm1wl33eg" path="res://Assets/UI/Attack Range.png" id="8_8erm5"]
+[ext_resource type="Texture2D" uid="uid://dihmcdtmmgrd1" path="res://Assets/UI/ult-indicator.png" id="7_8erm5"]
+[ext_resource type="Texture2D" uid="uid://be2mi54btkpg1" path="res://Assets/UI/attack-indicator.png" id="8_8erm5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("5_fkybt")
@@ -166,17 +166,15 @@ modulate = Color(1, 1, 1, 0)
 z_index = -4095
 z_as_relative = false
 position = Vector2(-4.99999, 1)
-scale = Vector2(0.420485, 0.409703)
-texture = ExtResource("7_3smsa")
+texture = ExtResource("7_8erm5")
 
 [node name="AttackRange" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 z_index = -4094
 z_as_relative = false
 position = Vector2(-6.00002, -15)
-scale = Vector2(0.424138, 0.424138)
 texture = ExtResource("8_8erm5")
-offset = Vector2(-255, 0)
+offset = Vector2(-108, 0)
 
 [connection signal="area_entered" from="Head Area" to="." method="_on_head_area_area_entered"]
 [connection signal="area_exited" from="Head Area" to="." method="_on_head_area_area_exited"]

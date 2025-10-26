@@ -8,7 +8,6 @@ const BASE_COW_HEALTH: float = 200.0
 
 func _ready() -> void:
 	reset_manager()
-	print(get_parent())
 
 func upgrade_cow_speed(amount: float) -> void:
 	cow_speed *= amount

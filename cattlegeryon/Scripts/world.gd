@@ -20,6 +20,8 @@ var u1_text: RichTextLabel
 var u2_text: RichTextLabel
 var u1_desc: RichTextLabel
 var u2_desc: RichTextLabel
+var u1_img: TextureRect
+var u2_img: TextureRect
 var stats: RichTextLabel
 var loss_stats: RichTextLabel
 var win_stats: RichTextLabel
@@ -30,6 +32,7 @@ var player_base_speed
 var player_base_damage
 var player_base_ultimate_damage
 var player_base_attack_cooldown
+var cow_base_health
 
 var pause_menu_open: bool = false
 
@@ -50,6 +53,8 @@ func _ready() -> void:
 	u2_text = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2/U2 Text") as RichTextLabel
 	u1_desc = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1/U1 Text2") as RichTextLabel
 	u2_desc = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2/U2 Text2") as RichTextLabel
+	u1_img = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1/U1 Photo") as TextureRect
+	u2_img = get_node("UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2/U2 Photo") as TextureRect
 	stats = get_node("UI/Upgrade Container/Upgrade Menu Texture/Stats Title/Stats") as RichTextLabel
 	loss_stats = get_node("UI/Lose Container/Win Container Texture/Stats Title/Stats") as RichTextLabel
 	win_stats = get_node("UI/Win Container/Win Container Texture/Stats Title/Stats") as RichTextLabel
@@ -69,6 +74,8 @@ func _ready() -> void:
 		player_base_damage = player.damage_amt
 		player_base_speed = player.speed
 		player_base_ultimate_damage = player.ultimate_damage
+		
+	cow_base_health = cow_manager.cow_health
 		
 	unpause()
 
@@ -129,7 +136,6 @@ func unpause() -> void:
 func restart() -> void:
 	pause_container.visible = false
 	cow_manager.reset_manager()
-	print("attempting to reload scene")
 	get_tree().reload_current_scene()
 	
 func switch_to_main_menu() -> void:
@@ -144,7 +150,8 @@ func assign_upgrades(upgrade_1: Upgrade, upgrade_2: Upgrade):
 	u2_text.text = upgrade_2.upgrade_name
 	u1_desc.bbcode_text = upgrade_1.upgrade_desc
 	u2_desc.bbcode_text = upgrade_2.upgrade_desc
-	
+	u1_img.texture = upgrade_1.upgrade_icon
+	u2_img.texture = upgrade_2.upgrade_icon
 	
 func display_upgrade_menu() -> void:
 	update_stats()
@@ -175,13 +182,12 @@ func exit_game() -> void:
 	get_tree().quit(0)
 	
 func update_stats() -> void:
-	var stats_string = str("Speed: ", player_base_speed, " [color=#7BEA7B](+", player.speed - player_base_speed, ")[/color]\nDamage: ", player_base_damage, " [color=#7BEA7B](+", player.damage_amt - player_base_damage, ")[/color]\nUltimate Damage: ", player_base_ultimate_damage, " [color=#7BEA7B](+", player.ultimate_damage - player_base_ultimate_damage, ")[/color]\nAttack Cooldown: ", player_base_attack_cooldown, " [color=#F07575](-", player.cooldown - player_base_attack_cooldown, ")[/color]")
+	var stats_string = str("Speed: ", player_base_speed, " [color=#7BEA7B](+", player.speed - player_base_speed, ")[/color]\nDamage: ", player_base_damage, " [color=#7BEA7B](+", player.damage_amt - player_base_damage, ")[/color]\nUltimate Damage: ", player_base_ultimate_damage, " [color=#7BEA7B](+", player.ultimate_damage - player_base_ultimate_damage, ")[/color]\nAttack Cooldown: ", player_base_attack_cooldown, " [color=#F07575](-", player.cooldown - player_base_attack_cooldown, ")[/color]\nCow Health: ", cow_base_health, " [color=#7BEA7B](+", cow_manager.cow_health - cow_base_health, ")[/color]")
 	stats.bbcode_text = stats_string
 	loss_stats.bbcode_text = stats_string
 	win_stats.bbcode_text = stats_string
 	
 func reroll_button_pressed() -> void:
-	print("reroll pressed")
 	if current_amt_of_cows > 1:
 		player.reroll_lose_cow()
 		player.choose_upgrade()

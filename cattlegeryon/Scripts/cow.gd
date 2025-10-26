@@ -291,7 +291,7 @@ func damage_color() -> void:
 	tween.tween_property(sprite, "modulate", normal_color, 0.3)
 	
 func heal_color() -> void:
-	var flash_color := Color.hex(0xca96a7)
+	var flash_color := Color.hex(0xffb6ff)
 	var normal_color := Color(1, 1, 1)    # default (white)
 	
 	sprite.modulate = flash_color

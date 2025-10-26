@@ -17,9 +17,11 @@ var upgrade_name: String
 var upgrade_desc: String
 var max_upgrades: int 
 var upgrade_number: int
+var upgrade_icon: CompressedTexture2D
 
-func _init(_upgrade_type: String, _upgrade_amt: float, _current_value: float, _upgrade_name: String, _level = 0, _upgrade_desc: String = "N/A", _max_upgrades: int = -1):
+func _init(_upgrade_type: String, _upgrade_icon: CompressedTexture2D, _upgrade_amt: float, _current_value: float, _upgrade_name: String, _level = 0, _upgrade_desc: String = "N/A", _max_upgrades: int = -1):
 	level = _level
+	upgrade_icon = _upgrade_icon
 	upgrade_amt = _upgrade_amt
 	current_value = _current_value
 	upgrade_name = _upgrade_name
@@ -53,5 +55,4 @@ func upgrade() -> float:
 		upgrade_type_enum.DIVIDE:
 			if upgrade_amt != 0:
 				current_value /= upgrade_amt
-	print("Upgrading: ", upgrade_name, ", from ", old_value, " to ", current_value)
 	return current_value

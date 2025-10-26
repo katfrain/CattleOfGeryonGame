@@ -85,12 +85,18 @@ func _ready() -> void:
 	#ultimate_sprite.visible = false
 	z_index = 4096
 	
+	var speed_icon: CompressedTexture2D = preload("res://Assets/UI/Icons/speed_icon.png")
+	var attack_speed_icon: CompressedTexture2D = preload("res://Assets/UI/Icons/attack_speed_icon.png")
+	var damage_icon: CompressedTexture2D = preload("res://Assets/UI/Icons/dmg-icon.png")
+	var ult_icon: CompressedTexture2D = preload("res://Assets/UI/Icons/ult-icon.png")
+	var cow_health_icon: CompressedTexture2D = preload("res://Assets/UI/Icons/health_icon.png")
+	
 	# Create upgrades
-	player_speed_upgrade = Upgrade.new("Multiply", 1.1, speed, "Speed", 1, "[color=#7BEA7B]+10%[/color] Speed for Hercules and any following cattle")
-	attack_speed_upgrade = Upgrade.new("Multiply", 0.9, cooldown, "Attack Speed", 1, "[color=#F07575]-10%[/color] Time between Auto Attacks", 4)
-	attack_damage_upgrade = Upgrade.new("Multiply", 1.2, damage_amt, "Attack Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Auto Attacks")
-	ultimate_damage_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Ultimate Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Ultimate")
-	cow_health_upgrade = Upgrade.new("Multiply", 1.2, ultimate_damage, "Cow Health", 1, "[color=#7BEA7B]+20%[/color] Max Health for all cows")		
+	player_speed_upgrade = Upgrade.new("Multiply", speed_icon, 1.1, speed, "Speed", 1, "[color=#7BEA7B]+10%[/color] Speed for Hercules and any following cattle")
+	attack_speed_upgrade = Upgrade.new("Multiply", attack_speed_icon, 0.9, cooldown, "Attack Speed", 1, "[color=#F07575]-10%[/color] Time between Auto Attacks", 4)
+	attack_damage_upgrade = Upgrade.new("Multiply", damage_icon, 1.2, damage_amt, "Attack Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Auto Attacks")
+	ultimate_damage_upgrade = Upgrade.new("Multiply", ult_icon, 1.2, ultimate_damage, "Ultimate Damage", 1, "[color=#7BEA7B]+20%[/color] Attack Damage for Ultimate")
+	cow_health_upgrade = Upgrade.new("Multiply", cow_health_icon, 1.2, ultimate_damage, "Cow Health", 1, "[color=#7BEA7B]+20%[/color] Max Health for all cows")		
 	upgrades.append(player_speed_upgrade)
 	upgrades.append(attack_speed_upgrade)
 	upgrades.append(attack_damage_upgrade)
@@ -344,7 +350,6 @@ func upgrade(upgrade: Upgrade) -> void:
 	if upgrade.max_upgrades > -1 and upgrade.upgrade_number >= upgrade.max_upgrades:
 		if upgrades.has(upgrade):
 			upgrades.erase(upgrade)
-			print("Removed upgrade:", upgrade.upgrade_name)
 			
 
 # ----------- GETTERS -------------------
@@ -358,7 +363,7 @@ func play_attack_indicator() -> void:
 	
 
 	var attack_range_indicator = $AttackRange
-	var flash_color := Color(1, 0.3, 0.3, 0.5)
+	var flash_color := Color(1, 1, 1, 1)
 	var normal_color := Color(0,0,0,0)
 	attack_range_indicator.modulate = flash_color
 	await get_tree().create_timer(cooldown * 0.2).timeout
@@ -369,7 +374,7 @@ func play_attack_indicator() -> void:
 	
 func play_ultimate_indicator() -> void:
 	var ultimate_range_indicator = $UltimateRange
-	var flash_color := Color(0.3, 1, 0.3, 0.5)
+	var flash_color := Color(1, 1, 1, 1)
 	var normal_color := Color(0,0,0,0)
 	ultimate_range_indicator.modulate = flash_color
 	await get_tree().create_timer(1).timeout
@@ -409,17 +414,21 @@ func adjust_attack_direction() -> void:
 		0: 
 			attack_instance.rotation_degrees = 180
 			attack_instance.flip_v = true
+			attack_instance.z_index = 4095
 		1: 
 			attack_instance.rotation_degrees = 0
 			attack_instance.flip_v = false
+			attack_instance.z_index = 4095
 		2: 
 			attack_instance.rotation_degrees = 90
 			attack_instance.flip_v = false
+			attack_instance.z_index = -1
 		3: 
 			attack_instance.rotation_degrees = 270
 			attack_instance.flip_v = false
 			var temp = attack_transform + Vector2(0,20)
 			attack_instance.position = temp
+			attack_instance.z_index = 4095
 	
 	
 func _on_attack_frame_changed() -> void:
@@ -445,7 +454,6 @@ func reroll_choose_cow() -> CharacterBody2D:
 		if cow != null and cow.is_in_group("cows"):
 			return cow
 			
-	printerr("Seomthing went wrong, cannot find cow")
 	return null
 	
 # ---- Health Pick-up ----

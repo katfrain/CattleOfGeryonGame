@@ -1,10 +1,11 @@
-[gd_scene load_steps=50 format=4 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=53 format=4 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
-[ext_resource type="Texture2D" uid="uid://bekds8l47od1g" path="res://Assets/UI/Cow_Container.png" id="2_5v1tr"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
+[ext_resource type="Texture2D" uid="uid://dyxwr2lfd1n4e" path="res://Assets/UI/Cow_Container_Level_Text.png" id="2_r74th"]
 [ext_resource type="FontFile" uid="uid://cox33umscsoi3" path="res://Assets/Fonts/PixelifySans-VariableFont_wght.ttf" id="3_0fj1v"]
 [ext_resource type="PackedScene" uid="uid://dht0rklbvxpet" path="res://Scenes/player.tscn" id="3_k7acu"]
+[ext_resource type="FontFile" uid="uid://clw2qg4rwtwee" path="res://Assets/Fonts/rainyhearts.ttf" id="3_r74th"]
 [ext_resource type="Script" uid="uid://v7ksxqy82jry" path="res://Scripts/cow_amt_label.gd" id="5_0fj1v"]
 [ext_resource type="Texture2D" uid="uid://bsoaekwop1f4f" path="res://Assets/UI/Ultimate/Ultimate_Background.png" id="5_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://cgvkx435tqnc0" path="res://Assets/UI/Ultimate/Ultimate_Frame.png" id="6_axeuq"]
@@ -34,6 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://w50boremsy76" path="res://Assets/UI/Uprgade Container.png" id="20_ochwf"]
 [ext_resource type="Texture2D" uid="uid://bxdggqai321xg" path="res://Assets/UI/Buttons/reroll.png" id="21_p5wkl"]
 [ext_resource type="Texture2D" uid="uid://b1cjdtwtfv5a1" path="res://Assets/UI/Buttons/reroll_pressed.png" id="22_r74th"]
+[ext_resource type="Texture2D" uid="uid://cp5cf144x314c" path="res://Assets/UI/Icons/health_icon.png" id="28_p5wkl"]
 [ext_resource type="Texture2D" uid="uid://bo0jmvswur7em" path="res://Assets/UI/Buttons/reroll_disabled.png" id="30_coyub"]
 [ext_resource type="Script" uid="uid://cvx2mhvkbqcvw" path="res://Scripts/reroll_button.gd" id="31_ochwf"]
 
@@ -48,6 +50,9 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_coyub"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lkcvt"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r74th"]
+load_path = "res://.godot/imported/health_icon.png-7095461e8750ff000fb4353d0844beac.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ukr8"]
 size = Vector2(348.5, 210.5)
@@ -277,7 +282,7 @@ process_mode = 1
 [node name="CowContainer" type="TextureRect" parent="UI"]
 offset_right = 640.0
 offset_bottom = 360.0
-texture = ExtResource("2_5v1tr")
+texture = ExtResource("2_r74th")
 metadata/_edit_lock_ = true
 
 [node name="Cow Amt Label" type="RichTextLabel" parent="UI/CowContainer"]
@@ -286,12 +291,12 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -49.0
-offset_top = 21.0
+offset_top = 23.0
 offset_right = -15.0
-offset_bottom = 34.0
+offset_bottom = 36.0
 grow_horizontal = 0
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 10
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 12
 text = "00/00"
 horizontal_alignment = 1
 script = ExtResource("5_0fj1v")
@@ -303,31 +308,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 243.0
-offset_top = -121.0
-offset_right = 314.0
-offset_bottom = -88.0
+offset_left = 250.0
+offset_top = -136.0
+offset_right = 307.0
+offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 8
-text = "Next Cows Spawn at: Level 0"
-fit_content = true
-horizontal_alignment = 1
-
-[node name="Spawned Label" type="RichTextLabel" parent="UI/CowContainer"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -77.0
-offset_top = 48.0
-offset_right = -6.0
-offset_bottom = 59.0
-grow_horizontal = 0
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 8
-text = "0 Spawned"
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 10
+text = "More cattle will emerge at: Level 2"
 fit_content = true
 horizontal_alignment = 1
 
@@ -431,13 +420,13 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -23.0
-offset_top = 6.0
+offset_top = 8.0
 offset_right = 23.0
-offset_bottom = 21.0
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 10
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 12
 text = "Level: 0"
 fit_content = true
 horizontal_alignment = 1
@@ -463,8 +452,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 15
 text = "00.00.00"
 horizontal_alignment = 1
 
@@ -663,8 +652,8 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 6
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "Speed: 100 (+20)
 Damage: 150 (+75)
@@ -703,15 +692,15 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -139.0
-offset_top = 82.0
+offset_top = 84.0
 offset_right = 139.0
-offset_bottom = 138.0
+offset_bottom = 140.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 26
-text = "You Lose!"
+text = "You lose"
 horizontal_alignment = 1
 
 [node name="Restart" type="TextureButton" parent="UI/Lose Container/Win Container Texture"]
@@ -723,9 +712,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -58.5
-offset_top = 5.0
+offset_top = 11.0
 offset_right = 58.5
-offset_bottom = 40.0
+offset_bottom = 46.0
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("13_hmc15")
@@ -754,9 +743,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -58.5
-offset_top = 28.5
+offset_top = 34.5
 offset_right = 58.5
-offset_bottom = 63.5
+offset_bottom = 69.5
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("13_hmc15")
@@ -792,9 +781,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -58.5
-offset_top = 52.0
+offset_top = 58.0
 offset_right = 58.5
-offset_bottom = 87.0
+offset_bottom = 93.0
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("15_hmc15")
@@ -859,8 +848,8 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 6
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "Speed: 100 (+20)
 Damage: 150 (+75)
@@ -1061,7 +1050,6 @@ metadata/_edit_lock_ = true
 
 [node name="Upgrade Container" type="PanelContainer" parent="UI"]
 process_mode = 3
-visible = false
 z_index = 5
 anchors_preset = 8
 anchor_left = 0.5
@@ -1139,9 +1127,9 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_04jkj")
 [node name="U1 Text" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1"]
 layout_mode = 0
 offset_left = 2.0
-offset_top = 39.0
+offset_top = 30.0
 offset_right = 72.0
-offset_bottom = 52.0
+offset_bottom = 43.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 7
@@ -1150,16 +1138,25 @@ horizontal_alignment = 1
 
 [node name="U1 Text2" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1"]
 layout_mode = 0
-offset_left = 2.0
-offset_top = 49.0
-offset_right = 72.0
-offset_bottom = 65.0
+offset_left = 7.0
+offset_top = 40.0
+offset_right = 65.0
+offset_bottom = 61.0
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 5
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 6
 bbcode_enabled = true
 text = "Upgrade 1"
 horizontal_alignment = 1
+
+[node name="U1 Photo" type="TextureRect" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1"]
+layout_mode = 1
+offset_left = 22.0
+offset_top = 5.0
+offset_right = 51.0
+offset_bottom = 28.0
+texture = ExtResource("28_p5wkl")
+stretch_mode = 2
 
 [node name="Upgrade 2" type="Button" parent="UI/Upgrade Container/Upgrade Menu Texture"]
 process_mode = 2
@@ -1183,9 +1180,9 @@ text = "
 
 [node name="U2 Text" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2"]
 layout_mode = 0
-offset_top = 40.0
+offset_top = 31.0
 offset_right = 70.0
-offset_bottom = 53.0
+offset_bottom = 44.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 7
@@ -1194,15 +1191,25 @@ horizontal_alignment = 1
 
 [node name="U2 Text2" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2"]
 layout_mode = 0
-offset_top = 50.0
-offset_right = 70.0
-offset_bottom = 65.0
+offset_left = 7.0
+offset_top = 41.0
+offset_right = 64.0
+offset_bottom = 61.0
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 5
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 6
 bbcode_enabled = true
 text = "Upgrade 1"
 horizontal_alignment = 1
+
+[node name="U2 Photo" type="TextureRect" parent="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 28.0
+texture = SubResource("CompressedTexture2D_r74th")
+stretch_mode = 2
 
 [node name="Stats Title" type="RichTextLabel" parent="UI/Upgrade Container/Upgrade Menu Texture"]
 layout_mode = 1
@@ -1238,8 +1245,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_fonts/normal_font = ExtResource("3_0fj1v")
-theme_override_font_sizes/normal_font_size = 6
+theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "Speed: 100 (+20)
 Damage: 150 (+75)
@@ -1305,13 +1312,12 @@ vertical_alignment = 1
 [node name="Win Timer" type="Timer" parent="."]
 process_mode = 1
 
-[node name="Cow Spawner" parent="." node_paths=PackedStringArray("level_text", "spawned_text") instance=ExtResource("2_k7acu")]
+[node name="Cow Spawner" parent="." node_paths=PackedStringArray("level_text") instance=ExtResource("2_k7acu")]
 process_mode = 1
 max_instances_in_scene = 15
 timer_interval = 1.0
 wave_size = 3
 level_text = NodePath("../UI/CowContainer/Next Cows Label")
-spawned_text = NodePath("../UI/CowContainer/Spawned Label")
 
 [node name="Cow Body" parent="Cow Spawner" instance=ExtResource("7_o06y3")]
 position = Vector2(122, 138)
@@ -1321,7 +1327,7 @@ metadata/_edit_lock_ = true
 position = Vector2(227, 124)
 metadata/_edit_lock_ = true
 
-[node name="Fly Spawner" parent="." node_paths=PackedStringArray("level_text", "spawned_text") instance=ExtResource("2_k7acu")]
+[node name="Fly Spawner" parent="." node_paths=PackedStringArray("level_text") instance=ExtResource("2_k7acu")]
 process_mode = 1
 z_index = 4096
 spawner_type = 1
@@ -1329,14 +1335,13 @@ max_instances_in_scene = 100
 timer_interval = 2.0
 wave_size = 2
 level_text = NodePath("../UI/CowContainer/Next Cows Label")
-spawned_text = NodePath("../UI/CowContainer/Spawned Label")
 
-[node name="Health Spawner" parent="." node_paths=PackedStringArray("level_text", "spawned_text") instance=ExtResource("2_k7acu")]
+[node name="Health Spawner" parent="." node_paths=PackedStringArray("level_text") instance=ExtResource("2_k7acu")]
+process_mode = 1
 spawner_type = 2
 max_instances_in_scene = 3
 timer_interval = 25.0
 level_text = NodePath("../Debug/RichTextLabel")
-spawned_text = NodePath("../Debug/RichTextLabel")
 
 [node name="World Bounds" type="TextureRect" parent="."]
 z_index = -4096
@@ -1454,8 +1459,10 @@ tile_set = SubResource("TileSet_0fj1v")
 metadata/_edit_lock_ = true
 
 [node name="Debug" type="Node2D" parent="."]
+visible = false
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Debug"]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 

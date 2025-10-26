@@ -87,6 +87,7 @@ animations = [{
 size = Vector2(426.364, 168.301)
 
 [node name="Attack Sprite" type="AnimatedSprite2D"]
+process_mode = 1
 z_index = 4095
 rotation = 4.71239
 sprite_frames = SubResource("SpriteFrames_36dho")
@@ -103,17 +104,3 @@ collision_mask = 32
 position = Vector2(238.169, 4.5493)
 shape = SubResource("RectangleShape2D_vgqql")
 debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)
-
-[node name="Range Indicator" type="ColorRect" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -398.0
-offset_top = -103.0
-offset_right = -195.0
-offset_bottom = -30.0
-grow_horizontal = 0
-grow_vertical = 0
-color = Color(0.61, 0.2928, 0.2928, 0)

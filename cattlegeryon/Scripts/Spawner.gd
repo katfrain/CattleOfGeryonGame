@@ -11,7 +11,6 @@ enum spawner_type_enum {
 @export var timer_interval: float
 @export var wave_size: int = 1
 @export var level_text: RichTextLabel
-@export var spawned_text: RichTextLabel
 
 @onready var spawn_timer: Timer = $Timer
 
@@ -26,6 +25,8 @@ var player_level = 1
 var next_level_needed = 2
 var level_interval = 2
 var base_wave_size
+var cow_container_level_text: CompressedTexture2D
+var cow_container: CompressedTexture2D
 
 # SCENES
 var cow_scene: PackedScene = preload("res://Scenes/cow.tscn")
@@ -38,13 +39,15 @@ func _ready() -> void:
 	var player = get_parent().get_node("Player")
 	screen_area = player.get_node("Viewport Bounds") as Area2D
 	base_wave_size = wave_size
+	cow_container_level_text = preload("res://Assets/UI/Cow_Container_Level_Text.png")
+	cow_container = preload("res://Assets/UI/Cow_Container.png")
 	
 	match spawner_type:
 		spawner_type_enum.COW:
 			spawn_scene = cow_scene
-			updated_spawned_text()
 			wave_size = 1
 			current_in_scene = 2
+			show_level_text()
 		spawner_type_enum.GADFLY:
 			spawn_scene = fly_scene
 		spawner_type_enum.HEALTH:
@@ -56,14 +59,12 @@ func _ready() -> void:
 	spawn_timer.start()
 	
 	tilemap = get_parent().get_node("TileMap") as TileMapLayer
-	level_text.visible = false
 
 	
 func on_spawn_timer_timeout():
 	if current_in_scene >= max_instances_in_scene:
 		return
 	
-	#print("Attempting to spawn ", name)
 	var pos = get_spawn_position()
 	
 	match spawner_type:
@@ -77,12 +78,9 @@ func on_spawn_timer_timeout():
 			current_in_scene += 1
 			wave_size -= 1
 			if wave_size <= 0:
-				update_level_text()
-				level_text.visible = true
-			updated_spawned_text()
+				show_level_text()
 			if current_in_scene == max_instances_in_scene:
-				level_text.visible = false
-			print(current_in_scene, " ", name, "(s) spawned")
+				hide_level_text()
 		spawner_type_enum.GADFLY:
 			for i in range(wave_size):
 				if current_in_scene >= max_instances_in_scene: return
@@ -98,7 +96,6 @@ func on_spawn_timer_timeout():
 			instance.z_index = 1
 			add_child(instance)
 			current_in_scene += 1
-			print("Health drop spawned")
 
 func get_spawn_position() -> Vector2:
 	if not tilemap:
@@ -129,7 +126,6 @@ func get_spawn_position() -> Vector2:
 func remove_from_scene() -> void:
 	current_in_scene = max(current_in_scene - 1, 0)
 	if spawner_type == spawner_type_enum.COW:
-		updated_spawned_text()
 		wave_size += 1
 			
 func get_area_rect(area: Area2D) -> Rect2:
@@ -147,11 +143,15 @@ func level_up() -> void:
 	if player_level >= next_level_needed:
 		wave_size += base_wave_size
 		next_level_needed += level_interval
-		level_text.visible = false
 		
 func update_level_text() -> void:
-	level_text.text = str("Next Cows Spawn at: Level ", next_level_needed)
+	level_text.text = str("More cattle will emerge at: Level ", next_level_needed)
 	
-func updated_spawned_text() -> void:
-	spawned_text.text = str(current_in_scene, " Spawned")
+func hide_level_text() -> void:
+	level_text.visible = false
+	$"../UI/CowContainer".texture = cow_container
 	
+func show_level_text() -> void:
+	update_level_text()
+	level_text.visible = true
+	$"../UI/CowContainer".texture = cow_container_level_text

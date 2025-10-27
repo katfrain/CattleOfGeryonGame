@@ -1,11 +1,6 @@
-[gd_scene load_steps=52 format=3 uid="uid://8w1600qds5su"]
+[gd_scene load_steps=47 format=3 uid="uid://8w1600qds5su"]
 
 [ext_resource type="Script" uid="uid://d3cbbew2e6v2m" path="res://Scripts/cow.gd" id="1_asfwn"]
-[ext_resource type="Texture2D" uid="uid://dfk2hdbem4gbx" path="res://Assets/cow-right-placeholder.png" id="2_oad1y"]
-[ext_resource type="Texture2D" uid="uid://ds6nbm6sgweub" path="res://Assets/cow-left-placeholder.png" id="3_vkidu"]
-[ext_resource type="Texture2D" uid="uid://chjqg165wd5lf" path="res://Assets/cow-up-placeholder.png" id="4_wjkae"]
-[ext_resource type="Texture2D" uid="uid://ejlaufy5tc0d" path="res://Assets/cow-down-placeholder.png" id="5_kflls"]
-[ext_resource type="Texture2D" uid="uid://ft55bf8carlx" path="res://Assets/cow-idle-placeholder.png" id="6_oad1y"]
 [ext_resource type="Texture2D" uid="uid://q5fmcqxm8uep" path="res://Assets/UI/HealthBar/Health_Bar_Background.png" id="7_4ex0s"]
 [ext_resource type="Texture2D" uid="uid://mc7feh2wsp2q" path="res://Assets/Cow_Idle.png" id="7_er45c"]
 [ext_resource type="Texture2D" uid="uid://dfaj3dv7vq03s" path="res://Assets/Cow_Walk_Down.png" id="8_dpfby"]
@@ -279,7 +274,6 @@ collision_mask = 141
 script = ExtResource("1_asfwn")
 idle_speed = 20
 idle_move_max_distance = 140.0
-direction_images = Array[Texture]([ExtResource("2_oad1y"), ExtResource("3_vkidu"), ExtResource("4_wjkae"), ExtResource("5_kflls"), ExtResource("6_oad1y")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.6263e-19, 7)

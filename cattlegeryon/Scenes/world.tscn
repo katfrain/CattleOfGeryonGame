@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=4 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=62 format=4 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -29,7 +29,6 @@
 [ext_resource type="Texture2D" uid="uid://bellnx55y4rw8" path="res://Assets/UI/Buttons/silver_button_pressed.png" id="16_dt0r1"]
 [ext_resource type="Texture2D" uid="uid://berpwf0l5xrni" path="res://Assets/UI/Buttons/menu_button_pressed.png" id="16_no8kt"]
 [ext_resource type="Script" uid="uid://cvssh05e5altp" path="res://Scripts/button_w_text.gd" id="17_opbav"]
-[ext_resource type="Texture2D" uid="uid://dvxo78nokvfkc" path="res://Assets/UI/pause_container.png" id="17_r0ikl"]
 [ext_resource type="Texture2D" uid="uid://bqntinlo3opdc" path="res://Assets/UI/Buttons/x_button.png" id="18_opbav"]
 [ext_resource type="Texture2D" uid="uid://bucc2u22kfhv0" path="res://Assets/UI/Buttons/x_button_pressed.png" id="19_coyub"]
 [ext_resource type="Texture2D" uid="uid://w50boremsy76" path="res://Assets/UI/Uprgade Container.png" id="20_ochwf"]
@@ -893,7 +892,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_k7acu")
 
 [node name="Pause Container Texture" type="TextureRect" parent="UI/Pause Container"]
 layout_mode = 2
-texture = ExtResource("17_r0ikl")
+texture = ExtResource("12_pt3ps")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/Pause Container/Pause Container Texture"]
 layout_mode = 1

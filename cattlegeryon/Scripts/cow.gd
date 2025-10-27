@@ -9,7 +9,6 @@ enum States {
 
 @export var idle_speed = 40
 @export var idle_move_max_distance = 80.0
-@export var direction_images: Array[Texture]
 
 @onready var exclamation = $Exclamation
 
@@ -319,7 +318,6 @@ func start_following() -> void:
 	
 func start_idle() -> void:
 	state = States.IDLE
-	sprite.texture = direction_images[4]
 
 # ----------- Z-INDEX / LAYER FUNCTIONS -------------------
 

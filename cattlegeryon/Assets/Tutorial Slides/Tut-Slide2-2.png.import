@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfglndvj6fxxb"
-path="res://.godot/imported/heart_placeholder.png-845ac857b8238f4bea862b36aafd489b.ctex"
+uid="uid://bed3pe0ls7ss1"
+path="res://.godot/imported/Tut-Slide2-2.png-06fc8861130b8741b2e05849e1b253de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Health Drop/heart_placeholder.png"
-dest_files=["res://.godot/imported/heart_placeholder.png-845ac857b8238f4bea862b36aafd489b.ctex"]
+source_file="res://Assets/Tutorial Slides/Tut-Slide2-2.png"
+dest_files=["res://.godot/imported/Tut-Slide2-2.png-06fc8861130b8741b2e05849e1b253de.ctex"]
 
 [params]
 

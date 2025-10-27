@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=63 format=4 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -39,6 +39,14 @@
 [ext_resource type="Texture2D" uid="uid://bo0jmvswur7em" path="res://Assets/UI/Buttons/reroll_disabled.png" id="30_coyub"]
 [ext_resource type="Script" uid="uid://cvx2mhvkbqcvw" path="res://Scripts/reroll_button.gd" id="31_ochwf"]
 [ext_resource type="Texture2D" uid="uid://c8l1gtx5ba158" path="res://Assets/UI/Tutorial_Container.png" id="34_04jkj"]
+[ext_resource type="Script" uid="uid://ov87gmed87mq" path="res://Scenes/tutorial_container.gd" id="34_xcb5n"]
+[ext_resource type="Texture2D" uid="uid://cjl0to63p2abh" path="res://Assets/UI/Buttons/arrow_button.png" id="35_atqvy"]
+[ext_resource type="Texture2D" uid="uid://rwy7d1bkjpuo" path="res://Assets/UI/Buttons/arrow_button_pressed.png" id="36_w5giw"]
+[ext_resource type="Texture2D" uid="uid://oiyf64scpx28" path="res://Assets/Tutorial Slides/Tut-slide1.png" id="37_w5giw"]
+[ext_resource type="Texture2D" uid="uid://bunilvwo1tcqj" path="res://Assets/Tutorial Slides/Tut-Slide2-1.png" id="38_t6yt7"]
+[ext_resource type="Texture2D" uid="uid://bed3pe0ls7ss1" path="res://Assets/Tutorial Slides/Tut-Slide2-2.png" id="39_al5m0"]
+[ext_resource type="Texture2D" uid="uid://b2bbj2jmbh7m3" path="res://Assets/Tutorial Slides/Tut-Slide3-1.png" id="40_6mm6r"]
+[ext_resource type="Texture2D" uid="uid://1q0edop7oxub" path="res://Assets/Tutorial Slides/Tut-Slide3-2.png" id="41_xcb5n"]
 
 [sub_resource type="Theme" id="Theme_o06y3"]
 
@@ -317,8 +325,9 @@ offset_right = 307.0
 offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/normal_font = ExtResource("3_r74th")
-theme_override_font_sizes/normal_font_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
 text = "More cattle will emerge at: Level 2"
 fit_content = true
 horizontal_alignment = 1
@@ -423,14 +432,15 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -23.0
-offset_top = 8.0
+offset_top = 5.0
 offset_right = 23.0
-offset_bottom = 23.0
+offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/normal_font = ExtResource("3_r74th")
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
 theme_override_font_sizes/normal_font_size = 12
-text = "Level: 0"
+bbcode_enabled = true
+text = "Level: [font='res://Assets/Fonts/rainyhearts.ttf'][font_size=12]0[/font_size]"
 fit_content = true
 horizontal_alignment = 1
 
@@ -1313,11 +1323,14 @@ text = "-1
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tutorial Container" type="Control" parent="UI"]
+[node name="Tutorial Container" type="Control" parent="UI" node_paths=PackedStringArray("tutorials")]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("34_xcb5n")
+tutorials = [NodePath("Tutorial Slide 1"), NodePath("Tutorial Slide 2"), NodePath("Tutorial Slide 3")]
 
 [node name="Tutorial Slide 1" type="PanelContainer" parent="UI/Tutorial Container"]
 layout_mode = 0
@@ -1328,6 +1341,312 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_atqvy")
 [node name="TextureRect" type="TextureRect" parent="UI/Tutorial Container/Tutorial Slide 1"]
 layout_mode = 2
 texture = ExtResource("34_04jkj")
+
+[node name="Next Slide" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 1/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 116.0
+offset_top = 65.0
+offset_right = 130.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("35_atqvy")
+texture_pressed = ExtResource("36_w5giw")
+
+[node name="Tut-slide1" type="Sprite2D" parent="UI/Tutorial Container/Tutorial Slide 1/TextureRect"]
+position = Vector2(384, 176)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("37_w5giw")
+
+[node name="Unpause" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 1/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 115.0
+offset_top = -99.0
+offset_right = 133.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("18_opbav")
+texture_pressed = ExtResource("19_coyub")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 1/TextureRect/Unpause"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -8.5
+offset_right = 9.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 11
+text = "X
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 1/TextureRect"]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 100.0
+offset_right = 304.0
+offset_bottom = 129.0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 20
+text = "Hercules!"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 1/TextureRect"]
+layout_mode = 0
+offset_left = 186.0
+offset_top = 125.0
+offset_right = 305.0
+offset_bottom = 247.0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 7
+text = "For your tenth labor, you have been tasked with capturing and protecting the Cattle of Geryon.
+
+After you defeated the herdsman Eurytion, the two-headed dog Orthus, and the giant Geryon himself, you thought the rest would be easy.
+
+However, Hera has sent a swarm of gadflies which has scattered your herd!"
+
+[node name="Tutorial Slide 2" type="PanelContainer" parent="UI/Tutorial Container"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_atqvy")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Tutorial Container/Tutorial Slide 2"]
+layout_mode = 2
+texture = ExtResource("34_04jkj")
+
+[node name="Next Slide" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 116.0
+offset_top = 65.0
+offset_right = 130.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("35_atqvy")
+texture_pressed = ExtResource("36_w5giw")
+
+[node name="Next Slide2" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = 65.0
+offset_right = -116.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("35_atqvy")
+texture_pressed = ExtResource("36_w5giw")
+flip_h = true
+
+[node name="Tut-slide2-1" type="Sprite2D" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+position = Vector2(387, 145)
+scale = Vector2(0.162331, 0.162331)
+texture = ExtResource("38_t6yt7")
+
+[node name="Tut-slide2-2" type="Sprite2D" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+position = Vector2(260, 201)
+scale = Vector2(0.166116, 0.166116)
+texture = ExtResource("39_al5m0")
+
+[node name="Unpause" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 115.0
+offset_top = -99.0
+offset_right = 133.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("18_opbav")
+texture_pressed = ExtResource("19_coyub")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect/Unpause"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -8.5
+offset_right = 9.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 11
+text = "X
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 186.0
+offset_right = 430.0
+offset_bottom = 235.0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 8
+text = "Beware of gadflies!
+They will attemp to chase off your cattle. If you are left with none, you lose!"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 2/TextureRect"]
+layout_mode = 0
+offset_left = 227.0
+offset_top = 120.0
+offset_right = 341.0
+offset_bottom = 167.0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 8
+text = "You can walk around with WASD, a cow will join your herd upon getting close enough."
+
+[node name="Tutorial Slide 3" type="PanelContainer" parent="UI/Tutorial Container"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_atqvy")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Tutorial Container/Tutorial Slide 3"]
+layout_mode = 2
+texture = ExtResource("34_04jkj")
+
+[node name="Next Slide2" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = 65.0
+offset_right = -116.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("35_atqvy")
+texture_pressed = ExtResource("36_w5giw")
+flip_h = true
+
+[node name="Tut-slide3-1" type="Sprite2D" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect"]
+position = Vector2(253, 213)
+scale = Vector2(0.182577, 0.182577)
+texture = ExtResource("40_6mm6r")
+
+[node name="Tut-slide3-2" type="Sprite2D" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect"]
+position = Vector2(369, 133)
+scale = Vector2(0.166116, 0.166116)
+texture = ExtResource("41_xcb5n")
+
+[node name="Unpause" type="TextureButton" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 115.0
+offset_top = -99.0
+offset_right = 133.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("18_opbav")
+texture_pressed = ExtResource("19_coyub")
+script = ExtResource("17_opbav")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect/Unpause"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -8.5
+offset_right = 9.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 11
+text = "X
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect"]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 177.0
+offset_right = 438.0
+offset_bottom = 255.0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_fonts/mono_font = ExtResource("3_r74th")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "Or, if your ultimate is charged, press Q to unleash a storm of poison arrows!
+
+To win, collect all [font=\"res://Assets/Fonts/rainyhearts.ttf\"]15[/font] cows and hold them for [font=\"res://Assets/Fonts/rainyhearts.ttf\"]10[/font] seconds. Good Luck Hercules!"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="UI/Tutorial Container/Tutorial Slide 3/TextureRect"]
+layout_mode = 0
+offset_left = 226.0
+offset_top = 117.0
+offset_right = 297.0
+offset_bottom = 161.0
+theme_override_fonts/normal_font = ExtResource("3_0fj1v")
+theme_override_font_sizes/normal_font_size = 8
+text = "To get rid of them, aim your auto-attack at the pesky flies"
 
 [node name="Win Timer" type="Timer" parent="."]
 process_mode = 1
@@ -1344,7 +1663,7 @@ position = Vector2(122, 138)
 metadata/_edit_lock_ = true
 
 [node name="Cow Body2" parent="Cow Spawner" instance=ExtResource("7_o06y3")]
-position = Vector2(227, 124)
+position = Vector2(200, 125)
 metadata/_edit_lock_ = true
 
 [node name="Fly Spawner" parent="." node_paths=PackedStringArray("level_text") instance=ExtResource("2_k7acu")]
@@ -1500,6 +1819,14 @@ offset_bottom = 40.0
 [connection signal="pressed" from="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 1" to="." method="choose_upgrade_1"]
 [connection signal="pressed" from="UI/Upgrade Container/Upgrade Menu Texture/Upgrade 2" to="." method="choose_upgrade_2"]
 [connection signal="pressed" from="UI/Upgrade Container/Upgrade Menu Texture/ReRoll Button" to="." method="reroll_button_pressed"]
+[connection signal="close_tutorial_signal" from="UI/Tutorial Container" to="." method="close_tutorial"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 1/TextureRect/Next Slide" to="UI/Tutorial Container" method="slide1_to_2"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 1/TextureRect/Unpause" to="UI/Tutorial Container" method="close_tutorial"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 2/TextureRect/Next Slide" to="UI/Tutorial Container" method="slide2_to_3"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 2/TextureRect/Next Slide2" to="UI/Tutorial Container" method="slide2_to_1"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 2/TextureRect/Unpause" to="UI/Tutorial Container" method="close_tutorial"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 3/TextureRect/Next Slide2" to="UI/Tutorial Container" method="slide3_to_2"]
+[connection signal="pressed" from="UI/Tutorial Container/Tutorial Slide 3/TextureRect/Unpause" to="UI/Tutorial Container" method="close_tutorial"]
 [connection signal="timeout" from="Win Timer" to="." method="_on_win_timer_timeout"]
 [connection signal="got_cow" from="Player" to="." method="add_cow"]
 [connection signal="got_cow" from="Player" to="UI/CowContainer/Cow Amt Label" method="add_cow"]

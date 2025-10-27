@@ -316,7 +316,7 @@ func level_up() -> void:
 	
 func update_xp_bar() -> void:
 	level_progress_bar.value = float(current_xp) / float(xp_needed) * 100.0
-	level_text.text = str("Level: ", current_level)
+	level_text.bbcode_text = str("Level: [font='res://Assets/Fonts/rainyhearts.ttf'][font_size=12]", current_level, "[/font_size][/font]")
 	
 # ----------- UPGRADE LOGIC -------------------
 func choose_upgrade() -> void:

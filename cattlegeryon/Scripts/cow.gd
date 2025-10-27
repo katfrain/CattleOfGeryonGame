@@ -102,7 +102,7 @@ func _physics_process(delta: float) -> void:
 	if max_health != cow_manager.cow_health:
 		max_health = cow_manager.cow_health
 		update_health_bar()
-		if (state != States.FOLLOWING):
+		if (state != States.FOLLOWING and state != States.FLEEING):
 			heal(max_health)
 	speed = cow_manager.cow_speed
 
@@ -291,7 +291,7 @@ func damage_color() -> void:
 	tween.tween_property(sprite, "modulate", normal_color, 0.3)
 	
 func heal_color() -> void:
-	var flash_color := Color.hex(0xffb6ff)
+	var flash_color := Color(0.639, 0.478, 0.639)
 	var normal_color := Color(1, 1, 1)    # default (white)
 	
 	sprite.modulate = flash_color

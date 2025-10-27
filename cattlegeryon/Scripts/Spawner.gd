@@ -145,7 +145,7 @@ func level_up() -> void:
 		next_level_needed += level_interval
 		
 func update_level_text() -> void:
-	level_text.text = str("More cattle will emerge at: Level ", next_level_needed)
+	level_text.bbcode_text = str("More cattle will emerge at: Level [font='res://Assets/Fonts/rainyhearts.ttf'][font_size=10]", next_level_needed, "[/font_size][/font]")
 	
 func hide_level_text() -> void:
 	level_text.visible = false

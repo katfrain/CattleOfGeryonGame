@@ -7,3 +7,5 @@ func play() -> void:
 func exit() -> void:
 	get_tree().quit(0)
 	
+func credits() -> void:
+	get_tree().change_scene_to_file("res://Scenes/credits.tscn")

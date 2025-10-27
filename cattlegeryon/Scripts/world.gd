@@ -77,7 +77,7 @@ func _ready() -> void:
 		
 	cow_base_health = cow_manager.cow_health
 		
-	unpause()
+	pause()
 
 		
 func _process(delta: float) -> void:
@@ -191,3 +191,6 @@ func reroll_button_pressed() -> void:
 	if current_amt_of_cows > 1:
 		player.reroll_lose_cow()
 		player.choose_upgrade()
+		
+func close_tutorial() -> void:
+	unpause()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://dggyy53rx8cmv"]
+[gd_scene load_steps=15 format=3 uid="uid://dggyy53rx8cmv"]
 
 [ext_resource type="Texture2D" uid="uid://cpkdollwomcxa" path="res://Assets/Player Attacks/ultimate_attack-Sheet.png" id="1_07eg6"]
+[ext_resource type="AudioStream" uid="uid://dp247ya0h32qh" path="res://Assets/Sound/sfx_wpn_cannon6.wav" id="2_1ffcx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ukyrk"]
 atlas = ExtResource("1_07eg6")
@@ -81,8 +82,7 @@ radius = 33.0239
 
 [node name="Ultimate Sprite" type="AnimatedSprite2D"]
 process_mode = 1
-z_index = 4094
-z_as_relative = false
+z_index = -1
 sprite_frames = SubResource("SpriteFrames_wpjfl")
 frame = 8
 frame_progress = 1.0
@@ -102,3 +102,7 @@ collision_mask = 32
 position = Vector2(0, 19.7425)
 shape = SubResource("CircleShape2D_x3wgy")
 debug_color = Color(0, 0.185775, 0.222535, 0.42)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_1ffcx")
+volume_db = -8.0

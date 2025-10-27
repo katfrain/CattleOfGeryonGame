@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bg2l2llw2pc5v"]
+[gd_scene load_steps=11 format=3 uid="uid://bg2l2llw2pc5v"]
 
 [ext_resource type="Script" uid="uid://desbrscd18yyr" path="res://Scripts/main_menu.gd" id="1_totuj"]
 [ext_resource type="Texture2D" uid="uid://boe2h7hlrtiuv" path="res://Assets/UI/Main_Menu.png" id="2_4lp62"]
@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://cox33umscsoi3" path="res://Assets/Fonts/PixelifySans-VariableFont_wght.ttf" id="6_vuees"]
 [ext_resource type="Texture2D" uid="uid://bnus7y62bfd8t" path="res://Assets/UI/Buttons/silver_button.png" id="7_3hb06"]
 [ext_resource type="Texture2D" uid="uid://bellnx55y4rw8" path="res://Assets/UI/Buttons/silver_button_pressed.png" id="8_ns28u"]
+[ext_resource type="AudioStream" uid="uid://ym5i20xwvtx7" path="res://Assets/Sound/Main_Menu.mp3" id="9_0vewo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hcxxy"]
 
@@ -116,6 +117,12 @@ theme_override_font_sizes/normal_font_size = 9
 text = "Exit Game"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_0vewo")
+volume_db = -10.0
+autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="UI/Menu Container/TextureRect/Play" to="." method="play"]
 [connection signal="pressed" from="UI/Menu Container/TextureRect/Credits" to="." method="credits"]

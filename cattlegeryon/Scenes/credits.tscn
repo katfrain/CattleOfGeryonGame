@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://xgr6wexsido8"]
 
-[ext_resource type="Script" uid="uid://ch7s5psyy0e4s" path="res://Scenes/credits.gd" id="1_7emq5"]
+[ext_resource type="Script" uid="uid://ch7s5psyy0e4s" path="res://Scripts/credits.gd" id="1_7emq5"]
 [ext_resource type="Texture2D" uid="uid://nirkr8a8et08" path="res://Assets/UI/Credits-Background.png" id="2_803yc"]
 [ext_resource type="Texture2D" uid="uid://c8l1gtx5ba158" path="res://Assets/UI/Tutorial_Container.png" id="3_1wbrc"]
 [ext_resource type="FontFile" uid="uid://cox33umscsoi3" path="res://Assets/Fonts/PixelifySans-VariableFont_wght.ttf" id="4_j6nef"]
@@ -26,16 +26,17 @@ texture = ExtResource("2_803yc")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Menu Container/TextureRect"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_top = -53.0
+offset_right = 640.0
+offset_bottom = 420.0
 texture = ExtResource("3_1wbrc")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/Menu Container/TextureRect/TextureRect"]
 layout_mode = 1
-offset_left = 178.0
-offset_top = 81.0
-offset_right = 463.0
-offset_bottom = 117.0
+offset_left = 182.0
+offset_top = 100.0
+offset_right = 467.0
+offset_bottom = 136.0
 theme_override_fonts/normal_font = ExtResource("4_j6nef")
 theme_override_font_sizes/normal_font_size = 24
 text = "Credits
@@ -49,16 +50,46 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -113.5
-offset_top = -55.0
-offset_right = 113.5
-offset_bottom = 9.0
+offset_left = -146.0
+offset_top = -99.5
+offset_right = 148.0
+offset_bottom = -60.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("4_j6nef")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
 text = "Art, Development & Game Design by:
-Katrina Frain"
+[font_size=15]Katrina Frain[/font_size]
+"
+horizontal_alignment = 1
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="UI/Menu Container/TextureRect/TextureRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -137.0
+offset_top = -48.5
+offset_right = 140.0
+offset_bottom = 83.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("4_j6nef")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "[font_size=9]Background Music by:[/font_size]
+CodeManu @
+opengameart.org/content/8-bit-music-pack-loopable
+
+[font_size=9]Sound Effects by:[/font_size]
+SubspaceAudio @
+opengameart.org/content/512-sound-effects-8-bit-style
+
+
+"
 horizontal_alignment = 1
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="UI/Menu Container/TextureRect/TextureRect"]
@@ -68,14 +99,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -113.5
-offset_top = -2.0
-offset_right = 113.5
-offset_bottom = 62.0
+offset_left = -146.0
+offset_top = 71.5
+offset_right = 145.0
+offset_bottom = 97.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("4_j6nef")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 10
 text = "Special thanks to Prof. Jonathan Lessard & my classmates of CART 415: Game Studio I"
 horizontal_alignment = 1
 
@@ -86,15 +117,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -113.5
-offset_top = 48.0
-offset_right = 113.5
-offset_bottom = 112.0
+offset_left = -149.0
+offset_top = 98.5
+offset_right = 147.0
+offset_bottom = 162.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("4_j6nef")
-theme_override_font_sizes/normal_font_size = 12
-text = "As well as all my friends & family who helped playtest ♡"
+theme_override_font_sizes/normal_font_size = 10
+text = "As well as all my friends & family who helped playtest <3"
 horizontal_alignment = 1
 
 [node name="Close" type="TextureButton" parent="UI/Menu Container/TextureRect"]
@@ -104,10 +135,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 119.5
-offset_top = -97.0
-offset_right = 137.5
-offset_bottom = -78.0
+offset_left = 121.5
+offset_top = -125.0
+offset_right = 139.5
+offset_bottom = -106.0
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("5_fdv4u")

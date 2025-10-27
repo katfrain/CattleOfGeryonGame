@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://c3o17m6wuv2lm"]
+[gd_scene load_steps=15 format=3 uid="uid://c3o17m6wuv2lm"]
 
 [ext_resource type="Texture2D" uid="uid://bv5mjx85orqt7" path="res://Assets/Player Attacks/Club-Attack-Sheet.png" id="1_ij4ji"]
+[ext_resource type="AudioStream" uid="uid://68vr1ixkgrur" path="res://Assets/Sound/sfx_wpn_punch4.wav" id="2_ht1lw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bi64h"]
 atlas = ExtResource("1_ij4ji")
@@ -104,3 +105,7 @@ collision_mask = 32
 position = Vector2(238.169, 4.5493)
 shape = SubResource("RectangleShape2D_vgqql")
 debug_color = Color(0.878431, 0.329412, 0.266667, 0.364706)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_ht1lw")
+volume_db = -8.0

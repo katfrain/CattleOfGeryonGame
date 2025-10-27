@@ -267,11 +267,14 @@ func get_area_rect(area: Area2D) -> Rect2:
 # ----------- HEALTH FUNCTIONS -------------------
 	
 func take_damage(damage_amt: float) -> void:
+	$AudioStreamPlayer2D.play()
 	current_health -= damage_amt
 	update_health_bar()
 	damage_color()
 	if current_health <= 0:
+		$AudioStreamPlayer2D2.play()
 		start_fleeing()
+		
 		
 func heal(heal_amt: float) -> void:
 	current_health += min(heal_amt, max_health - current_health)
@@ -312,6 +315,7 @@ func start_fleeing() -> void:
 func start_following() -> void:
 	state = States.FOLLOWING
 	exclamation.visible = true
+	$AudioStreamPlayer2D3.play()
 	exclamation.play()
 	await exclamation.animation_finished
 	exclamation.visible = false

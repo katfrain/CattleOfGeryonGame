@@ -8,6 +8,7 @@ extends Node2D
 
 var player: Node2D = null
 var velocity: Vector2 = Vector2.ZERO
+var picked_up = false
 
 @onready var pickup_range: Area2D = $"Pickup Range"
 @onready var pickup_area: Area2D = $"Pickup Area"
@@ -31,8 +32,13 @@ func set_xp_amount(amt: int) -> void:
 	xp_amount = amt
 
 func _on_pickup_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("add_xp"):
+	if body.is_in_group("player") and body.has_method("add_xp") and not picked_up:
 		body.add_xp(xp_amount)
+		var audio = $AudioStreamPlayer2D
+		audio.play()
+		visible = false
+		picked_up = true
+		await audio.finished
 		queue_free()
 		
 

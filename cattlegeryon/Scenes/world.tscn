@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=4 uid="uid://bsrq2osjhfem1"]
+[gd_scene load_steps=64 format=4 uid="uid://bsrq2osjhfem1"]
 
 [ext_resource type="Script" uid="uid://b8bvd1ciu6ofl" path="res://Scripts/world.gd" id="1_5ukr8"]
 [ext_resource type="PackedScene" uid="uid://ckk5fcv5hna6d" path="res://Scenes/spawner.tscn" id="2_k7acu"]
@@ -46,6 +46,8 @@
 [ext_resource type="Texture2D" uid="uid://bed3pe0ls7ss1" path="res://Assets/Tutorial Slides/Tut-Slide2-2.png" id="39_al5m0"]
 [ext_resource type="Texture2D" uid="uid://b2bbj2jmbh7m3" path="res://Assets/Tutorial Slides/Tut-Slide3-1.png" id="40_6mm6r"]
 [ext_resource type="Texture2D" uid="uid://1q0edop7oxub" path="res://Assets/Tutorial Slides/Tut-Slide3-2.png" id="41_xcb5n"]
+[ext_resource type="AudioStream" uid="uid://cklfc3q2vlrg6" path="res://Assets/Sound/Main_Theme.mp3" id="47_xcb5n"]
+[ext_resource type="AudioStream" uid="uid://by85feryvneqn" path="res://Assets/Sound/win.wav" id="48_te07t"]
 
 [sub_resource type="Theme" id="Theme_o06y3"]
 
@@ -1803,6 +1805,17 @@ visible = false
 visible = false
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("47_xcb5n")
+volume_db = -10.0
+autoplay = true
+parameters/looping = true
+
+[node name="Win Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("48_te07t")
+volume_db = -14.054
+pitch_scale = 0.82
 
 [connection signal="pressed" from="UI/Menu Button" to="." method="open_pause_menu"]
 [connection signal="pressed" from="UI/Win Container/Win Container Texture/Restart" to="." method="restart"]

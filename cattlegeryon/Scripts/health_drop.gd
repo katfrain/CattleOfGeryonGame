@@ -3,6 +3,7 @@ extends Node2D
 @export var heal_amount: int = 10
 
 var player: Node2D = null
+var picked_up = false
 
 @onready var pickup_area: Area2D = $"Pickup Area"
 
@@ -13,9 +14,14 @@ func set_xp_amount(amt: int) -> void:
 	heal_amount = amt
 
 func _on_pickup_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("heal_cows"):
+	if body.is_in_group("player") and body.has_method("heal_cows") and not picked_up:
 		body.heal_cows(heal_amount)
 		if get_parent() and get_parent().has_method("remove_from_scene"):
 			get_parent().remove_from_scene()
+		var audio = $AudioStreamPlayer2D
+		audio.play()
+		visible = false
+		picked_up = true
+		await audio.finished
 		queue_free()
 		

@@ -119,6 +119,7 @@ func _on_win_timer_timeout() -> void:
 func win() -> void:
 	pause()
 	update_stats()
+	$"Win Sound".play()
 	win_container.visible = true
 	
 func lose() -> void:

@@ -202,6 +202,7 @@ func _cattle_amt_reached() -> void:
 # ----------- ATTACK FUNCTIONS -------------------
 
 func attack() -> void:
+	attack_instance.get_node("AudioStreamPlayer2D").play()
 	var instance_range = attack_instance.get_node("Attack Range") as Area2D
 	for body in instance_range.get_overlapping_bodies():
 		if body.is_in_group("gadflies"):
@@ -212,6 +213,7 @@ func attack() -> void:
 	cooldown_timer.start(cooldown)
 	
 func activate_ultimate() -> void:
+	ultimate_instance.get_node("AudioStreamPlayer2D").play()
 	var instance_outer = ultimate_instance.get_node("Ultimate range") as Area2D
 	var instance_inner = ultimate_instance.get_node("Ultimate inner circle") as Area2D
 	var outer_bodies = instance_outer.get_overlapping_bodies()
@@ -311,6 +313,7 @@ func level_up() -> void:
 	current_level += 1
 	xp_needed *= level_increase
 	current_xp = 0
+	$AudioStreamPlayer2D.play()
 	level_up_signal.emit()
 	choose_upgrade()
 	
@@ -462,4 +465,5 @@ func heal_cows(heal_amt: float) -> void:
 	for cow in cows: 
 		if cow:
 			cow.heal(heal_amt)
+			
 	
